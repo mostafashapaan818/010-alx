@@ -227,22 +227,28 @@
   .city-grand-box {
     background: linear-gradient(135deg, #0f172a, #1e293b);
     color: #ffffff;
-    padding: 20px 24px;
+    padding: 22px 24px;
     border-radius: var(--radius-md);
     margin-bottom: 20px;
+    box-shadow: var(--shadow-md);
+  }
+
+  .city-grand-top {
     display: flex;
     justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
     gap: 16px;
-    box-shadow: var(--shadow-md);
+    margin-bottom: 14px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid rgba(255,255,255,0.15);
   }
 
   .city-grand-info .title { font-size: 13px; color: #94a3b8; font-weight: 700; margin-bottom: 4px; }
   .city-grand-info .num { font-size: 30px; font-weight: 800; color: #38bdf8; }
 
-  .city-grand-pills { display: flex; gap: 12px; flex-wrap: wrap; font-size: 14px; font-weight: 700; }
-  .city-pill { background: rgba(255,255,255,0.1); padding: 8px 14px; border-radius: var(--radius-sm); border: 1px solid rgba(255,255,255,0.15); }
+  .city-grand-pills { display: flex; gap: 8px; flex-wrap: wrap; font-size: 13px; font-weight: 700; }
+  .city-pill { background: rgba(255,255,255,0.1); padding: 6px 12px; border-radius: var(--radius-sm); border: 1px solid rgba(255,255,255,0.15); }
 
   /* Stats Dashboard */
   .stats-grid {
@@ -588,6 +594,7 @@
           <div class="stat-info">
             <div class="title">الموزّع للعملاء</div>
             <div class="num" id="statDist" style="color:var(--good-green);">0</div>
+            <div style="font-size:12px;color:var(--ink-secondary);margin-top:4px;" id="distCatBreakdownText"></div>
           </div>
           <div class="stat-icon good">✅</div>
         </div>
@@ -620,12 +627,15 @@
     <div id="alexTab" class="tab-content">
       <!-- City Cumulative Summary Hero Card -->
       <div class="city-grand-box">
-        <div class="city-grand-info">
-          <div class="title">🏆 الإجمالي التراكمي الشامل مبيعات الإسكندرية (كافة الأيام)</div>
-          <div class="num" id="alexGrandRevenue">19,000 ج.م</div>
+        <div class="city-grand-top">
+          <div class="city-grand-info">
+            <div class="title">🏆 الإجمالي التراكمي الشامل مبيعات الإسكندرية (كافة الأيام)</div>
+            <div class="num" id="alexGrandRevenue">19,000 ج.م</div>
+          </div>
         </div>
-        <div class="city-grand-pills">
-          <div class="city-pill">إجمالي التذاكر المبيعة: <b style="color:#facc15;" id="alexGrandTickets">29 تذكرة</b></div>
+        <div>
+          <div style="font-size:13px;color:#94a3b8;font-weight:700;margin-bottom:6px;">📊 تفصيل عدد التذاكر المبيعة حسب الفئة (Category):</div>
+          <div class="city-grand-pills" id="alexGrandCatPills"></div>
         </div>
       </div>
 
@@ -728,12 +738,15 @@
     <div id="cairoTab" class="tab-content">
       <!-- City Cumulative Summary Hero Card -->
       <div class="city-grand-box">
-        <div class="city-grand-info">
-          <div class="title">🏆 الإجمالي التراكمي الشامل مبيعات القاهرة (كافة الأيام)</div>
-          <div class="num" id="cairoGrandRevenue">0 ج.م</div>
+        <div class="city-grand-top">
+          <div class="city-grand-info">
+            <div class="title">🏆 الإجمالي التراكمي الشامل مبيعات القاهرة (كافة الأيام)</div>
+            <div class="num" id="cairoGrandRevenue">0 ج.م</div>
+          </div>
         </div>
-        <div class="city-grand-pills">
-          <div class="city-pill">إجمالي التذاكر المبيعة: <b style="color:#facc15;" id="cairoGrandTickets">0 تذكرة</b></div>
+        <div>
+          <div style="font-size:13px;color:#94a3b8;font-weight:700;margin-bottom:6px;">📊 تفصيل عدد التذاكر المبيعة حسب الفئة (Category):</div>
+          <div class="city-grand-pills" id="cairoGrandCatPills"></div>
         </div>
       </div>
 
@@ -1174,11 +1187,18 @@
     }catch(e){ console.error('Save failed', e); }
   }
 
-  // Render City Multi-Date Cumulative Log
-  function renderCityDailyLog(salesData, tableBodyId, grandRevId, grandCountId) {
+  // Render City Multi-Date Cumulative Log & Category Pills
+  function renderCityDailyLog(salesData, tableBodyId, grandRevId, grandPillsId) {
     let grandTotalRev = 0;
     let grandTotalTickets = 0;
     let rowsHtml = '';
+    
+    const catTotals = {
+      "premium orbit": 0,
+      "fanpit": 0,
+      "vip": 0,
+      "high regular": 0
+    };
 
     const dates = Object.keys(salesData || {}).sort().reverse();
     const cats = ["premium orbit", "fanpit", "vip", "high regular"];
@@ -1195,6 +1215,8 @@
         const offCount = Object.values(off).reduce((a,b)=>a+(parseInt(b,10)||0), 0);
         const catTickets = onCount + offCount;
 
+        catTotals[cat] = (catTotals[cat] || 0) + catTickets;
+
         if(catTickets > 0 || dateKey === '2026-08-07') {
           rowsHtml += `<tr>
             <td><b>${dateKey}</b></td>
@@ -1206,7 +1228,6 @@
         }
       });
 
-      // Calculate Day Grand Revenue
       let dayRev = 0;
       let dayCount = 0;
       cats.forEach(cat => {
@@ -1233,8 +1254,15 @@
     if(grandRevId && document.getElementById(grandRevId)) {
       document.getElementById(grandRevId).textContent = (grandTotalRev || 19000).toLocaleString() + ' ج.م';
     }
-    if(grandCountId && document.getElementById(grandCountId)) {
-      document.getElementById(grandCountId).textContent = (grandTotalTickets || 29) + ' تذكرة';
+
+    // Render Detailed Category Breakdown Pills
+    if(grandPillsId && document.getElementById(grandPillsId)) {
+      let pillsHtml = `<div class="city-pill" style="background:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.4);">إجمالي المبيعات: <b style="color:#facc15;">${grandTotalTickets} تذكرة</b></div>`;
+      cats.forEach(cat => {
+        const cnt = catTotals[cat] || 0;
+        pillsHtml += `<div class="city-pill"><b>${cat}:</b> <span style="color:#38bdf8;font-weight:800;font-size:14px;">${cnt}</span> تذكرة</div>`;
+      });
+      document.getElementById(grandPillsId).innerHTML = pillsHtml;
     }
   }
 
@@ -1294,8 +1322,7 @@
     instaBdHtml += `<tr class="total-row"><td class="cat-cell">total insta</td><td></td><td><b>${instaBdTotal} EGP</b></td></tr>`;
     document.getElementById('alexInstaTableBody').innerHTML = instaBdHtml;
 
-    // Render Alexandria Multi-date Cumulative Log
-    renderCityDailyLog(data.branchSalesAlex, 'alexDailyLogBody', 'alexGrandRevenue', 'alexGrandTickets');
+    renderCityDailyLog(data.branchSalesAlex, 'alexDailyLogBody', 'alexGrandRevenue', 'alexGrandCatPills');
   }
 
   // Render Cairo Branch Sales
@@ -1354,8 +1381,7 @@
     instaBdHtml += `<tr class="total-row"><td class="cat-cell">total insta</td><td></td><td><b>${instaBdTotal} EGP</b></td></tr>`;
     document.getElementById('cairoInstaTableBody').innerHTML = instaBdHtml;
 
-    // Render Cairo Multi-date Cumulative Log
-    renderCityDailyLog(data.branchSalesCairo, 'cairoDailyLogBody', 'cairoGrandRevenue', 'cairoGrandTickets');
+    renderCityDailyLog(data.branchSalesCairo, 'cairoDailyLogBody', 'cairoGrandRevenue', 'cairoGrandCatPills');
   }
 
   // Modals Open/Close/Save
@@ -1382,7 +1408,6 @@
       instaBreakdown: (data.branchSalesAlex["2026-08-07"] && data.branchSalesAlex["2026-08-07"].instaBreakdown) || []
     };
 
-    // Add option to date select if new
     const sel = document.getElementById('alexDateSelect');
     if(![...sel.options].some(o => o.value === dateKey)) {
       const opt = document.createElement('option');
@@ -1461,10 +1486,22 @@
 
   function render(){
     let totalAll=0, distAll=0;
-    data.categories.forEach(c=>{ const s=catStats(c); totalAll+=s.total; distAll+=s.dist; });
+    const catDistList = [];
+
+    data.categories.forEach(c=>{ 
+      const s=catStats(c); 
+      totalAll+=s.total; 
+      distAll+=s.dist; 
+      if(s.dist > 0) catDistList.push(`${c.name}: ${s.dist}`);
+    });
+
     document.getElementById('statTotal').textContent = totalAll;
     document.getElementById('statDist').textContent = distAll;
     document.getElementById('statRemain').textContent = totalAll - distAll;
+    
+    if(document.getElementById('distCatBreakdownText')) {
+      document.getElementById('distCatBreakdownText').textContent = catDistList.length ? `(${catDistList.join(' | ')})` : '';
+    }
 
     const catsContainer = document.getElementById('categoriesList');
     if(!loaded){ catsContainer.innerHTML = '<div class="empty-box"><p>⏳ جاري تحميل البيانات...</p></div>'; return; }
