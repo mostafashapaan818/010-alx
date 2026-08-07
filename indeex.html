@@ -599,6 +599,7 @@
       <button class="tab-btn active" id="tabBtnTickets" onclick="switchTab('ticketsTab')">🎫 إدارة التذاكر الموزعة</button>
       <button class="tab-btn" id="tabBtnAlex" onclick="switchTab('alexTab')">🌊 فروع الإسكندرية (Alexandria)</button>
       <button class="tab-btn" id="tabBtnCairo" onclick="switchTab('cairoTab')">🏛️ فروع القاهرة (Cairo)</button>
+      <button class="tab-btn" id="tabBtnDailySearch" onclick="switchTab('dailySearchTab')">🔍 البحث والمعاملات اليومية (Daily Ledger)</button>
     </div>
 
     <!-- Tab 1: Ticket Management -->
@@ -881,6 +882,127 @@
             <tbody id="cairoDailyLogBody"></tbody>
           </table>
         </div>
+      </div>
+    </div>
+
+    <!-- Tab 4: Comprehensive Daily Search & Transactions Ledger -->
+    <div id="dailySearchTab" class="tab-content">
+      <div class="search-card" style="margin-bottom:20px; background:#ffffff; border:1px solid var(--border-color); border-radius:var(--radius-md); padding:20px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:16px;">
+          <h3 style="font-size:18px; font-weight:800; color:var(--ink-primary); margin:0;">🔍 جدول البحث في معاملات وتكلفة بيع التذاكر اليومية</h3>
+          <div style="display:flex; gap:8px; flex-wrap:wrap;">
+            <button class="btn-secondary" style="padding:6px 12px; font-size:12px;" onclick="setDailySearchDate('today')">📅 اليوم</button>
+            <button class="btn-secondary" style="padding:6px 12px; font-size:12px;" onclick="setDailySearchDate('yesterday')">🗓️ أمس</button>
+            <button class="btn-secondary" style="padding:6px 12px; font-size:12px;" onclick="setDailySearchDate('all')">🌐 كافة التواريخ</button>
+          </div>
+        </div>
+
+        <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap:12px;">
+          <div>
+            <label style="font-size:12px; font-weight:700; color:var(--ink-secondary); display:block; margin-bottom:4px;">تاريخ اليوم (Search Date):</label>
+            <input type="date" id="dailySearchDate" value="2026-08-07" style="width:100%; padding:10px; border:1px solid var(--border-color); border-radius:var(--radius-sm); font-size:14px; font-weight:700;" onchange="renderDailySearchTable()">
+          </div>
+
+          <div>
+            <label style="font-size:12px; font-weight:700; color:var(--ink-secondary); display:block; margin-bottom:4px;">المدينة (City):</label>
+            <select id="dailySearchCity" style="width:100%; padding:10px; border:1px solid var(--border-color); border-radius:var(--radius-sm); font-size:14px; font-weight:700;" onchange="renderDailySearchTable()">
+              <option value="all">جميع المدن</option>
+              <option value="cairo">🏛️ القاهرة (Cairo)</option>
+              <option value="alex">🌊 الإسكندرية (Alexandria)</option>
+            </select>
+          </div>
+
+          <div>
+            <label style="font-size:12px; font-weight:700; color:var(--ink-secondary); display:block; margin-bottom:4px;">طريقة الدفع (Payment Method):</label>
+            <select id="dailySearchPayment" style="width:100%; padding:10px; border:1px solid var(--border-color); border-radius:var(--radius-sm); font-size:14px; font-weight:700;" onchange="renderDailySearchTable()">
+              <option value="all">جميع طرق الدفع</option>
+              <option value="online">🌐 أونلاين (Online)</option>
+              <option value="cash">💵 كاش (Cash)</option>
+              <option value="insta">📱 إنستا باي (InstaPay)</option>
+            </select>
+          </div>
+
+          <div>
+            <label style="font-size:12px; font-weight:700; color:var(--ink-secondary); display:block; margin-bottom:4px;">فئة التذكرة (Category):</label>
+            <select id="dailySearchCategory" style="width:100%; padding:10px; border:1px solid var(--border-color); border-radius:var(--radius-sm); font-size:14px; font-weight:700;" onchange="renderDailySearchTable()">
+              <option value="all">جميع الفئات</option>
+              <option value="premium orbit">Premium Orbit (1,500 EGP)</option>
+              <option value="fanpit">Fanpit (1,200 EGP)</option>
+              <option value="vip">VIP (800 EGP)</option>
+              <option value="high regular">High Regular (500 EGP)</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stats Summary Grid for Searched Date -->
+      <div class="stats-grid" style="margin-bottom:20px;">
+        <div class="stat-card">
+          <div class="stat-info">
+            <div class="title">إجمالي تكلفة المبيعات اليومية</div>
+            <div class="num" id="dailySearchGrandRev" style="color:var(--brand-blue);">0 ج.م</div>
+          </div>
+          <div class="stat-icon total">💵</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-info">
+            <div class="title">إجمالي التذاكر المباعة اليوم</div>
+            <div class="num" id="dailySearchTotalTickets" style="color:var(--ink-primary);">0</div>
+          </div>
+          <div class="stat-icon good">🎟️</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-info">
+            <div class="title">مبيعات الأونلاين</div>
+            <div class="num" id="dailySearchOnlineRev" style="font-size:18px; color:#2563eb;">0 ج.م</div>
+            <div style="font-size:12px; color:var(--ink-secondary);" id="dailySearchOnlineCount">0 تذكرة</div>
+          </div>
+          <div class="stat-icon">🌐</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-info">
+            <div class="title">مبيعات الكاش</div>
+            <div class="num" id="dailySearchCashRev" style="font-size:18px; color:var(--good-green);">0 ج.م</div>
+            <div style="font-size:12px; color:var(--ink-secondary);" id="dailySearchCashCount">0 تذكرة</div>
+          </div>
+          <div class="stat-icon">💵</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-info">
+            <div class="title">مبيعات إنستا باي</div>
+            <div class="num" id="dailySearchInstaRev" style="font-size:18px; color:#8b5cf6;">0 ج.م</div>
+            <div style="font-size:12px; color:var(--ink-secondary);" id="dailySearchInstaCount">0 تذكرة</div>
+          </div>
+          <div class="stat-icon">📱</div>
+        </div>
+      </div>
+
+      <!-- Main Detailed Search Table -->
+      <div class="table-title">📊 جدول تفاصيل المعاملات اليومية وتكلفة بيع التذاكر (Daily Sales & Revenue Ledger)</div>
+      <div class="ledger-table-wrap">
+        <table class="ledger-table">
+          <thead>
+            <tr class="header-row"><th colspan="8">نتائج البحث والمعاملات اليومية</th></tr>
+            <tr>
+              <th>التاريخ (Date)</th>
+              <th>المدينة (City)</th>
+              <th>الفرع (Branch)</th>
+              <th>فئة التذكرة (Category)</th>
+              <th>تكلفة/سعر التذكرة (Ticket Cost)</th>
+              <th>طريقة الدفع (Payment)</th>
+              <th>عدد التذاكر (Qty)</th>
+              <th>إجمالي المبيعات (Total Revenue)</th>
+            </tr>
+          </thead>
+          <tbody id="dailySearchTableBody"></tbody>
+          <tfoot>
+            <tr style="background:#f1f5f9; font-weight:800; font-size:14px; text-align:center;">
+              <td colspan="6" style="text-align:right; padding:12px 16px;">إجمالي المبيعات للتحديد أثر البحث:</td>
+              <td id="dailySearchFooterQty" style="color:var(--brand-blue); padding:12px;">0</td>
+              <td id="dailySearchFooterAmount" style="color:var(--good-green); padding:12px;">0 ج.م</td>
+            </tr>
+          </tfoot>
+        </table>
       </div>
     </div>
 
@@ -1345,6 +1467,10 @@
       document.getElementById('tabBtnCairo').classList.add('active');
       document.getElementById('cairoTab').classList.add('active');
       renderCairoSales();
+    } else if(tabId === 'dailySearchTab'){
+      document.getElementById('tabBtnDailySearch').classList.add('active');
+      document.getElementById('dailySearchTab').classList.add('active');
+      renderDailySearchTable();
     }
   };
 
@@ -1698,6 +1824,8 @@
       },
       offline: offlineCounts,
       payments: { cash: cashPayments, insta: instaPayments },
+      cashByBranch: { cashPO, cashFP, cashVIP, cashHR },
+      instaByBranch: { instaPO, instaFP, instaVIP, instaHR },
       cashBreakdown: [
         { ticket: "premium orbit", count: cashPO_total, amount: cashPO_total * 1500 },
         { ticket: "fanpit", count: cashFP_total, amount: cashFP_total * 1200 },
@@ -1780,6 +1908,8 @@
       },
       offline: offlineCounts,
       payments: { cash: cashPayments, insta: instaPayments },
+      cashByBranch: { cashPO, cashFP, cashVIP, cashHR },
+      instaByBranch: { instaPO, instaFP, instaVIP, instaHR },
       cashBreakdown: [
         { ticket: "premium orbit", count: cashPO_total, amount: cashPO_total * 1500 },
         { ticket: "fanpit", count: cashFP_total, amount: cashFP_total * 1200 },
@@ -1894,8 +2024,220 @@
       custHtml += `</div>`; custContainer.innerHTML = custHtml;
     } else { custContainer.innerHTML = ''; }
 
-    attachEvents(); renderAlexSales(); renderCairoSales();
+    attachEvents(); renderAlexSales(); renderCairoSales(); if(typeof renderDailySearchTable === 'function') renderDailySearchTable();
   }
+
+  window.setDailySearchDate = function(mode){
+    const dateInput = document.getElementById('dailySearchDate');
+    if(!dateInput) return;
+    if(mode === 'today'){
+      const today = new Date().toISOString().split('T')[0];
+      dateInput.value = today;
+    } else if(mode === 'yesterday'){
+      const d = new Date();
+      d.setDate(d.getDate() - 1);
+      dateInput.value = d.toISOString().split('T')[0];
+    } else if(mode === 'all'){
+      dateInput.value = '';
+    }
+    renderDailySearchTable();
+  };
+
+  window.renderDailySearchTable = function(){
+    const searchDate = document.getElementById('dailySearchDate')?.value || '';
+    const searchCity = document.getElementById('dailySearchCity')?.value || 'all';
+    const searchPayment = document.getElementById('dailySearchPayment')?.value || 'all';
+    const searchCategory = document.getElementById('dailySearchCategory')?.value || 'all';
+
+    const prices = {
+      "premium orbit": 1500,
+      "fanpit": 1200,
+      "vip": 800,
+      "high regular": 500
+    };
+
+    const branchDisplayNames = {
+      zayed: 'Zayed', zamalek: 'Zamalek', cfc: 'CFC', helio: 'Heliopolis',
+      rock: 'Rock', bero: 'Bero', stadium: 'Stadium', tunnel: 'Tunnel'
+    };
+
+    let rows = [];
+    let totalTickets = 0, totalRev = 0;
+    let onlineTickets = 0, onlineRev = 0;
+    let cashTickets = 0, cashRev = 0;
+    let instaTickets = 0, instaRev = 0;
+
+    const processCityData = (salesData, cityKey, cityName) => {
+      if(!salesData) return;
+      const dates = Object.keys(salesData);
+
+      dates.forEach(dateKey => {
+        if(searchDate && dateKey !== searchDate) return;
+        const day = salesData[dateKey];
+        if(!day) return;
+
+        const cats = ["premium orbit", "fanpit", "vip", "high regular"];
+
+        // 1. Process Online Sales
+        if(searchPayment === 'all' || searchPayment === 'online'){
+          cats.forEach(cat => {
+            if(searchCategory !== 'all' && cat !== searchCategory) return;
+            const price = prices[cat] || 0;
+            const onData = day.online ? (day.online[cat] || {}) : {};
+
+            Object.keys(onData).forEach(bKey => {
+              const qty = parseInt(onData[bKey], 10) || 0;
+              if(qty > 0){
+                const bName = branchDisplayNames[bKey] || bKey;
+                const rev = qty * price;
+                rows.push({
+                  date: dateKey, city: cityName, cityKey: cityKey, branch: bName,
+                  category: cat, cost: price, payment: 'online', paymentLabel: '🌐 أونلاين',
+                  qty: qty, revenue: rev
+                });
+                onlineTickets += qty; onlineRev += rev;
+                totalTickets += qty; totalRev += rev;
+              }
+            });
+          });
+        }
+
+        // 2. Process Cash Sales
+        if(searchPayment === 'all' || searchPayment === 'cash'){
+          if(day.cashByBranch){
+            const cData = day.cashByBranch;
+            cats.forEach(cat => {
+              if(searchCategory !== 'all' && cat !== searchCategory) return;
+              const price = prices[cat] || 0;
+              const keyMap = { "premium orbit": "cashPO", "fanpit": "cashFP", "vip": "cashVIP", "high regular": "cashHR" };
+              const catObj = cData[keyMap[cat]] || {};
+              Object.keys(catObj).forEach(bKey => {
+                const qty = parseInt(catObj[bKey], 10) || 0;
+                if(qty > 0){
+                  const bName = branchDisplayNames[bKey] || bKey;
+                  const rev = qty * price;
+                  rows.push({
+                    date: dateKey, city: cityName, cityKey: cityKey, branch: bName,
+                    category: cat, cost: price, payment: 'cash', paymentLabel: '💵 كاش',
+                    qty: qty, revenue: rev
+                  });
+                  cashTickets += qty; cashRev += rev;
+                  totalTickets += qty; totalRev += rev;
+                }
+              });
+            });
+          } else if(day.cashBreakdown && Array.isArray(day.cashBreakdown)){
+            day.cashBreakdown.forEach(item => {
+              const cat = item.ticket;
+              if(searchCategory !== 'all' && cat !== searchCategory) return;
+              const price = prices[cat] || 0;
+              const qty = parseInt(item.count, 10) || 0;
+              const rev = parseInt(item.amount, 10) || (qty * price);
+              if(qty > 0 || rev > 0){
+                rows.push({
+                  date: dateKey, city: cityName, cityKey: cityKey, branch: 'كافة الفروع',
+                  category: cat, cost: price, payment: 'cash', paymentLabel: '💵 كاش',
+                  qty: qty, revenue: rev
+                });
+                cashTickets += qty; cashRev += rev;
+                totalTickets += qty; totalRev += rev;
+              }
+            });
+          }
+        }
+
+        // 3. Process InstaPay Sales
+        if(searchPayment === 'all' || searchPayment === 'insta'){
+          if(day.instaByBranch){
+            const iData = day.instaByBranch;
+            cats.forEach(cat => {
+              if(searchCategory !== 'all' && cat !== searchCategory) return;
+              const price = prices[cat] || 0;
+              const keyMap = { "premium orbit": "instaPO", "fanpit": "instaFP", "vip": "instaVIP", "high regular": "instaHR" };
+              const catObj = iData[keyMap[cat]] || {};
+              Object.keys(catObj).forEach(bKey => {
+                const qty = parseInt(catObj[bKey], 10) || 0;
+                if(qty > 0){
+                  const bName = branchDisplayNames[bKey] || bKey;
+                  const rev = qty * price;
+                  rows.push({
+                    date: dateKey, city: cityName, cityKey: cityKey, branch: bName,
+                    category: cat, cost: price, payment: 'insta', paymentLabel: '📱 إنستا باي',
+                    qty: qty, revenue: rev
+                  });
+                  instaTickets += qty; instaRev += rev;
+                  totalTickets += qty; totalRev += rev;
+                }
+              });
+            });
+          } else if(day.instaBreakdown && Array.isArray(day.instaBreakdown)){
+            day.instaBreakdown.forEach(item => {
+              const cat = item.ticket;
+              if(searchCategory !== 'all' && cat !== searchCategory) return;
+              const price = prices[cat] || 0;
+              const qty = parseInt(item.count, 10) || 0;
+              const rev = parseInt(item.amount, 10) || (qty * price);
+              if(qty > 0 || rev > 0){
+                rows.push({
+                  date: dateKey, city: cityName, cityKey: cityKey, branch: 'كافة الفروع',
+                  category: cat, cost: price, payment: 'insta', paymentLabel: '📱 إنستا باي',
+                  qty: qty, revenue: rev
+                });
+                instaTickets += qty; instaRev += rev;
+                totalTickets += qty; totalRev += rev;
+              }
+            });
+          }
+        }
+      });
+    };
+
+    if(searchCity === 'all' || searchCity === 'cairo'){
+      processCityData(data.branchSalesCairo, 'cairo', '🏛️ القاهرة');
+    }
+    if(searchCity === 'all' || searchCity === 'alex'){
+      processCityData(data.branchSalesAlex, 'alex', '🌊 الإسكندرية');
+    }
+
+    rows.sort((a,b) => b.date.localeCompare(a.date));
+
+    let tbodyHtml = '';
+    if(rows.length === 0){
+      tbodyHtml = `<tr><td colspan="8" style="text-align:center; padding:24px; color:var(--ink-secondary); font-weight:700;">لا توجد معاملات مسجلة تطابق محددات البحث المختارة.</td></tr>`;
+    } else {
+      rows.forEach(r => {
+        let payBadgeStyle = r.payment === 'online' ? 'background:#dbeafe;color:#1e40af;' : r.payment === 'cash' ? 'background:#dcfce7;color:#166534;' : 'background:#f3e8ff;color:#6b21a8;';
+        tbodyHtml += `<tr>
+          <td><b>${r.date}</b></td>
+          <td>${r.city}</td>
+          <td><b>${r.branch}</b></td>
+          <td class="cat-cell">${r.category}</td>
+          <td><b>${r.cost.toLocaleString()} EGP</b></td>
+          <td><span style="padding:4px 10px; border-radius:12px; font-weight:800; font-size:12px; ${payBadgeStyle}">${r.paymentLabel}</span></td>
+          <td><b>${r.qty}</b></td>
+          <td><b style="color:var(--good-green);">${r.revenue.toLocaleString()} EGP</b></td>
+        </tr>`;
+      });
+    }
+
+    const tbody = document.getElementById('dailySearchTableBody');
+    if(tbody) tbody.innerHTML = tbodyHtml;
+
+    if(document.getElementById('dailySearchGrandRev')) document.getElementById('dailySearchGrandRev').textContent = totalRev.toLocaleString() + ' ج.م';
+    if(document.getElementById('dailySearchTotalTickets')) document.getElementById('dailySearchTotalTickets').textContent = totalTickets;
+
+    if(document.getElementById('dailySearchOnlineRev')) document.getElementById('dailySearchOnlineRev').textContent = onlineRev.toLocaleString() + ' ج.م';
+    if(document.getElementById('dailySearchOnlineCount')) document.getElementById('dailySearchOnlineCount').textContent = onlineTickets + ' تذكرة';
+
+    if(document.getElementById('dailySearchCashRev')) document.getElementById('dailySearchCashRev').textContent = cashRev.toLocaleString() + ' ج.م';
+    if(document.getElementById('dailySearchCashCount')) document.getElementById('dailySearchCashCount').textContent = cashTickets + ' تذكرة';
+
+    if(document.getElementById('dailySearchInstaRev')) document.getElementById('dailySearchInstaRev').textContent = instaRev.toLocaleString() + ' ج.م';
+    if(document.getElementById('dailySearchInstaCount')) document.getElementById('dailySearchInstaCount').textContent = instaTickets + ' تذكرة';
+
+    if(document.getElementById('dailySearchFooterQty')) document.getElementById('dailySearchFooterQty').textContent = totalTickets;
+    if(document.getElementById('dailySearchFooterAmount')) document.getElementById('dailySearchFooterAmount').textContent = totalRev.toLocaleString() + ' ج.م';
+  };
 
   function renderChips(cat){
     let out = '';
