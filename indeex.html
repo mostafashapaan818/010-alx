@@ -947,6 +947,11 @@ function doPost(e) {
     'user1': 'mosh1'
   };
 
+  function normalizeUser(str) {
+    if(!str) return '';
+    return str.toLowerCase().replace(/\s+/g, '');
+  }
+
   // Google Sheet Script Endpoint URL
   const DEFAULT_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxE6nXE71X_BNaKk8zp91Tzg3djP6doq4qsat3H8OTcNqSRxja6TtMcnGgfilYuUBrb/exec';
   
@@ -964,12 +969,14 @@ function doPost(e) {
   // Authentication Logic
   window.handleLogin = function(e){
     e.preventDefault();
-    const userInp = document.getElementById('usernameInput').value.trim();
+    const rawUser = document.getElementById('usernameInput').value.trim();
     const passInp = document.getElementById('passwordInput').value.trim();
     const alertBox = document.getElementById('loginAlert');
 
-    if(USERS[userInp] && USERS[userInp] === passInp){
-      loggedUser = userInp;
+    const cleanUser = normalizeUser(rawUser);
+
+    if(USERS[cleanUser] && USERS[cleanUser] === passInp){
+      loggedUser = cleanUser;
       sessionStorage.setItem('alexandrie_logged_user', loggedUser);
       alertBox.style.display = 'none';
       initAppView();
