@@ -1610,37 +1610,6 @@
     }
   }
 
-  // Render Alexandria Branch Sales
-  function renderAlexSales(){
-    const dateKey = document.getElementById('alexDateSelect').value || '2026-08-07';
-    const dayData = (data.branchSalesAlex && data.branchSalesAlex[dateKey]) ? data.branchSalesAlex[dateKey] : (data.branchSalesAlex['2026-08-07'] || {});
-    const onlineCats = ["premium orbit", "fanpit", "vip", "high regular"];
-
-    let onlineHtml = '', onlineGrandTotal = 0;
-    onlineCats.forEach(cat => {
-      const c = (dayData.online && dayData.online[cat]) || { rock:0, bero:0, stadium:0, tunnel:0 };
-      const rowTotal = (c.rock||0) + (c.bero||0) + (c.stadium||0) + (c.tunnel||0);
-      onlineGrandTotal += rowTotal;
-      onlineHtml += `<tr><td class="cat-cell">${cat}</td><td>${c.rock||0}</td><td>${c.bero||0}</td><td>${c.stadium||0}</td><td>${c.tunnel||0}</td><td><b>${rowTotal}</b></td></tr>`;
-    });
-    onlineHtml += `<tr class="total-row"><td class="cat-cell">total</td><td colspan="4"></td><td><b>${onlineGrandTotal}</b></td></tr>`;
-    document.getElementById('alexOnlineTableBody').innerHTML = onlineHtml;
-    document.getElementById('alexOnlineTickets').textContent = onlineGrandTotal;
-
-    let offlineHtml = '', offlineGrandTotal = 0;
-    onlineCats.forEach(cat => {
-      const c = (dayData.offline && dayData.offline[cat]) || { rock:0, bero:0, stadium:0, tunnel:0 };
-      const rowTotal = (c.rock||0) + (c.bero||0) + (c.stadium||0) + (c.tunnel||0);
-      offlineGrandTotal += rowTotal;
-      offlineHtml += `<tr><td class="cat-cell">${cat}</td><td>${c.rock?c.rock:''}</td><td>${c.bero?c.bero:''}</td><td>${c.stadium?c.stadium:''}</td><td>${c.tunnel?c.tunnel:''}</td><td><b>${rowTotal}</b></td></tr>`;
-    });
-
-    const cashRow = (dayData.payments && dayData.payments.cash) || { rock:0, bero:0, stadium:0, tunnel:0 };
-    const cashTotal = (cashRow.rock||0) + (cashRow.bero||0) + (cashRow.stadium||0) + (cashRow.tunnel||0);
-
-    const instaRow = (dayData.payments && dayData.payments.insta) || { rock:0, bero:0, stadium:0, tunnel:0 };
-    const instaTotal = (instaRow.rock||0) + (instaRow.bero||0) + (instaRow.stadium||0) + (instaRow.tunnel||0);
-
   window.calcAlexModalTotals = function(){
     const getVal = id => parseInt(document.getElementById(id)?.value, 10)||0;
 
