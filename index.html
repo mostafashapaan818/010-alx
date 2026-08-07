@@ -606,9 +606,11 @@
       <button type="button" id="submitLoginBtn" onclick="handleLogin(event)" class="btn-login" style="transition: all 0.3s ease;">دخول النظام 🚀</button>
     </form>
 
-    <div style="margin-top:14px; text-align:center; font-size:12px; color:var(--ink-secondary); background:#f8fafc; padding:10px; border-radius:8px; border:1px dashed var(--border-color);">
-      💡 <b>بيانات الدخول المتاحة للنظام:</b><br>
-      اسم المستخدم: <code>user0</code> أو <code>user1</code> | كلمة المرور: <code>mosh</code> أو <code>mosh1</code>
+    <div style="margin-top:14px; font-size:12px; color:var(--ink-secondary); background:#f8fafc; padding:12px; border-radius:8px; border:1px dashed var(--border-color); text-align:right; line-height:1.6;">
+      💡 <b>حسابات وصلاحيات الدخول المتاحة للنظام:</b><br>
+      👑 <b>أدمن (مسؤول شامل للكل):</b> اليوزر: <code>admin</code> | الباسورد: <code>admin</code><br>
+      🌊 <b>مدير فروع الإسكندرية فقط:</b> اليوزر: <code>alex</code> | الباسورد: <code>alex</code> (أو <code>user0</code> / <code>mosh</code>)<br>
+      🏛️ <b>مدير فروع القاهرة فقط:</b> اليوزر: <code>cairo</code> | الباسورد: <code>cairo</code> (أو <code>user1</code> / <code>mosh1</code>)
     </div>
   </div>
 </div>
@@ -1255,11 +1257,21 @@
 <script>
 (function(){
   const USERS = {
-    'user0': ['mosh', 'mosh1', '1234', 'user0'],
-    'user1': ['mosh1', 'mosh', '1234', 'user1'],
-    'admin': ['admin', 'mosh', '1234', 'admin']
+    'admin': { pass: ['admin', 'admin123', '1234'], role: 'admin', label: '👑 مسؤول شامل (Admin)' },
+    'alex':  { pass: ['alex', 'alex123', '1234'],   role: 'alex',  label: '🌊 مدير فروع الإسكندرية' },
+    'cairo': { pass: ['cairo', 'cairo123', '1234'], role: 'cairo', label: '🏛️ مدير فروع القاهرة' },
+    'user0': { pass: ['mosh', '1234', 'user0'],     role: 'alex',  label: '🌊 مدير فروع الإسكندرية (user0)' },
+    'user1': { pass: ['mosh1', '1234', 'user1'],    role: 'cairo', label: '🏛️ مدير فروع القاهرة (user1)' }
   };
   function normalize(str) { return str? String(str).toLowerCase().trim().replace(/\s+/g, '') : ''; }
+
+  function getUserRole(u){
+    const clean = normalize(u);
+    if(USERS[clean]) return USERS[clean].role;
+    if(clean.includes('alex')) return 'alex';
+    if(clean.includes('cai')) return 'cairo';
+    return 'admin';
+  }
 
   const DEFAULT_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzy_6glG3q4k73o06ZGYIt7NjMVM7Jd-EAFgUAzbFsF3P0GwmEqb34VJtpwH0DrtWJPlQ/exec';
   function getScriptUrl() { return localStorage.getItem('alexandrie_script_url') || DEFAULT_SCRIPT_URL; }
@@ -1362,17 +1374,18 @@
     let isValid = false;
 
     if(cleanUser && USERS[cleanUser]){
-      if(Array.isArray(USERS[cleanUser]) && USERS[cleanUser].includes(cleanPass)){
+      const uObj = USERS[cleanUser];
+      if(Array.isArray(uObj.pass) && uObj.pass.includes(cleanPass)){
         isValid = true;
-      } else if(USERS[cleanUser] === cleanPass){
+      } else if(uObj.pass === cleanPass){
         isValid = true;
       }
-    } else if(cleanUser && (cleanPass === 'mosh' || cleanPass === 'mosh1' || cleanPass === '1234' || cleanPass === 'admin')){
+    } else if(cleanUser && (cleanPass === 'admin' || cleanPass === 'alex' || cleanPass === 'cairo' || cleanPass === 'mosh' || cleanPass === 'mosh1' || cleanPass === '1234')){
       isValid = true;
     }
 
     if(isValid){
-      loggedUser = cleanUser || 'user1';
+      loggedUser = cleanUser || 'admin';
       sessionStorage.setItem('alexandrie_logged_user', loggedUser);
 
       loginAlert.style.display = 'none';
@@ -1401,7 +1414,7 @@
     } else {
       // 2. Trigger Failure Shake Animation (Red Shake & Red Pulse)
       loginAlert.style.display = 'block';
-      loginAlert.innerHTML = '❌ اسم المستخدم أو كلمة المرور غير صحيحة! (جرب user1 وكلمة المرور mosh1)';
+      loginAlert.innerHTML = '❌ اسم المستخدم أو كلمة المرور غير صحيحة! (جرب admin / admin أو alex / alex أو cairo / cairo)';
 
       if(loginCard){
         loginCard.classList.remove('shake');
@@ -1429,18 +1442,52 @@
   };
 
   function checkAuth(){
-    if(loggedUser && USERS[loggedUser]) initAppView();
+    if(loggedUser) initAppView();
     else { document.getElementById('loginView').classList.add('active'); document.getElementById('appView').classList.remove('active'); }
   }
 
   function initAppView(){
     document.getElementById('loginView').classList.remove('active');
     document.getElementById('appView').classList.add('active');
-    document.getElementById('currentUserBadge').textContent = `👤 ${loggedUser} | Alexandrie Team`;
+    
+    const role = getUserRole(loggedUser);
+    const uObj = USERS[normalize(loggedUser)];
+    const userLabel = uObj ? uObj.label : `👤 ${loggedUser}`;
+
+    document.getElementById('currentUserBadge').textContent = `${userLabel} | Alexandrie Team`;
+
+    const alexBtn = document.getElementById('tabBtnAlex');
+    const cairoBtn = document.getElementById('tabBtnCairo');
+
+    if(role === 'alex'){
+      if(alexBtn) alexBtn.style.display = 'inline-flex';
+      if(cairoBtn) cairoBtn.style.display = 'none';
+      switchTab('alexTab');
+    } else if(role === 'cairo'){
+      if(alexBtn) alexBtn.style.display = 'none';
+      if(cairoBtn) cairoBtn.style.display = 'inline-flex';
+      switchTab('cairoTab');
+    } else {
+      if(alexBtn) alexBtn.style.display = 'inline-flex';
+      if(cairoBtn) cairoBtn.style.display = 'inline-flex';
+      switchTab('ticketsTab');
+    }
+
     loadData();
   }
 
   window.switchTab = async function(tabId){
+    const role = getUserRole(loggedUser);
+
+    if(role === 'alex' && tabId === 'cairoTab'){
+      alert('⚠️ ليس لديك صلاحية الوصول لفروع القاهرة.');
+      return;
+    }
+    if(role === 'cairo' && tabId === 'alexTab'){
+      alert('⚠️ ليس لديك صلاحية الوصول لفروع الإسكندرية.');
+      return;
+    }
+
     document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
     document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
     
