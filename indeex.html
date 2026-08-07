@@ -1,0 +1,1444 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>نظام تذاكر الحفلة - Alexandrie Team</title>
+<!-- Google Fonts: Tajawal -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --bg-main: #f8fafc;
+    --card-bg: #ffffff;
+    --ink-primary: #0f172a;
+    --ink-secondary: #475569;
+    --ink-muted: #94a3b8;
+    --border-color: #e2e8f0;
+    
+    --brand-blue: #2563eb;
+    --brand-blue-hover: #1d4ed8;
+    --brand-blue-light: #eff6ff;
+    
+    --good-green: #059669;
+    --good-green-bg: #ecfdf5;
+    --good-green-border: #a7f3d0;
+    
+    --warn-amber: #d97706;
+    --warn-amber-bg: #fffbeb;
+    --warn-amber-border: #fde68a;
+
+    --alex-badge: #1e1b4b;
+    --alex-accent: #6366f1;
+    
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+    --shadow-lg: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+  }
+
+  * { box-sizing: border-box; font-family: 'Tajawal', sans-serif; margin: 0; padding: 0; }
+  
+  body {
+    background-color: var(--bg-main);
+    color: var(--ink-primary);
+    direction: rtl;
+    min-height: 100vh;
+    padding-bottom: 60px;
+  }
+
+  /* Screen Views */
+  .view-container {
+    display: none;
+  }
+  .view-container.active {
+    display: block;
+  }
+
+  /* Login Screen */
+  .login-wrapper {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: radial-gradient(circle at top right, #e0e7ff, #f8fafc);
+  }
+  
+  .login-card {
+    background: var(--card-bg);
+    width: 100%;
+    max-width: 440px;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    border: 1px solid var(--border-color);
+    padding: 36px 30px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .login-card::before {
+    content: '';
+    position: absolute;
+    top: 0; right: 0; left: 0;
+    height: 6px;
+    background: linear-gradient(90deg, #3b82f6, #6366f1, #8b5cf6);
+  }
+
+  .login-header {
+    text-align: center;
+    margin-bottom: 28px;
+  }
+
+  .team-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--brand-blue-light);
+    color: var(--brand-blue);
+    padding: 6px 14px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    border: 1px solid #bfdbfe;
+  }
+
+  .login-header h2 {
+    font-size: 24px;
+    font-weight: 800;
+    color: var(--ink-primary);
+    margin-bottom: 6px;
+  }
+
+  .login-header p {
+    font-size: 14px;
+    color: var(--ink-secondary);
+  }
+
+  .form-group {
+    margin-bottom: 18px;
+  }
+
+  .form-group label {
+    display: block;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--ink-primary);
+    margin-bottom: 6px;
+  }
+
+  .form-control {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1.5px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    font-size: 15px;
+    background-color: #fafafa;
+    transition: all 0.2s ease;
+  }
+
+  .form-control:focus {
+    outline: none;
+    border-color: var(--brand-blue);
+    background-color: #ffffff;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+  }
+
+  .btn-login {
+    width: 100%;
+    padding: 13px;
+    background: var(--brand-blue);
+    color: #ffffff;
+    border: none;
+    border-radius: var(--radius-sm);
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s;
+    margin-top: 10px;
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
+  }
+
+  .btn-login:hover {
+    background: var(--brand-blue-hover);
+  }
+
+  .alert-danger {
+    background: #fef2f2;
+    color: #991b1b;
+    border: 1px solid #fecaca;
+    padding: 10px 14px;
+    border-radius: var(--radius-sm);
+    font-size: 13px;
+    margin-bottom: 16px;
+    display: none;
+    text-align: center;
+    font-weight: 600;
+  }
+
+  .creds-hint {
+    margin-top: 22px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border-color);
+    background: #f8fafc;
+    border-radius: var(--radius-sm);
+    padding: 12px;
+    font-size: 12px;
+    color: var(--ink-secondary);
+    line-height: 1.6;
+  }
+
+  /* App Layout */
+  .app-wrap {
+    max-width: 1020px;
+    margin: 0 auto;
+    padding: 20px 16px;
+  }
+
+  /* Top Navbar */
+  .navbar {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 14px 20px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .nav-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .brand-logo {
+    width: 42px;
+    height: 42px;
+    background: linear-gradient(135deg, var(--brand-blue), #6366f1);
+    color: white;
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 20px;
+    box-shadow: 0 4px 10px rgba(37, 99, 235, 0.3);
+  }
+
+  .brand-text h1 {
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--ink-primary);
+    line-height: 1.2;
+  }
+
+  .brand-text .sub {
+    font-size: 12px;
+    color: var(--ink-secondary);
+    font-weight: 600;
+  }
+
+  .user-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .user-badge {
+    background: #f1f5f9;
+    padding: 8px 14px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--ink-primary);
+    border: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .btn-action-ghost {
+    background: transparent;
+    border: 1.5px solid var(--border-color);
+    color: var(--ink-secondary);
+    padding: 8px 14px;
+    border-radius: var(--radius-sm);
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .btn-action-ghost:hover {
+    background: #f1f5f9;
+    color: var(--ink-primary);
+    border-color: #cbd5e1;
+  }
+
+  .btn-logout {
+    background: #fff1f2;
+    border: 1px solid #fecdd3;
+    color: #e11d48;
+    padding: 8px 14px;
+    border-radius: var(--radius-sm);
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .btn-logout:hover {
+    background: #ffe4e6;
+  }
+
+  /* Stat Cards */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 14px;
+    margin-bottom: 20px;
+  }
+
+  .stat-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.15s;
+  }
+  
+  .stat-card:hover {
+    transform: translateY(-2px);
+  }
+
+  .stat-info .title {
+    font-size: 13px;
+    color: var(--ink-secondary);
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+
+  .stat-info .num {
+    font-size: 26px;
+    font-weight: 800;
+    color: var(--ink-primary);
+  }
+
+  .stat-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+  }
+
+  .stat-icon.total { background: #eff6ff; color: #2563eb; }
+  .stat-icon.good { background: var(--good-green-bg); color: var(--good-green); }
+  .stat-icon.warn { background: var(--warn-amber-bg); color: var(--warn-amber); }
+
+  /* Search Bar */
+  .search-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 16px;
+    margin-bottom: 20px;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .search-input-wrap {
+    position: relative;
+  }
+
+  .search-input-wrap input {
+    width: 100%;
+    padding: 14px 16px;
+    padding-left: 45px;
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    font-size: 15px;
+    background: #fafafa;
+    transition: all 0.2s;
+  }
+
+  .search-input-wrap input:focus {
+    outline: none;
+    border-color: var(--brand-blue);
+    background: #ffffff;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+  }
+
+  .search-result-box {
+    margin-top: 12px;
+  }
+
+  .search-result {
+    background: #f8fafc;
+    border: 2px dashed var(--brand-blue);
+    border-radius: var(--radius-sm);
+    padding: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .search-result.notfound {
+    border-color: var(--ink-muted);
+    color: var(--ink-secondary);
+    font-weight: 600;
+  }
+
+  /* Action Toolbar */
+  .top-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 16px;
+    gap: 10px;
+  }
+
+  .btn-primary {
+    background: var(--brand-blue);
+    color: #ffffff;
+    border: none;
+    padding: 10px 18px;
+    border-radius: var(--radius-sm);
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+
+  .btn-primary:hover { background: var(--brand-blue-hover); }
+
+  .btn-secondary {
+    background: transparent;
+    border: 1.5px solid var(--border-color);
+    color: var(--ink-primary);
+    padding: 10px 18px;
+    border-radius: var(--radius-sm);
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  .btn-secondary:hover { background: #f1f5f9; }
+
+  /* Category Cards */
+  .cat-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    margin-bottom: 16px;
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .cat-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 20px;
+    cursor: pointer;
+    flex-wrap: wrap;
+    gap: 12px;
+    background: #ffffff;
+    user-select: none;
+    transition: background 0.15s;
+  }
+
+  .cat-head:hover {
+    background: #f8fafc;
+  }
+
+  .cat-name-group {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 17px;
+    font-weight: 800;
+  }
+
+  .color-dot {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .cat-meta {
+    font-size: 13px;
+    color: var(--ink-secondary);
+    font-weight: 500;
+  }
+
+  .cat-right-group {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .cat-progress-track {
+    height: 10px;
+    background: #e2e8f0;
+    border-radius: 999px;
+    overflow: hidden;
+    width: 160px;
+    flex-shrink: 0;
+  }
+
+  .cat-progress-fill {
+    height: 100%;
+    border-radius: 999px;
+    transition: width 0.3s ease;
+  }
+
+  .cat-nums {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--ink-secondary);
+    white-space: nowrap;
+  }
+
+  .cat-toggle-icon {
+    font-size: 14px;
+    color: var(--ink-muted);
+    transition: transform 0.2s;
+  }
+
+  .cat-head.open .cat-toggle-icon {
+    transform: rotate(180deg);
+  }
+
+  /* Tickets Grid */
+  .tickets-grid {
+    display: none;
+    padding: 16px 20px;
+    grid-template-columns: repeat(auto-fill, minmax(75px, 1fr));
+    gap: 10px;
+    border-top: 1px solid var(--border-color);
+    background: #fafafa;
+  }
+
+  .tickets-grid.open { display: grid; }
+
+  .chip {
+    border: 1.5px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    padding: 9px 4px;
+    text-align: center;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    background: #ffffff;
+    transition: all 0.15s ease;
+  }
+
+  .chip:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.06);
+  }
+
+  .chip.dist {
+    background: var(--good-green-bg);
+    border-color: var(--good-green-border);
+    color: var(--good-green);
+  }
+
+  .chip.add-chip {
+    border-style: dashed;
+    color: var(--ink-secondary);
+    background: transparent;
+  }
+
+  .chip.add-chip:hover {
+    color: var(--brand-blue);
+    border-color: var(--brand-blue);
+    background: var(--brand-blue-light);
+  }
+
+  /* Customers Section */
+  .customers-section {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 20px;
+    margin-top: 24px;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .customers-section h2 {
+    font-size: 18px;
+    font-weight: 800;
+    margin-bottom: 16px;
+    color: var(--ink-primary);
+  }
+
+  .customer-card {
+    background: #f8fafc;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    padding: 14px 16px;
+    margin-bottom: 12px;
+  }
+
+  .customer-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .customer-name { font-weight: 800; font-size: 15px; color: var(--ink-primary); }
+  .customer-phone { color: var(--ink-secondary); font-size: 13px; direction: ltr; font-weight: 600; }
+  
+  .customer-tickets { display: flex; gap: 8px; flex-wrap: wrap; }
+  .tag-ticket {
+    background: #ffffff;
+    border: 1px solid var(--border-color);
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  /* Empty State */
+  .empty-box {
+    text-align: center;
+    padding: 50px 20px;
+    background: var(--card-bg);
+    border: 2px dashed var(--border-color);
+    border-radius: var(--radius-md);
+    color: var(--ink-secondary);
+    margin-top: 16px;
+  }
+
+  .empty-box p {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 14px;
+  }
+
+  /* Modals & Overlays */
+  .overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(4px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+    padding: 16px;
+  }
+
+  .overlay.open { display: flex; }
+
+  .modal {
+    background: var(--card-bg);
+    border-radius: var(--radius-lg);
+    padding: 26px;
+    width: 100%;
+    max-width: 520px;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: var(--shadow-lg);
+    border: 1px solid var(--border-color);
+  }
+
+  .modal h3 {
+    font-size: 20px;
+    font-weight: 800;
+    margin-bottom: 16px;
+    color: var(--ink-primary);
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .field { margin-bottom: 14px; }
+  .field label {
+    display: block;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--ink-secondary);
+    margin-bottom: 6px;
+  }
+
+  .field input, .field select, .modal textarea {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1.5px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    font-size: 14px;
+    background: #fafafa;
+  }
+
+  .field input:focus, .field select:focus, .modal textarea:focus {
+    outline: none;
+    border-color: var(--brand-blue);
+    background: #ffffff;
+  }
+
+  .modal textarea { min-height: 90px; resize: vertical; }
+
+  .modal-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+    justify-content: flex-end;
+  }
+
+  .cat-setup-item {
+    border: 1px solid var(--border-color);
+    background: #f8fafc;
+    border-radius: var(--radius-md);
+    padding: 14px;
+    margin-bottom: 12px;
+  }
+
+  .remove-cat {
+    background: none;
+    border: none;
+    color: #ef4444;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    padding: 4px;
+  }
+  
+  .remove-cat:hover { text-decoration: underline; }
+
+  .status-msg {
+    font-size: 13px;
+    color: var(--ink-secondary);
+    margin-top: 12px;
+    text-align: center;
+    min-height: 18px;
+    font-weight: 700;
+  }
+
+  .code-block {
+    direction: ltr;
+    text-align: left;
+    background: #0f172a;
+    color: #38bdf8;
+    padding: 12px;
+    border-radius: var(--radius-sm);
+    font-family: monospace;
+    font-size: 12px;
+    white-space: pre-wrap;
+    max-height: 180px;
+    overflow-y: auto;
+    margin-top: 8px;
+  }
+
+  .copy-btn {
+    background: #1e293b;
+    color: #ffffff;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-size: 12px;
+    cursor: pointer;
+    margin-top: 6px;
+    font-weight: 600;
+  }
+  .copy-btn:hover { background: #334155; }
+</style>
+</head>
+<body>
+
+<!-- Login Screen View -->
+<div id="loginView" class="view-container login-wrapper active">
+  <div class="login-card">
+    <div class="login-header">
+      <div class="team-badge">🛡️ Alexandrie Team</div>
+      <h2>تسجيل الدخول للنظام</h2>
+      <p>أدخل اسم المستخدم وكلمة المرور للمتابعة</p>
+    </div>
+
+    <div id="loginAlert" class="alert-danger">اسم المستخدم أو كلمة المرور غير صحيحة</div>
+
+    <form id="loginForm" onsubmit="handleLogin(event)">
+      <div class="form-group">
+        <label for="usernameInput">اسم المستخدم (Username)</label>
+        <input type="text" id="usernameInput" class="form-control" placeholder="user0 أو user1" required autocomplete="username">
+      </div>
+
+      <div class="form-group">
+        <label for="passwordInput">كلمة المرور (Password)</label>
+        <input type="password" id="passwordInput" class="form-control" placeholder="••••••••" required autocomplete="current-password">
+      </div>
+
+      <button type="submit" class="btn-login">دخول النظام 🚀</button>
+    </form>
+
+    <div class="creds-hint">
+      <b>📌 الحسابات المتاحة للفريق:</b><br>
+      • <b>User 0:</b> user0 / mosh<br>
+      • <b>User 1:</b> user1 / mosh1
+    </div>
+  </div>
+</div>
+
+<!-- Main App View -->
+<div id="appView" class="view-container">
+  <div class="app-wrap">
+    
+    <!-- Navbar -->
+    <div class="navbar">
+      <div class="nav-brand">
+        <div class="brand-logo">A</div>
+        <div class="brand-text">
+          <h1>إدارة تذاكر الحفلة</h1>
+          <div class="sub">خاص بـ Alexandrie Team 🛡️</div>
+        </div>
+      </div>
+
+      <div class="user-bar">
+        <div class="user-badge" id="currentUserBadge">👤 user0</div>
+        <button class="btn-action-ghost" id="openSettingsBtn" title="إعدادات Google Sheet">📊 الربط بشيت جديد</button>
+        <button class="btn-logout" id="logoutBtn" onclick="handleLogout()">خروج 🚪</button>
+      </div>
+    </div>
+
+    <!-- Stats Dashboard -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-info">
+          <div class="title">إجمالي التذاكر</div>
+          <div class="num" id="statTotal">0</div>
+        </div>
+        <div class="stat-icon total">🎫</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-info">
+          <div class="title">الموزّع للعملاء</div>
+          <div class="num" id="statDist" style="color:var(--good-green);">0</div>
+        </div>
+        <div class="stat-icon good">✅</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-info">
+          <div class="title">المتبقي المتاح</div>
+          <div class="num" id="statRemain" style="color:var(--warn-amber);">0</div>
+        </div>
+        <div class="stat-icon warn">⏳</div>
+      </div>
+    </div>
+
+    <!-- Search Section -->
+    <div class="search-card">
+      <div class="search-input-wrap">
+        <input id="searchInput" type="text" placeholder="🔍 اكتب الرقم التسلسلي للبحث عن حالة التذكرة فوراً...">
+      </div>
+      <div id="searchResultBox" class="search-result-box"></div>
+    </div>
+
+    <!-- Actions Bar -->
+    <div class="top-actions">
+      <button class="btn-secondary" id="editCatsBtn">تعديل الفئات</button>
+      <button class="btn-primary" id="addCatsBtn">إضافة / تعديل الفئات</button>
+    </div>
+
+    <!-- Main Content Container -->
+    <div id="categoriesList"></div>
+
+    <!-- Customers Summary -->
+    <div id="customersContainer"></div>
+  </div>
+
+  <!-- Settings Modal (Google Sheet Endpoint) -->
+  <div class="overlay" id="settingsOverlay">
+    <div class="modal">
+      <h3>إعدادات الربط بـ Google Sheet جديد 📊</h3>
+      
+      <div class="field">
+        <label>رابط Google Apps Script Web App (URL)</label>
+        <input type="text" id="scriptUrlInput" placeholder="https://script.google.com/macros/s/.../exec">
+      </div>
+      <button class="btn-primary" id="saveScriptUrlBtn" style="width:100%;">حفظ الرابط الجديد</button>
+      <div class="status-msg" id="settingsMsg"></div>
+
+      <hr style="margin:20px 0; border:none; border-top:1px solid var(--border-color);">
+
+      <div style="font-size:13px; color:var(--ink-secondary); line-height:1.6;">
+        <b>💡 طريقة ربط Google Sheet جديد الخاص بـ Alexandrie Team:</b>
+        <ol style="margin-right:20px; margin-top:6px;">
+          <li>افتح Google Sheet جديد.</li>
+          <li>من القائمة اختر <b>Extensions</b> ⬅️ <b>Apps Script</b>.</li>
+          <li>انسخ الكود أدناه واستبدله بالكود الموجود في Script:</li>
+        </ol>
+        
+        <div class="code-block" id="appScriptCode">function doGet() {
+  var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+  var data = sheet.getRange("A1").getValue();
+  return ContentService.createTextOutput(data || '{"categories":[],"tickets":{}}')
+    .setMimeType(ContentService.MimeType.JSON);
+}
+
+function doPost(e) {
+  var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+  sheet.getRange("A1").setValue(e.postData.contents);
+  return ContentService.createTextOutput(JSON.stringify({status: "success"}))
+    .setMimeType(ContentService.MimeType.JSON);
+}</div>
+        <button class="copy-btn" onclick="copyScriptCode()">نسخ كود Google Script 📋</button>
+        
+        <ol start="4" style="margin-right:20px; margin-top:8px;">
+          <li>اضغط <b>Deploy</b> ⬅️ <b>New deployment</b>.</li>
+          <li>اختر <b>Web app</b> وخلّي <b>Who has access</b> = <code>Anyone</code>.</li>
+          <li>انسخ الرابط الذي يظهر وضعه في الخانة بالأعلى ثم اضغط حفظ!</li>
+        </ol>
+      </div>
+
+      <div class="modal-actions">
+        <button class="btn-secondary" onclick="closeSettingsModal()">إغلاق</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Setup Overlay -->
+  <div class="overlay" id="setupOverlay">
+    <div class="modal">
+      <h3>إعداد وتنسيق فئات التذاكر</h3>
+      <div id="catSetupList"></div>
+      <button class="btn-secondary" id="addCatRowBtn" style="width:100%;margin-top:6px;">+ إضافة فئة جديدة</button>
+      <div class="modal-actions">
+        <button class="btn-secondary" id="cancelSetup">إلغاء</button>
+        <button class="btn-primary" id="saveSetup">حفظ الفئات</button>
+      </div>
+      <div class="status-msg" id="setupMsg"></div>
+    </div>
+  </div>
+
+  <!-- Ticket Action Overlay -->
+  <div class="overlay" id="ticketOverlay">
+    <div class="modal" id="ticketModalBody"></div>
+  </div>
+</div>
+
+<script>
+(function(){
+  // Valid Preset Credentials for Alexandrie Team
+  const USERS = {
+    'user0': 'mosh',
+    'user1': 'mosh1'
+  };
+
+  // Google Sheet Script Endpoint URL
+  const DEFAULT_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxE6nXE71X_BNaKk8zp91Tzg3djP6doq4qsat3H8OTcNqSRxja6TtMcnGgfilYuUBrb/exec';
+  
+  function getScriptUrl() {
+    return localStorage.getItem('alexandrie_script_url') || DEFAULT_SCRIPT_URL;
+  }
+
+  const COLORS = ['#2563eb','#059669','#7c3aed','#d97706','#dc2626','#0891b2'];
+  let data = { categories: [], tickets: {} };
+  let loaded = false;
+  let loggedUser = sessionStorage.getItem('alexandrie_logged_user');
+
+  function uid(){ return Math.random().toString(36).slice(2,9); }
+
+  // Authentication Logic
+  window.handleLogin = function(e){
+    e.preventDefault();
+    const userInp = document.getElementById('usernameInput').value.trim();
+    const passInp = document.getElementById('passwordInput').value.trim();
+    const alertBox = document.getElementById('loginAlert');
+
+    if(USERS[userInp] && USERS[userInp] === passInp){
+      loggedUser = userInp;
+      sessionStorage.setItem('alexandrie_logged_user', loggedUser);
+      alertBox.style.display = 'none';
+      initAppView();
+    } else {
+      alertBox.style.display = 'block';
+    }
+  };
+
+  window.handleLogout = function(){
+    sessionStorage.removeItem('alexandrie_logged_user');
+    loggedUser = null;
+    document.getElementById('appView').classList.remove('active');
+    document.getElementById('loginView').classList.add('active');
+  };
+
+  function checkAuth(){
+    if(loggedUser && USERS[loggedUser]){
+      initAppView();
+    } else {
+      document.getElementById('loginView').classList.add('active');
+      document.getElementById('appView').classList.remove('active');
+    }
+  }
+
+  function initAppView(){
+    document.getElementById('loginView').classList.remove('active');
+    document.getElementById('appView').classList.add('active');
+    document.getElementById('currentUserBadge').textContent = `👤 ${loggedUser} | Alexandrie Team`;
+    loadData();
+  }
+
+  async function loadData(){
+    loaded = false;
+    render();
+    try{
+      const currentUrl = getScriptUrl();
+      const res = await fetch(currentUrl);
+      const json = await res.json();
+      if(json && json.categories){ data = json; }
+    }catch(e){ 
+      console.error('Error loading data', e);
+    }
+    loaded = true;
+    render();
+  }
+
+  async function saveData(){
+    try{
+      const currentUrl = getScriptUrl();
+      await fetch(currentUrl, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+    }catch(e){ 
+      console.error('Save failed', e);
+    }
+  }
+
+  function catStats(cat){
+    let total = cat.serials.length;
+    let dist = 0;
+    cat.serials.forEach(sn=>{
+      const t = data.tickets[cat.id+'-'+sn];
+      if(t && t.distributed) dist++;
+    });
+    return {total, dist, remain: total-dist};
+  }
+
+  function findTicketBySerial(serial){
+    serial = String(serial).trim();
+    if(!serial) return null;
+    for(const cat of data.categories){
+      const match = cat.serials.find(sn => sn.toLowerCase() === serial.toLowerCase());
+      if(match){
+        const t = data.tickets[cat.id+'-'+match] || {distributed:false};
+        return {cat, num:match, t};
+      }
+    }
+    return {cat:null, num:serial, t:null};
+  }
+
+  function getCustomersMap(){
+    const map = {};
+    for(const cat of data.categories){
+      cat.serials.forEach(sn=>{
+        const t = data.tickets[cat.id+'-'+sn];
+        if(t && t.distributed){
+          const key = (t.recipient || 'غير معروف') + '_' + (t.phone || '');
+          if(!map[key]){
+            map[key] = { name: t.recipient || 'غير معروف', phone: t.phone || '', tickets: [] };
+          }
+          map[key].tickets.push({ catName: cat.name, color: cat.color, num: sn });
+        }
+      });
+    }
+    return Object.values(map);
+  }
+
+  function render(){
+    // Update Stats Overview
+    let totalAll=0, distAll=0;
+    data.categories.forEach(c=>{ const s=catStats(c); totalAll+=s.total; distAll+=s.dist; });
+
+    document.getElementById('statTotal').textContent = totalAll;
+    document.getElementById('statDist').textContent = distAll;
+    document.getElementById('statRemain').textContent = totalAll - distAll;
+
+    const catsContainer = document.getElementById('categoriesList');
+
+    if(!loaded){
+      catsContainer.innerHTML = '<div class="empty-box"><p>⏳ جاري تحميل البيانات من Google Sheet...</p></div>';
+      return;
+    }
+
+    if(data.categories.length === 0){
+      catsContainer.innerHTML = `<div class="empty-box">
+        <p>لم يتم إضافة أي فئة تذاكر حتى الآن.</p>
+        <button class="btn-primary" onclick="openSetup()">ابدأ بإضافة الفئات الآن</button>
+      </div>`;
+    } else {
+      let html = '';
+      data.categories.forEach((cat)=>{
+        const s = catStats(cat);
+        const pct = s.total ? Math.round((s.dist/s.total)*100) : 0;
+        html += `<div class="cat-card">
+          <div class="cat-head" data-cat="${cat.id}">
+            <div class="cat-name-group">
+              <span class="color-dot" style="background:${cat.color}"></span>
+              <span>${escapeHtml(cat.name)}</span>
+              <span class="cat-meta">(${cat.serials.length} تذكرة)</span>
+            </div>
+            <div class="cat-right-group">
+              <div class="cat-progress-track">
+                <div class="cat-progress-fill" style="width:${pct}%;background:${cat.color}"></div>
+              </div>
+              <div class="cat-nums">${s.dist} / ${s.total} موزّع</div>
+              <span class="cat-toggle-icon">▼</span>
+            </div>
+          </div>
+          <div class="tickets-grid" id="grid-${cat.id}">
+            ${renderChips(cat)}
+          </div>
+        </div>`;
+      });
+      catsContainer.innerHTML = html;
+    }
+
+    // Render Customers Summary
+    const custContainer = document.getElementById('customersContainer');
+    const customers = getCustomersMap();
+    if(customers.length > 0){
+      let custHtml = `<div class="customers-section">
+        <h2>📋 سجل العملاء والتذاكر المسجلة (${customers.length})</h2>`;
+      customers.forEach(cust => {
+        custHtml += `<div class="customer-card">
+          <div class="customer-info">
+            <span class="customer-name">👤 ${escapeHtml(cust.name)}</span>
+            <span class="customer-phone">📞 ${escapeHtml(cust.phone || 'بدون رقم')}</span>
+          </div>
+          <div class="customer-tickets">
+            ${cust.tickets.map(t => `<span class="tag-ticket"><span class="color-dot" style="display:inline-block;background:${t.color};width:8px;height:8px;margin-left:4px;"></span><b>${escapeHtml(t.catName)}</b>: ${escapeHtml(t.num)}</span>`).join('')}
+          </div>
+        </div>`;
+      });
+      custHtml += `</div>`;
+      custContainer.innerHTML = custHtml;
+    } else {
+      custContainer.innerHTML = '';
+    }
+
+    attachEvents();
+  }
+
+  function renderChips(cat){
+    let out = '';
+    cat.serials.forEach(sn=>{
+      const t = data.tickets[cat.id+'-'+sn];
+      const isDist = t && t.distributed;
+      out += `<div class="chip ${isDist?'dist':''}" data-cat="${cat.id}" data-num="${escapeHtml(sn)}" title="${isDist? 'موزّعة لـ '+escapeHtml(t.recipient||'—'):'متاحة'}">${escapeHtml(sn)}</div>`;
+    });
+    out += `<div class="chip add-chip" data-addto="${cat.id}" title="إضافة رقم تسلسلي جديد">+ إضافة</div>`;
+    return out;
+  }
+
+  function escapeHtml(s){
+    if(!s) return '';
+    return String(s).replace(/[&<>"']/g, m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+  }
+
+  function attachEvents(){
+    const search = document.getElementById('searchInput');
+    if(search){
+      search.oninput = ()=>{
+        const box = document.getElementById('searchResultBox');
+        const val = search.value.trim();
+        if(!val){ box.innerHTML=''; return; }
+        const r = findTicketBySerial(val);
+        if(!r || !r.cat){
+          box.innerHTML = `<div class="search-result notfound">❌ لا توجد تذكرة بهذا الرقم التسلسلي ضمن الفئات المسجلة.</div>`;
+          return;
+        }
+        const isDist = r.t && r.t.distributed;
+        box.innerHTML = `<div class="search-result">
+          <div>
+            <b>🎫 تذكرة رقم ${r.num}</b> — <span class="color-dot" style="display:inline-block;background:${r.cat.color};width:10px;height:10px;"></span> ${escapeHtml(r.cat.name)}
+            <div style="font-size:13px;color:${isDist?'var(--good-green)':'var(--warn-amber)'};margin-top:4px;font-weight:700;">
+              ${isDist? '✅ موزّعة إلى: '+escapeHtml(r.t.recipient||'—') + (r.t.phone? ' ('+escapeHtml(r.t.phone)+')': '') : '⏳ متاحة لم تُوزّع بعد'}
+            </div>
+          </div>
+          <button class="btn-primary" id="openFromSearch">${isDist? 'تعديل البيانات':'تسجيل كـ موزّعة'}</button>
+        </div>`;
+        document.getElementById('openFromSearch').onclick = ()=> openTicketModal(r.cat.id, r.num);
+      };
+    }
+
+    document.querySelectorAll('.cat-head').forEach(el=>{
+      el.onclick = ()=>{
+        const id = el.dataset.cat;
+        const grid = document.getElementById('grid-'+id);
+        const isOpen = grid.classList.contains('open');
+        document.querySelectorAll('.tickets-grid').forEach(g=>g.classList.remove('open'));
+        document.querySelectorAll('.cat-head').forEach(h=>h.classList.remove('open'));
+        if(!isOpen) {
+          grid.classList.add('open');
+          el.classList.add('open');
+        }
+      };
+    });
+
+    document.querySelectorAll('.chip:not(.add-chip)').forEach(el=>{
+      el.onclick = (e)=>{
+        e.stopPropagation();
+        openTicketModal(el.dataset.cat, el.dataset.num);
+      };
+    });
+
+    document.querySelectorAll('.add-chip').forEach(el=>{
+      el.onclick = (e)=>{
+        e.stopPropagation();
+        openQuickAddModal(el.dataset.addto);
+      };
+    });
+
+    const addBtn = document.getElementById('addCatsBtn');
+    const editBtn = document.getElementById('editCatsBtn');
+    [addBtn, editBtn].forEach(b=> b && (b.onclick = openSetup));
+
+    const cancelSetup = document.getElementById('cancelSetup');
+    if(cancelSetup) cancelSetup.onclick = ()=>{
+      document.getElementById('setupOverlay').classList.remove('open');
+    };
+
+    // Google Sheets settings modal
+    const openSettingsBtn = document.getElementById('openSettingsBtn');
+    if(openSettingsBtn) openSettingsBtn.onclick = openSettingsModal;
+
+    const saveScriptUrlBtn = document.getElementById('saveScriptUrlBtn');
+    if(saveScriptUrlBtn) saveScriptUrlBtn.onclick = ()=>{
+      const urlInp = document.getElementById('scriptUrlInput').value.trim();
+      if(urlInp){
+        localStorage.setItem('alexandrie_script_url', urlInp);
+        document.getElementById('settingsMsg').textContent = '✅ تم حفظ رابط Google Sheet جديد بنجاح! جاري التحديث...';
+        setTimeout(()=>{
+          closeSettingsModal();
+          loadData();
+        }, 1000);
+      }
+    };
+  }
+
+  function openSettingsModal(){
+    document.getElementById('scriptUrlInput').value = getScriptUrl();
+    document.getElementById('settingsMsg').textContent = '';
+    document.getElementById('settingsOverlay').classList.add('open');
+  }
+
+  window.closeSettingsModal = function(){
+    document.getElementById('settingsOverlay').classList.remove('open');
+  };
+
+  window.copyScriptCode = function(){
+    const codeText = document.getElementById('appScriptCode').textContent;
+    navigator.clipboard.writeText(codeText).then(()=>{
+      alert('تم نسخ كود Apps Script بنجاح! 📋');
+    });
+  };
+
+  let setupDraft = [];
+  function parseSerialsText(text){
+    return text.split(/[\n,،\t]+/).map(s=>s.trim()).filter(Boolean);
+  }
+  function dedupeKeepOrder(arr){
+    const seen = new Set(); const out=[];
+    arr.forEach(s=>{ if(!seen.has(s.toLowerCase())){ seen.add(s.toLowerCase()); out.push(s); } });
+    return out;
+  }
+
+  window.openSetup = function(){
+    setupDraft = data.categories.map(c=>({...c, serials:[...c.serials], serialsText:c.serials.join('\n')}));
+    if(setupDraft.length===0){
+      setupDraft.push({id:uid(), name:'', serials:[], serialsText:'', color:COLORS[0]});
+    }
+    renderSetupList();
+    document.getElementById('setupOverlay').classList.add('open');
+    
+    document.getElementById('addCatRowBtn').onclick = ()=>{
+      if(setupDraft.length>=6){ document.getElementById('setupMsg').textContent='أقصى عدد للفئات هو 6'; return; }
+      setupDraft.push({id:uid(), name:'', serials:[], serialsText:'', color:COLORS[setupDraft.length%COLORS.length]});
+      renderSetupList();
+    };
+
+    document.getElementById('saveSetup').onclick = async ()=>{
+      for(const c of setupDraft){
+        if(!c.name.trim()){ document.getElementById('setupMsg').textContent='يرجى كتابة اسم لكل فئة'; return; }
+      }
+      data.categories = setupDraft.map(c=>({
+        id:c.id, name:c.name.trim(), color:c.color,
+        serials: dedupeKeepOrder(parseSerialsText(c.serialsText))
+      }));
+      document.getElementById('setupMsg').textContent='جاري حفظ الفئات وإرسالها لـ Google Sheet...';
+      await saveData();
+      document.getElementById('setupOverlay').classList.remove('open');
+      render();
+    };
+  };
+
+  function renderSetupList(){
+    const list = document.getElementById('catSetupList');
+    list.innerHTML = setupDraft.map((c,i)=>`
+      <div class="cat-setup-item">
+        <div class="field">
+          <label>اسم الفئة</label>
+          <input type="text" value="${escapeHtml(c.name)}" data-i="${i}" data-f="name" placeholder="مثال: VIP / عادي / مميز">
+        </div>
+        <div class="field">
+          <label>الأرقام التسلسلية (رقم في كل سطر)</label>
+          <textarea data-i="${i}" data-f="serialsText" placeholder="مثال:&#10;A-101&#10;A-102&#10;A-103">${escapeHtml(c.serialsText)}</textarea>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between;">
+          <div class="field" style="margin-bottom:0;display:flex;align-items:center;gap:8px;">
+            <label style="margin-bottom:0;">اللون:</label>
+            <input type="color" value="${c.color}" data-i="${i}" data-f="color" style="height:36px;width:50px;padding:2px;cursor:pointer;">
+          </div>
+          <button class="remove-cat" data-remove="${i}">حذف الفئة 🗑️</button>
+        </div>
+      </div>`).join('');
+
+    list.querySelectorAll('input, textarea').forEach(inp=>{
+      inp.oninput = ()=>{
+        const i = parseInt(inp.dataset.i,10), f = inp.dataset.f;
+        setupDraft[i][f] = inp.value;
+      };
+    });
+
+    list.querySelectorAll('[data-remove]').forEach(btn=>{
+      btn.onclick = ()=>{
+        setupDraft.splice(parseInt(btn.dataset.remove,10),1);
+        renderSetupList();
+      };
+    });
+  }
+
+  function openQuickAddModal(catId){
+    const cat = data.categories.find(c=>c.id===catId);
+    const body = document.getElementById('ticketModalBody');
+    body.innerHTML = `
+      <h3>إضافة أرقام تذاكر لـ ${escapeHtml(cat.name)}</h3>
+      <div class="field">
+        <label>الأرقام التسلسلية (رقم في كل سطر)</label>
+        <textarea id="quickAddText" placeholder="مثال:&#10;A-105&#10;A-106"></textarea>
+      </div>
+      <div class="status-msg" id="quickAddMsg"></div>
+      <div class="modal-actions">
+        <button class="btn-secondary" id="closeTicketModal">إغلاق</button>
+        <button class="btn-primary" id="saveQuickAdd">إضافة التذاكر</button>
+      </div>`;
+    document.getElementById('ticketOverlay').classList.add('open');
+    
+    document.getElementById('closeTicketModal').onclick = ()=>{
+      document.getElementById('ticketOverlay').classList.remove('open');
+    };
+
+    document.getElementById('saveQuickAdd').onclick = async ()=>{
+      const raw = document.getElementById('quickAddText').value;
+      const newOnes = dedupeKeepOrder(parseSerialsText(raw));
+      if(newOnes.length===0){ document.getElementById('quickAddMsg').textContent='يرجى كتابة رقم تسلسلي واحد على الأقل'; return; }
+      
+      const existingLower = new Set(cat.serials.map(s=>s.toLowerCase()));
+      newOnes.forEach(sn=>{
+        if(!existingLower.has(sn.toLowerCase())){ cat.serials.push(sn); existingLower.add(sn.toLowerCase()); }
+      });
+
+      document.getElementById('quickAddMsg').textContent = 'جاري الحفظ...';
+      await saveData();
+      document.getElementById('ticketOverlay').classList.remove('open');
+      render();
+      setTimeout(()=>{
+        const grid = document.getElementById('grid-'+catId);
+        if(grid) grid.classList.add('open');
+      },0);
+    };
+  }
+
+  function openTicketModal(catId, num){
+    const cat = data.categories.find(c=>c.id===catId);
+    const key = catId+'-'+num;
+    const t = data.tickets[key] || {distributed:false, recipient:'', phone:'', note:''};
+    const body = document.getElementById('ticketModalBody');
+    
+    body.innerHTML = `
+      <h3>تذكرة رقم ${num} — ${escapeHtml(cat.name)}</h3>
+      <div class="field">
+        <label>حالة التوزيع</label>
+        <select id="distSelect">
+          <option value="0" ${!t.distributed?'selected':''}>⏳ متاحة ولم تُوزّع</option>
+          <option value="1" ${t.distributed?'selected':''}>✅ موزّعة للعميل</option>
+        </select>
+      </div>
+      <div id="recipientWrap" style="display:${t.distributed?'block':'none'}">
+        <div class="field">
+          <label>اسم العميل / المستلم</label>
+          <input type="text" id="recipientInput" value="${escapeHtml(t.recipient||'')}" placeholder="أدخل اسم العميل ثلاثي">
+        </div>
+        <div class="field">
+          <label>رقم الهاتف</label>
+          <input type="tel" id="phoneInput" value="${escapeHtml(t.phone||'')}" placeholder="01xxxxxxxxx">
+        </div>
+        <div class="field">
+          <label>ملاحظة خاصة (اختياري)</label>
+          <input type="text" id="noteInput" value="${escapeHtml(t.note||'')}" placeholder="مثال: تم الدفع فودافون كاش">
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button class="btn-secondary" id="closeTicketModal">إغلاق</button>
+        <button class="btn-primary" id="saveTicketModal">حفظ التغييرات</button>
+      </div>`;
+
+    document.getElementById('ticketOverlay').classList.add('open');
+    
+    document.getElementById('distSelect').onchange = (e)=>{
+      document.getElementById('recipientWrap').style.display = e.target.value==='1'?'block':'none';
+    };
+
+    document.getElementById('closeTicketModal').onclick = ()=>{
+      document.getElementById('ticketOverlay').classList.remove('open');
+    };
+
+    document.getElementById('saveTicketModal').onclick = async ()=>{
+      const isDist = document.getElementById('distSelect').value==='1';
+      const recipient = document.getElementById('recipientInput')? document.getElementById('recipientInput').value.trim():'';
+      const phone = document.getElementById('phoneInput')? document.getElementById('phoneInput').value.trim():'';
+      const note = document.getElementById('noteInput')? document.getElementById('noteInput').value.trim():'';
+      
+      data.tickets[key] = { distributed:isDist, recipient, phone, note, time: new Date().toISOString(), updatedBy: loggedUser };
+      await saveData();
+      document.getElementById('ticketOverlay').classList.remove('open');
+      render();
+      setTimeout(()=>{
+        const grid = document.getElementById('grid-'+catId);
+        if(grid) grid.classList.add('open');
+      },0);
+    };
+  }
+
+  // Initialize Auth Check
+  checkAuth();
+})();
+</script>
+</body>
+</html>
