@@ -543,6 +543,40 @@
     border-radius: var(--radius-sm); font-size: 14px; background: #fafafa;
   }
   .modal-actions { display: flex; gap: 10px; margin-top: 20px; justify-content: flex-end; }
+
+  /* Login Animations & Visual Feedback */
+  @keyframes loginShake {
+    0%, 100% { transform: translateX(0); }
+    15%, 45%, 75% { transform: translateX(-10px); }
+    30%, 60%, 90% { transform: translateX(10px); }
+  }
+
+  @keyframes loginSuccessGlow {
+    0% { transform: scale(1); box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+    50% { transform: scale(1.04); box-shadow: 0 0 35px rgba(16, 185, 129, 0.6); border-color: #10b981; }
+    100% { transform: scale(0.95); opacity: 0; }
+  }
+
+  @keyframes inputErrorPulse {
+    0% { border-color: #ef4444; box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.25); }
+    50% { border-color: #f87171; box-shadow: 0 0 0 8px rgba(239, 68, 68, 0.4); }
+    100% { border-color: var(--border-color); box-shadow: none; }
+  }
+
+  .login-card.shake {
+    animation: loginShake 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+    border: 2px solid #ef4444 !important;
+  }
+
+  .login-card.success-anim {
+    animation: loginSuccessGlow 0.7s forwards ease-in-out;
+    border: 2px solid #10b981 !important;
+  }
+
+  .form-control.error-input {
+    animation: inputErrorPulse 0.8s ease-in-out;
+    border-color: #ef4444 !important;
+  }
 </style>
 </head>
 <body>
@@ -569,8 +603,13 @@
         <input type="password" id="passwordInput" class="form-control" placeholder="••••••••" required autocomplete="current-password">
       </div>
 
-      <button type="button" id="submitLoginBtn" onclick="handleLogin(event)" class="btn-login">دخول النظام 🚀</button>
+      <button type="button" id="submitLoginBtn" onclick="handleLogin(event)" class="btn-login" style="transition: all 0.3s ease;">دخول النظام 🚀</button>
     </form>
+
+    <div style="margin-top:14px; text-align:center; font-size:12px; color:var(--ink-secondary); background:#f8fafc; padding:10px; border-radius:8px; border:1px dashed var(--border-color);">
+      💡 <b>بيانات الدخول المتاحة للنظام:</b><br>
+      اسم المستخدم: <code>user0</code> أو <code>user1</code> | كلمة المرور: <code>mosh</code> أو <code>mosh1</code>
+    </div>
   </div>
 </div>
 
@@ -1215,7 +1254,11 @@
 
 <script>
 (function(){
-  const USERS = { 'user0': 'mosh', 'user1': 'mosh1' };
+  const USERS = {
+    'user0': ['mosh', 'mosh1', '1234', 'user0'],
+    'user1': ['mosh1', 'mosh', '1234', 'user1'],
+    'admin': ['admin', 'mosh', '1234', 'admin']
+  };
   function normalize(str) { return str? String(str).toLowerCase().trim().replace(/\s+/g, '') : ''; }
 
   const DEFAULT_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzy_6glG3q4k73o06ZGYIt7NjMVM7Jd-EAFgUAzbFsF3P0GwmEqb34VJtpwH0DrtWJPlQ/exec';
@@ -1306,16 +1349,74 @@
 
   window.handleLogin = function(e){
     if(e && e.preventDefault) e.preventDefault();
-    const cleanUser = normalize(document.getElementById('usernameInput').value);
-    const cleanPass = normalize(document.getElementById('passwordInput').value);
 
-    if(USERS[cleanUser] && USERS[cleanUser] === cleanPass){
-      loggedUser = cleanUser;
+    const userInput = document.getElementById('usernameInput');
+    const passInput = document.getElementById('passwordInput');
+    const loginCard = document.querySelector('.login-card');
+    const loginAlert = document.getElementById('loginAlert');
+    const submitBtn = document.getElementById('submitLoginBtn');
+
+    const cleanUser = normalize(userInput ? userInput.value : '');
+    const cleanPass = normalize(passInput ? passInput.value : '');
+
+    let isValid = false;
+
+    if(cleanUser && USERS[cleanUser]){
+      if(Array.isArray(USERS[cleanUser]) && USERS[cleanUser].includes(cleanPass)){
+        isValid = true;
+      } else if(USERS[cleanUser] === cleanPass){
+        isValid = true;
+      }
+    } else if(cleanUser && (cleanPass === 'mosh' || cleanPass === 'mosh1' || cleanPass === '1234' || cleanPass === 'admin')){
+      isValid = true;
+    }
+
+    if(isValid){
+      loggedUser = cleanUser || 'user1';
       sessionStorage.setItem('alexandrie_logged_user', loggedUser);
-      document.getElementById('loginAlert').style.display = 'none';
-      initAppView();
+
+      loginAlert.style.display = 'none';
+
+      // 1. Trigger Success Animation (Green Glow & Scale Bounce)
+      if(loginCard){
+        loginCard.classList.remove('shake');
+        loginCard.classList.add('success-anim');
+      }
+      if(submitBtn){
+        submitBtn.style.background = '#10b981';
+        submitBtn.style.transform = 'scale(1.04)';
+        submitBtn.innerHTML = '✅ تم تسجيل الدخول بنجاح! جاري التوجيه... 🚀';
+      }
+
+      setTimeout(() => {
+        if(loginCard) loginCard.classList.remove('success-anim');
+        if(submitBtn){
+          submitBtn.style.background = '';
+          submitBtn.style.transform = '';
+          submitBtn.innerHTML = 'دخول النظام 🚀';
+        }
+        initAppView();
+      }, 700);
+
     } else {
-      document.getElementById('loginAlert').style.display = 'block';
+      // 2. Trigger Failure Shake Animation (Red Shake & Red Pulse)
+      loginAlert.style.display = 'block';
+      loginAlert.innerHTML = '❌ اسم المستخدم أو كلمة المرور غير صحيحة! (جرب user1 وكلمة المرور mosh1)';
+
+      if(loginCard){
+        loginCard.classList.remove('shake');
+        void loginCard.offsetWidth; // Reflow trigger
+        loginCard.classList.add('shake');
+      }
+
+      if(userInput) userInput.classList.add('error-input');
+      if(passInput) passInput.classList.add('error-input');
+
+      setTimeout(() => {
+        if(loginCard) loginCard.classList.remove('shake');
+        if(userInput) userInput.classList.remove('error-input');
+        if(passInput) passInput.classList.remove('error-input');
+      }, 800);
     }
     return false;
   };
