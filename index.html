@@ -250,6 +250,27 @@
   .city-grand-pills { display: flex; gap: 8px; flex-wrap: wrap; font-size: 13px; font-weight: 700; }
   .city-pill { background: rgba(255,255,255,0.1); padding: 6px 12px; border-radius: var(--radius-sm); border: 1px solid rgba(255,255,255,0.15); }
 
+  /* Price List Badge Bar */
+  .price-bar {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    background: #eff6ff;
+    border: 1px solid #bfdbfe;
+    border-radius: var(--radius-sm);
+    padding: 10px 14px;
+    margin-bottom: 16px;
+    font-size: 13px;
+    font-weight: 700;
+    color: #1e3a8a;
+  }
+  .price-tag {
+    background: #ffffff;
+    padding: 3px 8px;
+    border-radius: 4px;
+    border: 1px solid #93c5fd;
+  }
+
   /* Stats Dashboard */
   .stats-grid {
     display: grid;
@@ -511,7 +532,7 @@
   .overlay.open { display: flex; }
   .modal {
     background: var(--card-bg); border-radius: var(--radius-lg);
-    padding: 26px; width: 100%; max-width: 600px; max-height: 90vh;
+    padding: 26px; width: 100%; max-width: 640px; max-height: 90vh;
     overflow-y: auto; box-shadow: var(--shadow-lg); border: 1px solid var(--border-color);
   }
   .modal h3 { font-size: 20px; font-weight: 800; margin-bottom: 16px; padding-bottom: 10px; border-bottom: 1px solid var(--border-color); }
@@ -639,6 +660,15 @@
         </div>
       </div>
 
+      <!-- Ticket Price List Reference Bar -->
+      <div class="price-bar">
+        <span>🏷️ لائحة أسعار التذاكر المعتمدة:</span>
+        <span class="price-tag"><b>Prem Orbit:</b> 1,500 ج.م</span>
+        <span class="price-tag"><b>Fanpit:</b> 1,200 ج.م</span>
+        <span class="price-tag"><b>VIP:</b> 800 ج.م</span>
+        <span class="price-tag"><b>High Regular:</b> 500 ج.م</span>
+      </div>
+
       <div class="branch-section">
         <div class="branch-header">
           <h2>🌊 تقرير وسجل حسابات فروع الإسكندرية</h2>
@@ -662,11 +692,11 @@
             <div class="stat-icon warn">🎟️</div>
           </div>
           <div class="stat-card">
-            <div class="stat-info"><div class="title">إجمالي الكاش (اليوم)</div><div class="num" id="alexCashTotal" style="color:var(--good-green);">9,800 ج.م</div></div>
+            <div class="stat-info"><div class="title">إجمالي الكاش المحسوب</div><div class="num" id="alexCashTotal" style="color:var(--good-green);">9,800 ج.م</div></div>
             <div class="stat-icon good">💵</div>
           </div>
           <div class="stat-card">
-            <div class="stat-info"><div class="title">إجمالي إنستا باي (اليوم)</div><div class="num" id="alexInstaTotal" style="color:var(--brand-blue);">9,200 ج.م</div></div>
+            <div class="stat-info"><div class="title">إجمالي إنستا باي المحسوب</div><div class="num" id="alexInstaTotal" style="color:var(--brand-blue);">9,200 ج.م</div></div>
             <div class="stat-icon total">📱</div>
           </div>
         </div>
@@ -750,6 +780,15 @@
         </div>
       </div>
 
+      <!-- Ticket Price List Reference Bar -->
+      <div class="price-bar">
+        <span>🏷️ لائحة أسعار التذاكر المعتمدة:</span>
+        <span class="price-tag"><b>Prem Orbit:</b> 1,500 ج.م</span>
+        <span class="price-tag"><b>Fanpit:</b> 1,200 ج.م</span>
+        <span class="price-tag"><b>VIP:</b> 800 ج.م</span>
+        <span class="price-tag"><b>High Regular:</b> 500 ج.م</span>
+      </div>
+
       <div class="branch-section">
         <div class="branch-header">
           <h2>🏛️ تقرير وسجل حسابات فروع القاهرة (Cairo)</h2>
@@ -773,11 +812,11 @@
             <div class="stat-icon warn">🎟️</div>
           </div>
           <div class="stat-card">
-            <div class="stat-info"><div class="title">إجمالي الكاش (اليوم)</div><div class="num" id="cairoCashTotal" style="color:var(--good-green);">0 ج.م</div></div>
+            <div class="stat-info"><div class="title">إجمالي الكاش المحسوب</div><div class="num" id="cairoCashTotal" style="color:var(--good-green);">0 ج.م</div></div>
             <div class="stat-icon good">💵</div>
           </div>
           <div class="stat-card">
-            <div class="stat-info"><div class="title">إجمالي إنستا باي (اليوم)</div><div class="num" id="cairoInstaTotal" style="color:var(--brand-blue);">0 ج.م</div></div>
+            <div class="stat-info"><div class="title">إجمالي إنستا باي المحسوب</div><div class="num" id="cairoInstaTotal" style="color:var(--brand-blue);">0 ج.م</div></div>
             <div class="stat-icon total">📱</div>
           </div>
         </div>
@@ -847,7 +886,7 @@
 
   </div>
 
-  <!-- Alexandria Modal -->
+  <!-- Alexandria Modal (with Quantity-based Automated Pricing Engine) -->
   <div class="overlay" id="alexModal">
     <div class="modal">
       <h3>إدخال/تعديل معاملات الإسكندرية (Alexandria)</h3>
@@ -856,7 +895,7 @@
         <input type="date" id="alexModalDate" value="2026-08-07">
       </div>
 
-      <h4 style="margin:14px 0 8px; color:var(--brand-blue);">1. مبيعات الأونلاين (Online Counts)</h4>
+      <h4 style="margin:14px 0 8px; color:var(--brand-blue);">1. مبيعات الأونلاين (Online Ticket Counts)</h4>
       
       <div class="field">
         <label>Premium Orbit (Online):</label>
@@ -898,30 +937,100 @@
         </div>
       </div>
 
-      <h4 style="margin:14px 0 8px; color:var(--good-green);">2. تحصيل الكاش وإنستا باي (Cash & InstaPay)</h4>
+      <h4 style="margin:16px 0 8px; color:var(--good-green);">2. مبيعات الأوفلاين الكاش (Offline Cash Quantities)</h4>
+      <div style="font-size:12px;color:var(--ink-secondary);margin-bottom:10px;">أدخل عدد التذاكر وسيقوم النظام بحساب المبلغ تلقائياً حسب سعر كل فئة (Prem: 1500 | Fan: 1200 | VIP: 800 | H-Reg: 500)</div>
+
       <div class="field">
-        <label>إجمالي الكاش حسب الفرع (Cash EGP):</label>
+        <label>Premium Orbit (1,500 EGP) - كاش:</label>
         <div class="input-grid-4">
-          <div class="input-unit"><label>Rock Sea</label><input type="number" id="alx_cash_rock" value="7800"></div>
-          <div class="input-unit"><label>Bero</label><input type="number" id="alx_cash_bero" value="0"></div>
-          <div class="input-unit"><label>stadium</label><input type="number" id="alx_cash_stad" value="2000"></div>
-          <div class="input-unit"><label>the tunnel</label><input type="number" id="alx_cash_tunn" value="0"></div>
+          <div class="input-unit"><label>Rock Sea</label><input type="number" id="alx_cash_po_rock" value="2" oninput="calcAlexModalTotals()"></div>
+          <div class="input-unit"><label>Bero</label><input type="number" id="alx_cash_po_bero" value="0" oninput="calcAlexModalTotals()"></div>
+          <div class="input-unit"><label>stadium</label><input type="number" id="alx_cash_po_stad" value="0" oninput="calcAlexModalTotals()"></div>
+          <div class="input-unit"><label>the tunnel</label><input type="number" id="alx_cash_po_tunn" value="0" oninput="calcAlexModalTotals()"></div>
         </div>
       </div>
 
       <div class="field">
-        <label>إجمالي إنستا باي حسب الفرع (InstaPay EGP):</label>
+        <label>Fanpit (1,200 EGP) - كاش:</label>
         <div class="input-grid-4">
-          <div class="input-unit"><label>Rock Sea</label><input type="number" id="alx_insta_rock" value="0"></div>
-          <div class="input-unit"><label>Bero</label><input type="number" id="alx_insta_bero" value="0"></div>
-          <div class="input-unit"><label>stadium</label><input type="number" id="alx_insta_stad" value="3200"></div>
-          <div class="input-unit"><label>the tunnel</label><input type="number" id="alx_insta_tunn" value="6000"></div>
+          <div class="input-unit"><label>Rock Sea</label><input type="number" id="alx_cash_fp_rock" value="4" oninput="calcAlexModalTotals()"></div>
+          <div class="input-unit"><label>Bero</label><input type="number" id="alx_cash_fp_bero" value="0" oninput="calcAlexModalTotals()"></div>
+          <div class="input-unit"><label>stadium</label><input type="number" id="alx_cash_fp_stad" value="1" oninput="calcAlexModalTotals()"></div>
+          <div class="input-unit"><label>the tunnel</label><input type="number" id="alx_cash_fp_tunn" value="0" oninput="calcAlexModalTotals()"></div>
         </div>
+      </div>
+
+      <div class="field">
+        <label>VIP (800 EGP) - كاش:</label>
+        <div class="input-grid-4">
+          <div class="input-unit"><label>Rock Sea</label><input type="number" id="alx_cash_vip_rock" value="0" oninput="calcAlexModalTotals()"></div>
+          <div class="input-unit"><label>Bero</label><input type="number" id="alx_cash_vip_bero" value="0" oninput="calcAlexModalTotals()"></div>
+          <div class="input-unit"><label>stadium</label><input type="number" id="alx_cash_vip_stad" value="1" oninput="calcAlexModalTotals()"></div>
+          <div class="input-unit"><label>the tunnel</label><input type="number" id="alx_cash_vip_tunn" value="0" oninput="calcAlexModalTotals()"></div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>High Regular (500 EGP) - كاش:</label>
+        <div class="input-grid-4">
+          <div class="input-unit"><label>Rock Sea</label><input type="number" id="alx_cash_hr_rock" value="0" oninput="calcAlexModalTotals()"></div>
+          <div class="input-unit"><label>Bero</label><input type="number" id="alx_cash_hr_bero" value="0" oninput="calcAlexModalTotals()"></div>
+          <div class="input-unit"><label>stadium</label><input type="number" id="alx_cash_hr_stad" value="0" oninput="calcAlexModalTotals()"></div>
+          <div class="input-unit"><label>the tunnel</label><input type="number" id="alx_cash_hr_tunn" value="0" oninput="calcAlexModalTotals()"></div>
+        </div>
+      </div>
+
+      <h4 style="margin:16px 0 8px; color:var(--brand-blue);">3. مبيعات الأوفلاين إنستا باي (Offline InstaPay Quantities)</h4>
+      <div style="font-size:12px;color:var(--ink-secondary);margin-bottom:10px;">أدخل عدد التذاكر وسيقوم النظام بحساب المبلغ تلقائياً</div>
+
+      <div class="field">
+        <label>Premium Orbit (1,500 EGP) - إنستا باي:</label>
+        <div class="input-grid-4">
+          <div class="input-unit"><label>Rock Sea</label><input type="number" id="alx_insta_po_rock" value="0" oninput="calcAlexModalTotals()"></div>
+          <div class="input-unit"><label>Bero</label><input type="number" id="alx_insta_po_bero" value="0" oninput="calcAlexModalTotals()"></div>
+          <div class="input-unit"><label>stadium</label><input type="number" id="alx_insta_po_stad" value="0" oninput="calcAlexModalTotals()"></div>
+          <div class="input-unit"><label>the tunnel</label><input type="number" id="alx_insta_po_tunn" value="0" oninput="calcAlexModalTotals()"></div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Fanpit (1,200 EGP) - إنستا باي:</label>
+        <div class="input-grid-4">
+          <div class="input-unit"><label>Rock Sea</label><input type="number" id="alx_insta_fp_rock" value="0" oninput="calcAlexModalTotals()"></div>
+          <div class="input-unit"><label>Bero</label><input type="number" id="alx_insta_fp_bero" value="0" oninput="calcAlexModalTotals()"></div>
+          <div class="input-unit"><label>stadium</label><input type="number" id="alx_insta_fp_stad" value="0" oninput="calcAlexModalTotals()"></div>
+          <div class="input-unit"><label>the tunnel</label><input type="number" id="alx_insta_fp_tunn" value="5" oninput="calcAlexModalTotals()"></div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>VIP (800 EGP) - إنستا باي:</label>
+        <div class="input-grid-4">
+          <div class="input-unit"><label>Rock Sea</label><input type="number" id="alx_insta_vip_rock" value="0" oninput="calcAlexModalTotals()"></div>
+          <div class="input-unit"><label>Bero</label><input type="number" id="alx_insta_vip_bero" value="0" oninput="calcAlexModalTotals()"></div>
+          <div class="input-unit"><label>stadium</label><input type="number" id="alx_insta_vip_stad" value="4" oninput="calcAlexModalTotals()"></div>
+          <div class="input-unit"><label>the tunnel</label><input type="number" id="alx_insta_vip_tunn" value="0" oninput="calcAlexModalTotals()"></div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>High Regular (500 EGP) - إنستا باي:</label>
+        <div class="input-grid-4">
+          <div class="input-unit"><label>Rock Sea</label><input type="number" id="alx_insta_hr_rock" value="0" oninput="calcAlexModalTotals()"></div>
+          <div class="input-unit"><label>Bero</label><input type="number" id="alx_insta_hr_bero" value="0" oninput="calcAlexModalTotals()"></div>
+          <div class="input-unit"><label>stadium</label><input type="number" id="alx_insta_hr_stad" value="0" oninput="calcAlexModalTotals()"></div>
+          <div class="input-unit"><label>the tunnel</label><input type="number" id="alx_insta_hr_tunn" value="0" oninput="calcAlexModalTotals()"></div>
+        </div>
+      </div>
+
+      <div style="background:#f1f5f9; padding:12px; border-radius:8px; margin-top:14px; display:flex; justify-content:space-between; font-weight:800; font-size:14px;">
+        <div>إجمالي الكاش المحسوب: <span style="color:var(--good-green)" id="alexCalcCashText">9,800 ج.م</span></div>
+        <div>إجمالي إنستا باي المحسوب: <span style="color:var(--brand-blue)" id="alexCalcInstaText">9,200 ج.م</span></div>
       </div>
 
       <div class="modal-actions">
         <button class="btn-secondary" onclick="closeAlexModal()">إغلاق</button>
-        <button class="btn-primary" onclick="saveAlexModalData()">حفظ المعاملات</button>
+        <button class="btn-primary" onclick="saveAlexModalData()">حفظ المعاملات الحسابية</button>
       </div>
     </div>
   </div>
@@ -935,7 +1044,7 @@
         <input type="date" id="cairoModalDate" value="2026-08-07">
       </div>
 
-      <h4 style="margin:14px 0 8px; color:var(--brand-blue);">1. مبيعات الأونلاين (Online Counts)</h4>
+      <h4 style="margin:14px 0 8px; color:var(--brand-blue);">1. مبيعات الأونلاين (Online Ticket Counts)</h4>
       
       <div class="field">
         <label>Premium Orbit (Online):</label>
@@ -977,30 +1086,100 @@
         </div>
       </div>
 
-      <h4 style="margin:14px 0 8px; color:var(--good-green);">2. تحصيل الكاش وإنستا باي (Cash & InstaPay)</h4>
+      <h4 style="margin:16px 0 8px; color:var(--good-green);">2. مبيعات الأوفلاين الكاش (Offline Cash Quantities)</h4>
+      <div style="font-size:12px;color:var(--ink-secondary);margin-bottom:10px;">أدخل عدد التذاكر وسيقوم النظام بحساب المبلغ تلقائياً حسب سعر كل فئة</div>
+
       <div class="field">
-        <label>إجمالي الكاش حسب الفرع (Cash EGP):</label>
+        <label>Premium Orbit (1,500 EGP) - كاش:</label>
         <div class="input-grid-4">
-          <div class="input-unit"><label>Maadi</label><input type="number" id="cai_cash_maadi" value="0"></div>
-          <div class="input-unit"><label>Nasr City</label><input type="number" id="cai_cash_nasr" value="0"></div>
-          <div class="input-unit"><label>Tagamoa</label><input type="number" id="cai_cash_taga" value="0"></div>
-          <div class="input-unit"><label>Heliopolis</label><input type="number" id="cai_cash_helio" value="0"></div>
+          <div class="input-unit"><label>Maadi</label><input type="number" id="cai_cash_po_maadi" value="0" oninput="calcCairoModalTotals()"></div>
+          <div class="input-unit"><label>Nasr City</label><input type="number" id="cai_cash_po_nasr" value="0" oninput="calcCairoModalTotals()"></div>
+          <div class="input-unit"><label>Tagamoa</label><input type="number" id="cai_cash_po_taga" value="0" oninput="calcCairoModalTotals()"></div>
+          <div class="input-unit"><label>Heliopolis</label><input type="number" id="cai_cash_po_helio" value="0" oninput="calcCairoModalTotals()"></div>
         </div>
       </div>
 
       <div class="field">
-        <label>إجمالي إنستا باي حسب الفرع (InstaPay EGP):</label>
+        <label>Fanpit (1,200 EGP) - كاش:</label>
         <div class="input-grid-4">
-          <div class="input-unit"><label>Maadi</label><input type="number" id="cai_insta_maadi" value="0"></div>
-          <div class="input-unit"><label>Nasr City</label><input type="number" id="cai_insta_nasr" value="0"></div>
-          <div class="input-unit"><label>Tagamoa</label><input type="number" id="cai_insta_taga" value="0"></div>
-          <div class="input-unit"><label>Heliopolis</label><input type="number" id="cai_insta_helio" value="0"></div>
+          <div class="input-unit"><label>Maadi</label><input type="number" id="cai_cash_fp_maadi" value="0" oninput="calcCairoModalTotals()"></div>
+          <div class="input-unit"><label>Nasr City</label><input type="number" id="cai_cash_fp_nasr" value="0" oninput="calcCairoModalTotals()"></div>
+          <div class="input-unit"><label>Tagamoa</label><input type="number" id="cai_cash_fp_taga" value="0" oninput="calcCairoModalTotals()"></div>
+          <div class="input-unit"><label>Heliopolis</label><input type="number" id="cai_cash_fp_helio" value="0" oninput="calcCairoModalTotals()"></div>
         </div>
+      </div>
+
+      <div class="field">
+        <label>VIP (800 EGP) - كاش:</label>
+        <div class="input-grid-4">
+          <div class="input-unit"><label>Maadi</label><input type="number" id="cai_cash_vip_maadi" value="0" oninput="calcCairoModalTotals()"></div>
+          <div class="input-unit"><label>Nasr City</label><input type="number" id="cai_cash_vip_nasr" value="0" oninput="calcCairoModalTotals()"></div>
+          <div class="input-unit"><label>Tagamoa</label><input type="number" id="cai_cash_vip_taga" value="0" oninput="calcCairoModalTotals()"></div>
+          <div class="input-unit"><label>Heliopolis</label><input type="number" id="cai_cash_vip_helio" value="0" oninput="calcCairoModalTotals()"></div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>High Regular (500 EGP) - كاش:</label>
+        <div class="input-grid-4">
+          <div class="input-unit"><label>Maadi</label><input type="number" id="cai_cash_hr_maadi" value="0" oninput="calcCairoModalTotals()"></div>
+          <div class="input-unit"><label>Nasr City</label><input type="number" id="cai_cash_hr_nasr" value="0" oninput="calcCairoModalTotals()"></div>
+          <div class="input-unit"><label>Tagamoa</label><input type="number" id="cai_cash_hr_taga" value="0" oninput="calcCairoModalTotals()"></div>
+          <div class="input-unit"><label>Heliopolis</label><input type="number" id="cai_cash_hr_helio" value="0" oninput="calcCairoModalTotals()"></div>
+        </div>
+      </div>
+
+      <h4 style="margin:16px 0 8px; color:var(--brand-blue);">3. مبيعات الأوفلاين إنستا باي (Offline InstaPay Quantities)</h4>
+      <div style="font-size:12px;color:var(--ink-secondary);margin-bottom:10px;">أدخل عدد التذاكر وسيقوم النظام بحساب المبلغ تلقائياً</div>
+
+      <div class="field">
+        <label>Premium Orbit (1,500 EGP) - إنستا باي:</label>
+        <div class="input-grid-4">
+          <div class="input-unit"><label>Maadi</label><input type="number" id="cai_insta_po_maadi" value="0" oninput="calcCairoModalTotals()"></div>
+          <div class="input-unit"><label>Nasr City</label><input type="number" id="cai_insta_po_nasr" value="0" oninput="calcCairoModalTotals()"></div>
+          <div class="input-unit"><label>Tagamoa</label><input type="number" id="cai_insta_po_taga" value="0" oninput="calcCairoModalTotals()"></div>
+          <div class="input-unit"><label>Heliopolis</label><input type="number" id="cai_insta_po_helio" value="0" oninput="calcCairoModalTotals()"></div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Fanpit (1,200 EGP) - إنستا باي:</label>
+        <div class="input-grid-4">
+          <div class="input-unit"><label>Maadi</label><input type="number" id="cai_insta_fp_maadi" value="0" oninput="calcCairoModalTotals()"></div>
+          <div class="input-unit"><label>Nasr City</label><input type="number" id="cai_insta_fp_nasr" value="0" oninput="calcCairoModalTotals()"></div>
+          <div class="input-unit"><label>Tagamoa</label><input type="number" id="cai_insta_fp_taga" value="0" oninput="calcCairoModalTotals()"></div>
+          <div class="input-unit"><label>Heliopolis</label><input type="number" id="cai_insta_fp_helio" value="0" oninput="calcCairoModalTotals()"></div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>VIP (800 EGP) - إنستا باي:</label>
+        <div class="input-grid-4">
+          <div class="input-unit"><label>Maadi</label><input type="number" id="cai_insta_vip_maadi" value="0" oninput="calcCairoModalTotals()"></div>
+          <div class="input-unit"><label>Nasr City</label><input type="number" id="cai_insta_vip_nasr" value="0" oninput="calcCairoModalTotals()"></div>
+          <div class="input-unit"><label>Tagamoa</label><input type="number" id="cai_insta_vip_taga" value="0" oninput="calcCairoModalTotals()"></div>
+          <div class="input-unit"><label>Heliopolis</label><input type="number" id="cai_insta_vip_helio" value="0" oninput="calcCairoModalTotals()"></div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>High Regular (500 EGP) - إنستا باي:</label>
+        <div class="input-grid-4">
+          <div class="input-unit"><label>Maadi</label><input type="number" id="cai_insta_hr_maadi" value="0" oninput="calcCairoModalTotals()"></div>
+          <div class="input-unit"><label>Nasr City</label><input type="number" id="cai_insta_hr_nasr" value="0" oninput="calcCairoModalTotals()"></div>
+          <div class="input-unit"><label>Tagamoa</label><input type="number" id="cai_insta_hr_taga" value="0" oninput="calcCairoModalTotals()"></div>
+          <div class="input-unit"><label>Heliopolis</label><input type="number" id="cai_insta_hr_helio" value="0" oninput="calcCairoModalTotals()"></div>
+        </div>
+      </div>
+
+      <div style="background:#f1f5f9; padding:12px; border-radius:8px; margin-top:14px; display:flex; justify-content:space-between; font-weight:800; font-size:14px;">
+        <div>إجمالي الكاش المحسوب: <span style="color:var(--good-green)" id="cairoCalcCashText">0 ج.م</span></div>
+        <div>إجمالي إنستا باي المحسوب: <span style="color:var(--brand-blue)" id="cairoCalcInstaText">0 ج.م</span></div>
       </div>
 
       <div class="modal-actions">
         <button class="btn-secondary" onclick="closeCairoModal()">إغلاق</button>
-        <button class="btn-primary" onclick="saveCairoModalData()">حفظ المعاملات</button>
+        <button class="btn-primary" onclick="saveCairoModalData()">حفظ المعاملات الحسابية</button>
       </div>
     </div>
   </div>
@@ -1032,6 +1211,14 @@
 
   const DEFAULT_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzy_6glG3q4k73o06ZGYIt7NjMVM7Jd-EAFgUAzbFsF3P0GwmEqb34VJtpwH0DrtWJPlQ/exec';
   function getScriptUrl() { return localStorage.getItem('alexandrie_script_url') || DEFAULT_SCRIPT_URL; }
+
+  // Preset Approved Ticket Unit Prices (EGP)
+  const TICKET_PRICES = {
+    "premium orbit": 1500,
+    "fanpit": 1200,
+    "vip": 800,
+    "high regular": 500
+  };
 
   const COLORS = ['#2563eb','#059669','#7c3aed','#d97706','#dc2626','#0891b2'];
   let data = { 
@@ -1187,6 +1374,52 @@
     }catch(e){ console.error('Save failed', e); }
   }
 
+  // Real-time Automated Pricing Engine for Alexandria Modal
+  window.calcAlexModalTotals = function(){
+    const getVal = id => parseInt(document.getElementById(id).value, 10)||0;
+    
+    // Cash amounts per branch
+    const cashRock = getVal('alx_cash_po_rock')*1500 + getVal('alx_cash_fp_rock')*1200 + getVal('alx_cash_vip_rock')*800 + getVal('alx_cash_hr_rock')*500;
+    const cashBero = getVal('alx_cash_po_bero')*1500 + getVal('alx_cash_fp_bero')*1200 + getVal('alx_cash_vip_bero')*800 + getVal('alx_cash_hr_bero')*500;
+    const cashStad = getVal('alx_cash_po_stad')*1500 + getVal('alx_cash_fp_stad')*1200 + getVal('alx_cash_vip_stad')*800 + getVal('alx_cash_hr_stad')*500;
+    const cashTunn = getVal('alx_cash_po_tunn')*1500 + getVal('alx_cash_fp_tunn')*1200 + getVal('alx_cash_vip_tunn')*800 + getVal('alx_cash_hr_tunn')*500;
+
+    const totalCash = cashRock + cashBero + cashStad + cashTunn;
+
+    // InstaPay amounts per branch
+    const instaRock = getVal('alx_insta_po_rock')*1500 + getVal('alx_insta_fp_rock')*1200 + getVal('alx_insta_vip_rock')*800 + getVal('alx_insta_hr_rock')*500;
+    const instaBero = getVal('alx_insta_po_bero')*1500 + getVal('alx_insta_fp_bero')*1200 + getVal('alx_insta_vip_bero')*800 + getVal('alx_insta_hr_bero')*500;
+    const instaStad = getVal('alx_insta_po_stad')*1500 + getVal('alx_insta_fp_stad')*1200 + getVal('alx_insta_vip_stad')*800 + getVal('alx_insta_hr_stad')*500;
+    const instaTunn = getVal('alx_insta_po_tunn')*1500 + getVal('alx_insta_fp_tunn')*1200 + getVal('alx_insta_vip_tunn')*800 + getVal('alx_insta_hr_tunn')*500;
+
+    const totalInsta = instaRock + instaBero + instaStad + instaTunn;
+
+    document.getElementById('alexCalcCashText').textContent = totalCash.toLocaleString() + ' ج.م';
+    document.getElementById('alexCalcInstaText').textContent = totalInsta.toLocaleString() + ' ج.م';
+  };
+
+  // Real-time Automated Pricing Engine for Cairo Modal
+  window.calcCairoModalTotals = function(){
+    const getVal = id => parseInt(document.getElementById(id).value, 10)||0;
+
+    const cashMaadi = getVal('cai_cash_po_maadi')*1500 + getVal('cai_cash_fp_maadi')*1200 + getVal('cai_cash_vip_maadi')*800 + getVal('cai_cash_hr_maadi')*500;
+    const cashNasr  = getVal('cai_cash_po_nasr')*1500  + getVal('cai_cash_fp_nasr')*1200  + getVal('cai_cash_vip_nasr')*800  + getVal('cai_cash_hr_nasr')*500;
+    const cashTaga  = getVal('cai_cash_po_taga')*1500  + getVal('cai_cash_fp_taga')*1200  + getVal('cai_cash_vip_taga')*800  + getVal('cai_cash_hr_taga')*500;
+    const cashHelio = getVal('cai_cash_po_helio')*1500 + getVal('cai_cash_fp_helio')*1200 + getVal('cai_cash_vip_helio')*800 + getVal('cai_cash_hr_helio')*500;
+
+    const totalCash = cashMaadi + cashNasr + cashTaga + cashHelio;
+
+    const instaMaadi = getVal('cai_insta_po_maadi')*1500 + getVal('cai_insta_fp_maadi')*1200 + getVal('cai_insta_vip_maadi')*800 + getVal('cai_insta_hr_maadi')*500;
+    const instaNasr  = getVal('cai_insta_po_nasr')*1500  + getVal('cai_insta_fp_nasr')*1200  + getVal('cai_insta_vip_nasr')*800  + getVal('cai_insta_hr_nasr')*500;
+    const instaTaga  = getVal('cai_insta_po_taga')*1500  + getVal('cai_insta_fp_taga')*1200  + getVal('cai_insta_vip_taga')*800  + getVal('cai_insta_hr_taga')*500;
+    const instaHelio = getVal('cai_insta_po_helio')*1500 + getVal('cai_insta_fp_helio')*1200 + getVal('cai_insta_vip_helio')*800 + getVal('cai_insta_hr_helio')*500;
+
+    const totalInsta = instaMaadi + instaNasr + instaTaga + instaHelio;
+
+    document.getElementById('cairoCalcCashText').textContent = totalCash.toLocaleString() + ' ج.م';
+    document.getElementById('cairoCalcInstaText').textContent = totalInsta.toLocaleString() + ' ج.م';
+  };
+
   // Render City Multi-Date Cumulative Log & Category Pills
   function renderCityDailyLog(salesData, tableBodyId, grandRevId, grandPillsId) {
     let grandTotalRev = 0;
@@ -1228,14 +1461,6 @@
         }
       });
 
-      let dayRev = 0;
-      let dayCount = 0;
-      cats.forEach(cat => {
-        const on = day.online ? (day.online[cat] || {}) : {};
-        const off = day.offline ? (day.offline[cat] || {}) : {};
-        dayCount += Object.values(on).reduce((a,b)=>a+(parseInt(b,10)||0), 0) + Object.values(off).reduce((a,b)=>a+(parseInt(b,10)||0), 0);
-      });
-
       let dayCashBdTotal = 0;
       ((day.cashBreakdown) || []).forEach(i => dayCashBdTotal += (i.amount || 0));
       let dayInstaBdTotal = 0;
@@ -1244,7 +1469,13 @@
       const cashVal = Object.values((day.payments && day.payments.cash) || {}).reduce((a,b)=>a+(parseInt(b,10)||0), 0);
       const instaVal = Object.values((day.payments && day.payments.insta) || {}).reduce((a,b)=>a+(parseInt(b,10)||0), 0);
 
-      dayRev = (dayCashBdTotal + dayInstaBdTotal) || (cashVal + instaVal);
+      const dayRev = (dayCashBdTotal + dayInstaBdTotal) || (cashVal + instaVal);
+      let dayCount = 0;
+      cats.forEach(cat => {
+        const on = day.online ? (day.online[cat] || {}) : {};
+        const off = day.offline ? (day.offline[cat] || {}) : {};
+        dayCount += Object.values(on).reduce((a,b)=>a+(parseInt(b,10)||0), 0) + Object.values(off).reduce((a,b)=>a+(parseInt(b,10)||0), 0);
+      });
       
       grandTotalRev += dayRev;
       grandTotalTickets += dayCount;
@@ -1255,7 +1486,6 @@
       document.getElementById(grandRevId).textContent = (grandTotalRev || 19000).toLocaleString() + ' ج.م';
     }
 
-    // Render Detailed Category Breakdown Pills
     if(grandPillsId && document.getElementById(grandPillsId)) {
       let pillsHtml = `<div class="city-pill" style="background:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.4);">إجمالي المبيعات: <b style="color:#facc15;">${grandTotalTickets} تذكرة</b></div>`;
       cats.forEach(cat => {
@@ -1298,8 +1528,8 @@
     const instaTotal = (instaRow.rock||0) + (instaRow.bero||0) + (instaRow.stadium||0) + (instaRow.tunnel||0);
 
     offlineHtml += `<tr class="total-row"><td class="cat-cell">total tickets</td><td colspan="4"></td><td><b>${offlineGrandTotal}</b></td></tr>
-    <tr><td class="cat-cell">cash</td><td>${cashRow.rock||0}</td><td>${cashRow.bero||0}</td><td>${cashRow.stadium||0}</td><td>${cashRow.tunnel||0}</td><td><b>${cashTotal} EGP</b></td></tr>
-    <tr><td class="cat-cell">insta</td><td>${instaRow.rock||0}</td><td>${instaRow.bero||0}</td><td>${instaRow.stadium||0}</td><td>${instaRow.tunnel||0}</td><td><b>${instaTotal} EGP</b></td></tr>`;
+    <tr><td class="cat-cell">cash</td><td>${cashRow.rock||0}</td><td>${cashRow.bero||0}</td><td>${cashRow.stadium||0}</td><td>${cashRow.tunnel||0}</td><td><b>${cashTotal.toLocaleString()} EGP</b></td></tr>
+    <tr><td class="cat-cell">insta</td><td>${instaRow.rock||0}</td><td>${instaRow.bero||0}</td><td>${instaRow.stadium||0}</td><td>${instaRow.tunnel||0}</td><td><b>${instaTotal.toLocaleString()} EGP</b></td></tr>`;
 
     document.getElementById('alexOfflineTableBody').innerHTML = offlineHtml;
     document.getElementById('alexOfflineTickets').textContent = offlineGrandTotal;
@@ -1309,17 +1539,17 @@
     let cashBdHtml = '', cashBdTotal = 0;
     ((dayData && dayData.cashBreakdown) || []).forEach(item => {
       cashBdTotal += item.amount;
-      cashBdHtml += `<tr><td class="cat-cell">${item.ticket}</td><td>${item.count}</td><td>${item.amount} EGP</td></tr>`;
+      cashBdHtml += `<tr><td class="cat-cell">${item.ticket}</td><td>${item.count}</td><td>${item.amount.toLocaleString()} EGP</td></tr>`;
     });
-    cashBdHtml += `<tr class="total-row"><td class="cat-cell">total cash</td><td></td><td><b>${cashBdTotal} EGP</b></td></tr>`;
+    cashBdHtml += `<tr class="total-row"><td class="cat-cell">total cash</td><td></td><td><b>${cashBdTotal.toLocaleString()} EGP</b></td></tr>`;
     document.getElementById('alexCashTableBody').innerHTML = cashBdHtml;
 
     let instaBdHtml = '', instaBdTotal = 0;
     ((dayData && dayData.instaBreakdown) || []).forEach(item => {
       instaBdTotal += item.amount;
-      instaBdHtml += `<tr><td class="cat-cell">${item.ticket}</td><td>${item.count}</td><td>${item.amount} EGP</td></tr>`;
+      instaBdHtml += `<tr><td class="cat-cell">${item.ticket}</td><td>${item.count}</td><td>${item.amount.toLocaleString()} EGP</td></tr>`;
     });
-    instaBdHtml += `<tr class="total-row"><td class="cat-cell">total insta</td><td></td><td><b>${instaBdTotal} EGP</b></td></tr>`;
+    instaBdHtml += `<tr class="total-row"><td class="cat-cell">total insta</td><td></td><td><b>${instaBdTotal.toLocaleString()} EGP</b></td></tr>`;
     document.getElementById('alexInstaTableBody').innerHTML = instaBdHtml;
 
     renderCityDailyLog(data.branchSalesAlex, 'alexDailyLogBody', 'alexGrandRevenue', 'alexGrandCatPills');
@@ -1357,8 +1587,8 @@
     const instaTotal = (instaRow.maadi||0) + (instaRow.nasr||0) + (instaRow.taga||0) + (instaRow.helio||0);
 
     offlineHtml += `<tr class="total-row"><td class="cat-cell">total tickets</td><td colspan="4"></td><td><b>${offlineGrandTotal}</b></td></tr>
-    <tr><td class="cat-cell">cash</td><td>${cashRow.maadi||0}</td><td>${cashRow.nasr||0}</td><td>${cashRow.taga||0}</td><td>${cashRow.helio||0}</td><td><b>${cashTotal} EGP</b></td></tr>
-    <tr><td class="cat-cell">insta</td><td>${cashRow.maadi||0}</td><td>${instaRow.nasr||0}</td><td>${instaRow.taga||0}</td><td>${instaRow.helio||0}</td><td><b>${instaTotal} EGP</b></td></tr>`;
+    <tr><td class="cat-cell">cash</td><td>${cashRow.maadi||0}</td><td>${cashRow.nasr||0}</td><td>${cashRow.taga||0}</td><td>${cashRow.helio||0}</td><td><b>${cashTotal.toLocaleString()} EGP</b></td></tr>
+    <tr><td class="cat-cell">insta</td><td>${instaRow.maadi||0}</td><td>${instaRow.nasr||0}</td><td>${instaRow.taga||0}</td><td>${instaRow.helio||0}</td><td><b>${instaTotal.toLocaleString()} EGP</b></td></tr>`;
 
     document.getElementById('cairoOfflineTableBody').innerHTML = offlineHtml;
     document.getElementById('cairoOfflineTickets').textContent = offlineGrandTotal;
@@ -1368,44 +1598,94 @@
     let cashBdHtml = '', cashBdTotal = 0;
     ((dayData && dayData.cashBreakdown) || []).forEach(item => {
       cashBdTotal += item.amount;
-      cashBdHtml += `<tr><td class="cat-cell">${item.ticket}</td><td>${item.count}</td><td>${item.amount} EGP</td></tr>`;
+      cashBdHtml += `<tr><td class="cat-cell">${item.ticket}</td><td>${item.count}</td><td>${item.amount.toLocaleString()} EGP</td></tr>`;
     });
-    cashBdHtml += `<tr class="total-row"><td class="cat-cell">total cash</td><td></td><td><b>${cashBdTotal} EGP</b></td></tr>`;
+    cashBdHtml += `<tr class="total-row"><td class="cat-cell">total cash</td><td></td><td><b>${cashBdTotal.toLocaleString()} EGP</b></td></tr>`;
     document.getElementById('cairoCashTableBody').innerHTML = cashBdHtml;
 
     let instaBdHtml = '', instaBdTotal = 0;
     ((dayData && dayData.instaBreakdown) || []).forEach(item => {
       instaBdTotal += item.amount;
-      instaBdHtml += `<tr><td class="cat-cell">${item.ticket}</td><td>${item.count}</td><td>${item.amount} EGP</td></tr>`;
+      instaBdHtml += `<tr><td class="cat-cell">${item.ticket}</td><td>${item.count}</td><td>${item.amount.toLocaleString()} EGP</td></tr>`;
     });
-    instaBdHtml += `<tr class="total-row"><td class="cat-cell">total insta</td><td></td><td><b>${instaBdTotal} EGP</b></td></tr>`;
+    instaBdHtml += `<tr class="total-row"><td class="cat-cell">total insta</td><td></td><td><b>${instaBdTotal.toLocaleString()} EGP</b></td></tr>`;
     document.getElementById('cairoInstaTableBody').innerHTML = instaBdHtml;
 
     renderCityDailyLog(data.branchSalesCairo, 'cairoDailyLogBody', 'cairoGrandRevenue', 'cairoGrandCatPills');
   }
 
   // Modals Open/Close/Save
-  window.openAlexModal = function(){ document.getElementById('alexModal').classList.add('open'); };
+  window.openAlexModal = function(){
+    calcAlexModalTotals();
+    document.getElementById('alexModal').classList.add('open');
+  };
   window.closeAlexModal = function(){ document.getElementById('alexModal').classList.remove('open'); };
 
   window.saveAlexModalData = async function(){
     const dateKey = document.getElementById('alexModalDate').value || '2026-08-07';
     if(!data.branchSalesAlex) data.branchSalesAlex = {};
 
+    const getV = id => parseInt(document.getElementById(id).value, 10)||0;
+
+    // Alexandria Branches: rock, bero, stadium, tunnel
+    const cashPO = { rock: getV('alx_cash_po_rock'), bero: getV('alx_cash_po_bero'), stadium: getV('alx_cash_po_stad'), tunnel: getV('alx_cash_po_tunn') };
+    const cashFP = { rock: getV('alx_cash_fp_rock'), bero: getV('alx_cash_fp_bero'), stadium: getV('alx_cash_fp_stad'), tunnel: getV('alx_cash_fp_tunn') };
+    const cashVIP = { rock: getV('alx_cash_vip_rock'), bero: getV('alx_cash_vip_bero'), stadium: getV('alx_cash_vip_stad'), tunnel: getV('alx_cash_vip_tunn') };
+    const cashHR = { rock: getV('alx_cash_hr_rock'), bero: getV('alx_cash_hr_bero'), stadium: getV('alx_cash_hr_stad'), tunnel: getV('alx_cash_hr_tunn') };
+
+    const instaPO = { rock: getV('alx_insta_po_rock'), bero: getV('alx_insta_po_bero'), stadium: getV('alx_insta_po_stad'), tunnel: getV('alx_insta_po_tunn') };
+    const instaFP = { rock: getV('alx_insta_fp_rock'), bero: getV('alx_insta_fp_bero'), stadium: getV('alx_insta_fp_stad'), tunnel: getV('alx_insta_fp_tunn') };
+    const instaVIP = { rock: getV('alx_insta_vip_rock'), bero: getV('alx_insta_vip_bero'), stadium: getV('alx_insta_vip_stad'), tunnel: getV('alx_insta_vip_tunn') };
+    const instaHR = { rock: getV('alx_insta_hr_rock'), bero: getV('alx_insta_hr_bero'), stadium: getV('alx_insta_hr_stad'), tunnel: getV('alx_insta_hr_tunn') };
+
+    const branches = ['rock', 'bero', 'stadium', 'tunnel'];
+    const cashPayments = {}, instaPayments = {}, offlineCounts = {};
+
+    branches.forEach(b => {
+      cashPayments[b] = (cashPO[b]*1500) + (cashFP[b]*1200) + (cashVIP[b]*800) + (cashHR[b]*500);
+      instaPayments[b] = (instaPO[b]*1500) + (instaFP[b]*1200) + (instaVIP[b]*800) + (instaHR[b]*500);
+    });
+
+    ["premium orbit", "fanpit", "vip", "high regular"].forEach(cat => {
+      offlineCounts[cat] = {
+        rock: (cat==="premium orbit"?cashPO.rock+instaPO.rock : cat==="fanpit"?cashFP.rock+instaFP.rock : cat==="vip"?cashVIP.rock+instaVIP.rock : cashHR.rock+instaHR.rock),
+        bero: (cat==="premium orbit"?cashPO.bero+instaPO.bero : cat==="fanpit"?cashFP.bero+instaFP.bero : cat==="vip"?cashVIP.bero+instaVIP.bero : cashHR.bero+instaHR.bero),
+        stadium: (cat==="premium orbit"?cashPO.stadium+instaPO.stadium : cat==="fanpit"?cashFP.stadium+instaFP.stadium : cat==="vip"?cashVIP.stadium+instaVIP.stadium : cashHR.stadium+instaHR.stadium),
+        tunnel: (cat==="premium orbit"?cashPO.tunnel+instaPO.tunnel : cat==="fanpit"?cashFP.tunnel+instaFP.tunnel : cat==="vip"?cashVIP.tunnel+instaVIP.tunnel : cashHR.tunnel+instaHR.tunnel)
+      };
+    });
+
+    const cashPO_total = cashPO.rock + cashPO.bero + cashPO.stadium + cashPO.tunnel;
+    const cashFP_total = cashFP.rock + cashFP.bero + cashFP.stadium + cashFP.tunnel;
+    const cashVIP_total = cashVIP.rock + cashVIP.bero + cashVIP.stadium + cashVIP.tunnel;
+    const cashHR_total = cashHR.rock + cashHR.bero + cashHR.stadium + cashHR.tunnel;
+
+    const instaPO_total = instaPO.rock + instaPO.bero + instaPO.stadium + instaPO.tunnel;
+    const instaFP_total = instaFP.rock + instaFP.bero + instaFP.stadium + instaFP.tunnel;
+    const instaVIP_total = instaVIP.rock + instaVIP.bero + instaVIP.stadium + instaVIP.tunnel;
+    const instaHR_total = instaHR.rock + instaHR.bero + instaHR.stadium + instaHR.tunnel;
+
     data.branchSalesAlex[dateKey] = {
       online: {
-        "premium orbit": { rock: parseInt(document.getElementById('alx_on_po_rock').value, 10)||0, bero: parseInt(document.getElementById('alx_on_po_bero').value, 10)||0, stadium: parseInt(document.getElementById('alx_on_po_stad').value, 10)||0, tunnel: parseInt(document.getElementById('alx_on_po_tunn').value, 10)||0 },
-        "fanpit": { rock: parseInt(document.getElementById('alx_on_fp_rock').value, 10)||0, bero: parseInt(document.getElementById('alx_on_fp_bero').value, 10)||0, stadium: parseInt(document.getElementById('alx_on_fp_stad').value, 10)||0, tunnel: parseInt(document.getElementById('alx_on_fp_tunn').value, 10)||0 },
-        "vip": { rock: parseInt(document.getElementById('alx_on_vip_rock').value, 10)||0, bero: parseInt(document.getElementById('alx_on_vip_bero').value, 10)||0, stadium: parseInt(document.getElementById('alx_on_vip_stad').value, 10)||0, tunnel: parseInt(document.getElementById('alx_on_vip_tunn').value, 10)||0 },
-        "high regular": { rock: parseInt(document.getElementById('alx_on_hr_rock').value, 10)||0, bero: parseInt(document.getElementById('alx_on_hr_bero').value, 10)||0, stadium: parseInt(document.getElementById('alx_on_hr_stad').value, 10)||0, tunnel: parseInt(document.getElementById('alx_on_hr_tunn').value, 10)||0 }
+        "premium orbit": { rock: getV('alx_on_po_rock'), bero: getV('alx_on_po_bero'), stadium: getV('alx_on_po_stad'), tunnel: getV('alx_on_po_tunn') },
+        "fanpit": { rock: getV('alx_on_fp_rock'), bero: getV('alx_on_fp_bero'), stadium: getV('alx_on_fp_stad'), tunnel: getV('alx_on_fp_tunn') },
+        "vip": { rock: getV('alx_on_vip_rock'), bero: getV('alx_on_vip_bero'), stadium: getV('alx_on_vip_stad'), tunnel: getV('alx_on_vip_tunn') },
+        "high regular": { rock: getV('alx_on_hr_rock'), bero: getV('alx_on_hr_bero'), stadium: getV('alx_on_hr_stad'), tunnel: getV('alx_on_hr_tunn') }
       },
-      offline: (data.branchSalesAlex["2026-08-07"] && data.branchSalesAlex["2026-08-07"].offline) || {},
-      payments: {
-        cash: { rock: parseInt(document.getElementById('alx_cash_rock').value, 10)||0, bero: parseInt(document.getElementById('alx_cash_bero').value, 10)||0, stadium: parseInt(document.getElementById('alx_cash_stad').value, 10)||0, tunnel: parseInt(document.getElementById('alx_cash_tunn').value, 10)||0 },
-        insta: { rock: parseInt(document.getElementById('alx_insta_rock').value, 10)||0, bero: parseInt(document.getElementById('alx_insta_bero').value, 10)||0, stadium: parseInt(document.getElementById('alx_insta_stad').value, 10)||0, tunnel: parseInt(document.getElementById('alx_insta_tunn').value, 10)||0 }
-      },
-      cashBreakdown: (data.branchSalesAlex["2026-08-07"] && data.branchSalesAlex["2026-08-07"].cashBreakdown) || [],
-      instaBreakdown: (data.branchSalesAlex["2026-08-07"] && data.branchSalesAlex["2026-08-07"].instaBreakdown) || []
+      offline: offlineCounts,
+      payments: { cash: cashPayments, insta: instaPayments },
+      cashBreakdown: [
+        { ticket: "premium orbit", count: cashPO_total, amount: cashPO_total * 1500 },
+        { ticket: "fanpit", count: cashFP_total, amount: cashFP_total * 1200 },
+        { ticket: "vip", count: cashVIP_total, amount: cashVIP_total * 800 },
+        { ticket: "high regular", count: cashHR_total, amount: cashHR_total * 500 }
+      ],
+      instaBreakdown: [
+        { ticket: "premium orbit", count: instaPO_total, amount: instaPO_total * 1500 },
+        { ticket: "fanpit", count: instaFP_total, amount: instaFP_total * 1200 },
+        { ticket: "vip", count: instaVIP_total, amount: instaVIP_total * 800 },
+        { ticket: "high regular", count: instaHR_total, amount: instaHR_total * 500 }
+      ]
     };
 
     const sel = document.getElementById('alexDateSelect');
@@ -1418,27 +1698,76 @@
     await saveData(); closeAlexModal(); renderAlexSales();
   };
 
-  window.openCairoModal = function(){ document.getElementById('cairoModal').classList.add('open'); };
+  window.openCairoModal = function(){
+    calcCairoModalTotals();
+    document.getElementById('cairoModal').classList.add('open');
+  };
   window.closeCairoModal = function(){ document.getElementById('cairoModal').classList.remove('open'); };
 
   window.saveCairoModalData = async function(){
     const dateKey = document.getElementById('cairoModalDate').value || '2026-08-07';
     if(!data.branchSalesCairo) data.branchSalesCairo = {};
 
+    const getV = id => parseInt(document.getElementById(id).value, 10)||0;
+
+    const cashPO = { maadi: getV('cai_cash_po_maadi'), nasr: getV('cai_cash_po_nasr'), taga: getV('cai_cash_po_taga'), helio: getV('cai_cash_po_helio') };
+    const cashFP = { maadi: getV('cai_cash_fp_maadi'), nasr: getV('cai_cash_fp_nasr'), taga: getV('cai_cash_fp_taga'), helio: getV('cai_cash_fp_helio') };
+    const cashVIP = { maadi: getV('cai_cash_vip_maadi'), nasr: getV('cai_cash_vip_nasr'), taga: getV('cai_cash_vip_taga'), helio: getV('cai_cash_vip_helio') };
+    const cashHR = { maadi: getV('cai_cash_hr_maadi'), nasr: getV('cai_cash_hr_nasr'), taga: getV('cai_cash_hr_taga'), helio: getV('cai_cash_hr_helio') };
+
+    const instaPO = { maadi: getV('cai_insta_po_maadi'), nasr: getV('cai_insta_po_nasr'), taga: getV('cai_insta_po_taga'), helio: getV('cai_insta_po_helio') };
+    const instaFP = { maadi: getV('cai_insta_fp_maadi'), nasr: getV('cai_insta_fp_nasr'), taga: getV('cai_insta_fp_taga'), helio: getV('cai_insta_fp_helio') };
+    const instaVIP = { maadi: getV('cai_insta_vip_maadi'), nasr: getV('cai_insta_vip_nasr'), taga: getV('cai_insta_vip_taga'), helio: getV('cai_insta_vip_helio') };
+    const instaHR = { maadi: getV('cai_insta_hr_maadi'), nasr: getV('cai_insta_hr_nasr'), taga: getV('cai_insta_hr_taga'), helio: getV('cai_insta_hr_helio') };
+
+    const branches = ['maadi', 'nasr', 'taga', 'helio'];
+    const cashPayments = {}, instaPayments = {}, offlineCounts = {};
+
+    branches.forEach(b => {
+      cashPayments[b] = (cashPO[b]*1500) + (cashFP[b]*1200) + (cashVIP[b]*800) + (cashHR[b]*500);
+      instaPayments[b] = (instaPO[b]*1500) + (instaFP[b]*1200) + (instaVIP[b]*800) + (instaHR[b]*500);
+    });
+
+    ["premium orbit", "fanpit", "vip", "high regular"].forEach(cat => {
+      offlineCounts[cat] = {
+        maadi: (cat==="premium orbit"?cashPO.maadi+instaPO.maadi : cat==="fanpit"?cashFP.maadi+instaFP.maadi : cat==="vip"?cashVIP.maadi+instaVIP.maadi : cashHR.maadi+instaHR.maadi),
+        nasr: (cat==="premium orbit"?cashPO.nasr+instaPO.nasr : cat==="fanpit"?cashFP.nasr+instaFP.nasr : cat==="vip"?cashVIP.nasr+instaVIP.nasr : cashHR.nasr+instaHR.nasr),
+        taga: (cat==="premium orbit"?cashPO.taga+instaPO.taga : cat==="fanpit"?cashFP.taga+instaFP.taga : cat==="vip"?cashVIP.taga+instaVIP.taga : cashHR.taga+instaHR.taga),
+        helio: (cat==="premium orbit"?cashPO.helio+instaPO.helio : cat==="fanpit"?cashFP.helio+instaFP.helio : cat==="vip"?cashVIP.helio+instaVIP.helio : cashHR.helio+instaHR.helio)
+      };
+    });
+
+    const cashPO_total = cashPO.maadi + cashPO.nasr + cashPO.taga + cashPO.helio;
+    const cashFP_total = cashFP.maadi + cashFP.nasr + cashFP.taga + cashFP.helio;
+    const cashVIP_total = cashVIP.maadi + cashVIP.nasr + cashVIP.taga + cashVIP.helio;
+    const cashHR_total = cashHR.maadi + cashHR.nasr + cashHR.taga + cashHR.helio;
+
+    const instaPO_total = instaPO.maadi + instaPO.nasr + instaPO.taga + instaPO.helio;
+    const instaFP_total = instaFP.maadi + instaFP.nasr + instaFP.taga + instaFP.helio;
+    const instaVIP_total = instaVIP.maadi + instaVIP.nasr + instaVIP.taga + instaVIP.helio;
+    const instaHR_total = instaHR.maadi + instaHR.nasr + instaHR.taga + instaHR.helio;
+
     data.branchSalesCairo[dateKey] = {
       online: {
-        "premium orbit": { maadi: parseInt(document.getElementById('cai_on_po_maadi').value, 10)||0, nasr: parseInt(document.getElementById('cai_on_po_nasr').value, 10)||0, taga: parseInt(document.getElementById('cai_on_po_taga').value, 10)||0, helio: parseInt(document.getElementById('cai_on_po_helio').value, 10)||0 },
-        "fanpit": { maadi: parseInt(document.getElementById('cai_on_fp_maadi').value, 10)||0, nasr: parseInt(document.getElementById('cai_on_fp_nasr').value, 10)||0, taga: parseInt(document.getElementById('cai_on_fp_taga').value, 10)||0, helio: parseInt(document.getElementById('cai_on_fp_helio').value, 10)||0 },
-        "vip": { maadi: parseInt(document.getElementById('cai_on_vip_maadi').value, 10)||0, nasr: parseInt(document.getElementById('cai_on_vip_nasr').value, 10)||0, taga: parseInt(document.getElementById('cai_on_vip_taga').value, 10)||0, helio: parseInt(document.getElementById('cai_on_vip_helio').value, 10)||0 },
-        "high regular": { maadi: parseInt(document.getElementById('cai_on_hr_maadi').value, 10)||0, nasr: parseInt(document.getElementById('cai_on_hr_nasr').value, 10)||0, taga: parseInt(document.getElementById('cai_on_hr_taga').value, 10)||0, helio: parseInt(document.getElementById('cai_on_hr_helio').value, 10)||0 }
+        "premium orbit": { maadi: getV('cai_on_po_maadi'), nasr: getV('cai_on_po_nasr'), taga: getV('cai_on_po_taga'), helio: getV('cai_on_po_helio') },
+        "fanpit": { maadi: getV('cai_on_fp_maadi'), nasr: getV('cai_on_fp_nasr'), taga: getV('cai_on_fp_taga'), helio: getV('cai_on_fp_helio') },
+        "vip": { maadi: getV('cai_on_vip_maadi'), nasr: getV('cai_on_vip_nasr'), taga: getV('cai_on_vip_taga'), helio: getV('cai_on_vip_helio') },
+        "high regular": { maadi: getV('cai_on_hr_maadi'), nasr: getV('cai_on_hr_nasr'), taga: getV('cai_on_hr_taga'), helio: getV('cai_on_hr_helio') }
       },
-      offline: (data.branchSalesCairo["2026-08-07"] && data.branchSalesCairo["2026-08-07"].offline) || {},
-      payments: {
-        cash: { maadi: parseInt(document.getElementById('cai_cash_maadi').value, 10)||0, nasr: parseInt(document.getElementById('cai_cash_nasr').value, 10)||0, taga: parseInt(document.getElementById('cai_cash_taga').value, 10)||0, helio: parseInt(document.getElementById('cai_cash_helio').value, 10)||0 },
-        insta: { maadi: parseInt(document.getElementById('cai_insta_maadi').value, 10)||0, nasr: parseInt(document.getElementById('cai_insta_nasr').value, 10)||0, taga: parseInt(document.getElementById('cai_insta_taga').value, 10)||0, helio: parseInt(document.getElementById('cai_insta_helio').value, 10)||0 }
-      },
-      cashBreakdown: (data.branchSalesCairo["2026-08-07"] && data.branchSalesCairo["2026-08-07"].cashBreakdown) || [],
-      instaBreakdown: (data.branchSalesCairo["2026-08-07"] && data.branchSalesCairo["2026-08-07"].instaBreakdown) || []
+      offline: offlineCounts,
+      payments: { cash: cashPayments, insta: instaPayments },
+      cashBreakdown: [
+        { ticket: "premium orbit", count: cashPO_total, amount: cashPO_total * 1500 },
+        { ticket: "fanpit", count: cashFP_total, amount: cashFP_total * 1200 },
+        { ticket: "vip", count: cashVIP_total, amount: cashVIP_total * 800 },
+        { ticket: "high regular", count: cashHR_total, amount: cashHR_total * 500 }
+      ],
+      instaBreakdown: [
+        { ticket: "premium orbit", count: instaPO_total, amount: instaPO_total * 1500 },
+        { ticket: "fanpit", count: instaFP_total, amount: instaFP_total * 1200 },
+        { ticket: "vip", count: instaVIP_total, amount: instaVIP_total * 800 },
+        { ticket: "high regular", count: instaHR_total, amount: instaHR_total * 500 }
+      ]
     };
 
     const sel = document.getElementById('cairoDateSelect');
