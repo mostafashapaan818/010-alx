@@ -960,6 +960,16 @@ function doPost(e) {
     return ContentService.createTextOutput(JSON.stringify({status: "error", message: err.toString()}))
       .setMimeType(ContentService.MimeType.JSON);
   }
+}
+
+// دالة التشغيل اليدوي المباشر لتنسيق الشيت فوراً من داخل Apps Script:
+function setupSheets() {
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var sheet = ss.getSheets()[0];
+  var raw = sheet.getRange("A1").getValue();
+  if (raw) {
+    doPost({ postData: { contents: String(raw) } });
+  }
 }</div>
         <button class="copy-btn" onclick="copyScriptCode()">نسخ كود Google Script 📋</button>
         
@@ -1010,7 +1020,7 @@ function doPost(e) {
   }
 
   // Google Sheet Script Endpoint URL
-  const DEFAULT_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxE6nXE71X_BNaKk8zp91Tzg3djP6doq4qsat3H8OTcNqSRxja6TtMcnGgfilYuUBrb/exec';
+  const DEFAULT_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzy_6glG3q4k73o06ZGYIt7NjMVM7Jd-EAFgUAzbFsF3P0GwmEqb34VJtpwH0DrtWJPlQ/exec';
   
   function getScriptUrl() {
     return localStorage.getItem('alexandrie_script_url') || DEFAULT_SCRIPT_URL;
