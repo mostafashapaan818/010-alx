@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>نظام تذاكر الحفلة وحسابات الفروع - Alexandrie Team</title>
+<title>نظام تذاكر الحفلة وحسابات فروع الإسكندرية والقاهرة - Alexandrie Team</title>
 <!-- Google Fonts: Tajawal -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -148,7 +148,7 @@
   }
 
   /* App Layout */
-  .app-wrap { max-width: 1080px; margin: 0 auto; padding: 20px 16px; }
+  .app-wrap { max-width: 1100px; margin: 0 auto; padding: 20px 16px; }
 
   .navbar {
     background: var(--card-bg);
@@ -191,20 +191,22 @@
   /* Navigation Tabs */
   .app-tabs {
     display: flex;
-    gap: 10px;
+    gap: 8px;
     margin-bottom: 20px;
     background: #e2e8f0;
     padding: 6px;
     border-radius: var(--radius-md);
+    flex-wrap: wrap;
   }
 
   .tab-btn {
     flex: 1;
-    padding: 12px 16px;
+    min-width: 160px;
+    padding: 12px 14px;
     border: none;
     border-radius: var(--radius-sm);
-    font-size: 15px;
-    font-weight: 700;
+    font-size: 14px;
+    font-weight: 800;
     color: var(--ink-secondary);
     background: transparent;
     cursor: pointer;
@@ -422,7 +424,6 @@
     background: #0f172a;
     color: #ffffff;
     font-size: 16px;
-    text-transform: lowercase;
   }
 
   table.ledger-table td.cat-cell {
@@ -443,6 +444,37 @@
     margin-top: 20px;
   }
 
+  /* Explicit Branch Input Units in Modal */
+  .input-grid-4 {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    margin-top: 6px;
+  }
+
+  .input-unit {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .input-unit label {
+    font-size: 12px;
+    font-weight: 800;
+    color: var(--ink-primary);
+    text-align: center;
+    background: #e2e8f0;
+    padding: 4px 6px;
+    border-radius: 4px;
+    border: 1px solid var(--border-color);
+  }
+
+  .input-unit input {
+    text-align: center;
+    font-weight: 700;
+    font-size: 15px;
+  }
+
   /* Modals */
   .overlay {
     position: fixed; inset: 0; background: rgba(15, 23, 42, 0.6);
@@ -452,12 +484,12 @@
   .overlay.open { display: flex; }
   .modal {
     background: var(--card-bg); border-radius: var(--radius-lg);
-    padding: 26px; width: 100%; max-width: 540px; max-height: 90vh;
+    padding: 26px; width: 100%; max-width: 600px; max-height: 90vh;
     overflow-y: auto; box-shadow: var(--shadow-lg); border: 1px solid var(--border-color);
   }
   .modal h3 { font-size: 20px; font-weight: 800; margin-bottom: 16px; padding-bottom: 10px; border-bottom: 1px solid var(--border-color); }
-  .field { margin-bottom: 14px; }
-  .field label { display: block; font-size: 13px; font-weight: 700; color: var(--ink-secondary); margin-bottom: 6px; }
+  .field { margin-bottom: 16px; }
+  .field > label { display: block; font-size: 14px; font-weight: 800; color: var(--ink-primary); margin-bottom: 6px; }
   .field input, .field select, .modal textarea {
     width: 100%; padding: 10px 12px; border: 1.5px solid var(--border-color);
     border-radius: var(--radius-sm); font-size: 14px; background: #fafafa;
@@ -503,7 +535,7 @@
       <div class="nav-brand">
         <div class="brand-logo">A</div>
         <div class="brand-text">
-          <h1>إدارة تذاكر الحفلة ومبيعات الفروع</h1>
+          <h1>إدارة التذاكر ومبيعات الفروع</h1>
           <div class="sub">خاص بـ Alexandrie Team 🛡️</div>
         </div>
       </div>
@@ -517,12 +549,12 @@
     <!-- Navigation Tabs -->
     <div class="app-tabs">
       <button class="tab-btn active" id="tabBtnTickets" onclick="switchTab('ticketsTab')">🎫 إدارة التذاكر الموزعة</button>
-      <button class="tab-btn" id="tabBtnBranches" onclick="switchTab('branchesTab')">📊 حسابات ومبيعات الفروع (Alexandria)</button>
+      <button class="tab-btn" id="tabBtnAlex" onclick="switchTab('alexTab')">🌊 فروع الإسكندرية (Alexandria)</button>
+      <button class="tab-btn" id="tabBtnCairo" onclick="switchTab('cairoTab')">🏛️ فروع القاهرة (Cairo)</button>
     </div>
 
     <!-- Tab 1: Ticket Management -->
     <div id="ticketsTab" class="tab-content active">
-      <!-- Stats Dashboard -->
       <div class="stats-grid">
         <div class="stat-card">
           <div class="stat-info">
@@ -547,7 +579,6 @@
         </div>
       </div>
 
-      <!-- Search Section -->
       <div class="search-card">
         <div class="search-input-wrap">
           <input id="searchInput" type="text" placeholder="🔍 اكتب الرقم التسلسلي للبحث عن حالة التذكرة فوراً...">
@@ -555,229 +586,329 @@
         <div id="searchResultBox" class="search-result-box"></div>
       </div>
 
-      <!-- Actions Bar -->
       <div class="top-actions">
         <button class="btn-secondary" id="editCatsBtn">تعديل الفئات</button>
         <button class="btn-primary" id="addCatsBtn">إضافة / تعديل الفئات</button>
       </div>
 
-      <!-- Categories Container -->
       <div id="categoriesList"></div>
-
-      <!-- Customers Summary -->
       <div id="customersContainer"></div>
     </div>
 
-    <!-- Tab 2: Branch Sales & Financial Accounting -->
-    <div id="branchesTab" class="tab-content">
+    <!-- Tab 2: Alexandria Branch Sales -->
+    <div id="alexTab" class="tab-content">
       <div class="branch-section">
         <div class="branch-header">
-          <h2>📊 تقرير وسجل حسابات الفروع في الإسكندرية</h2>
+          <h2>🌊 تقرير وسجل حسابات فروع الإسكندرية</h2>
           <div class="date-selector">
-            <label style="font-weight:700;">تاريخ التقرير:</label>
-            <select id="branchDateSelect" onchange="renderBranchSales()">
-              <option value="2026-08-07" selected>7 أغسطس 2026 (تطابق الجدول)</option>
+            <label style="font-weight:700;">التاريخ:</label>
+            <select id="alexDateSelect" onchange="renderAlexSales()">
+              <option value="2026-08-07" selected>7 أغسطس 2026</option>
               <option value="2026-08-04">4 أغسطس 2026</option>
             </select>
-            <button class="btn-primary" onclick="openBranchEditModal()">+ إضافة/تعديل معاملات اليوم</button>
+            <button class="btn-primary" onclick="openAlexModal()">+ تعديل/إضافة معاملات الإسكندرية</button>
           </div>
         </div>
 
-        <!-- Financial Summary Cards -->
         <div class="stats-grid">
           <div class="stat-card">
-            <div class="stat-info">
-              <div class="title">تذاكر الأونلاين (Online)</div>
-              <div class="num" id="summaryOnlineTickets">12</div>
-            </div>
+            <div class="stat-info"><div class="title">تذاكر الأونلاين (Online)</div><div class="num" id="alexOnlineTickets">12</div></div>
             <div class="stat-icon total">🌐</div>
           </div>
-
           <div class="stat-card">
-            <div class="stat-info">
-              <div class="title">تذاكر الأوفلاين (Offline)</div>
-              <div class="num" id="summaryOfflineTickets">17</div>
-            </div>
+            <div class="stat-info"><div class="title">تذاكر الأوفلاين (Offline)</div><div class="num" id="alexOfflineTickets">17</div></div>
             <div class="stat-icon warn">🎟️</div>
           </div>
-
           <div class="stat-card">
-            <div class="stat-info">
-              <div class="title">إجمالي الكاش (Cash)</div>
-              <div class="num" id="summaryCashTotal" style="color:var(--good-green);">9,800 ج.م</div>
-            </div>
+            <div class="stat-info"><div class="title">إجمالي الكاش (Cash)</div><div class="num" id="alexCashTotal" style="color:var(--good-green);">9,800 ج.م</div></div>
             <div class="stat-icon good">💵</div>
           </div>
-
           <div class="stat-card">
-            <div class="stat-info">
-              <div class="title">إجمالي إنستا باي (InstaPay)</div>
-              <div class="num" id="summaryInstaTotal" style="color:var(--brand-blue);">9,200 ج.م</div>
-            </div>
+            <div class="stat-info"><div class="title">إجمالي إنستا باي (InstaPay)</div><div class="num" id="alexInstaTotal" style="color:var(--brand-blue);">9,200 ج.م</div></div>
             <div class="stat-icon total">📱</div>
           </div>
         </div>
 
-        <!-- Table 1: Online -->
         <div class="table-title">🌐 مبيعات الأونلاين (online)</div>
         <div class="ledger-table-wrap">
           <table class="ledger-table">
             <thead>
-              <tr class="header-row">
-                <th colspan="6">online</th>
-              </tr>
-              <tr>
-                <th>ticket</th>
-                <th>Rock Sea</th>
-                <th>Bero</th>
-                <th>stadium</th>
-                <th>the tunnel</th>
-                <th>total</th>
-              </tr>
+              <tr class="header-row"><th colspan="6">online</th></tr>
+              <tr><th>ticket</th><th>Rock Sea</th><th>Bero</th><th>stadium</th><th>the tunnel</th><th>total</th></tr>
             </thead>
-            <tbody id="onlineTableBody"></tbody>
+            <tbody id="alexOnlineTableBody"></tbody>
           </table>
         </div>
 
-        <!-- Table 2: Offline -->
         <div class="table-title">🎟️ مبيعات الأوفلاين (offline) وطرق التحصيل</div>
         <div class="ledger-table-wrap">
           <table class="ledger-table">
             <thead>
-              <tr class="header-row">
-                <th colspan="6">offline</th>
-              </tr>
-              <tr>
-                <th>ticket</th>
-                <th>Rock Sea</th>
-                <th>Bero</th>
-                <th>stadium</th>
-                <th>the tunnel</th>
-                <th>total</th>
-              </tr>
+              <tr class="header-row"><th colspan="6">offline</th></tr>
+              <tr><th>ticket</th><th>Rock Sea</th><th>Bero</th><th>stadium</th><th>the tunnel</th><th>total</th></tr>
             </thead>
-            <tbody id="offlineTableBody"></tbody>
+            <tbody id="alexOfflineTableBody"></tbody>
           </table>
         </div>
 
-        <!-- Breakdown Grid (Cash & InstaPay) -->
         <div class="breakdown-grid">
-          <!-- Cash Table -->
           <div>
             <div class="table-title">💵 تفاصيل مبيعات الكاش (cash)</div>
             <div class="ledger-table-wrap">
               <table class="ledger-table">
-                <thead>
-                  <tr class="header-row">
-                    <th colspan="3">cash</th>
-                  </tr>
-                  <tr>
-                    <th>ticket</th>
-                    <th>Count</th>
-                    <th>Amount (EGP)</th>
-                  </tr>
-                </thead>
-                <tbody id="cashTableBody"></tbody>
+                <thead><tr class="header-row"><th colspan="3">cash</th></tr><tr><th>ticket</th><th>Count</th><th>Amount</th></tr></thead>
+                <tbody id="alexCashTableBody"></tbody>
               </table>
             </div>
           </div>
-
-          <!-- InstaPay Table -->
           <div>
             <div class="table-title">📱 تفاصيل مبيعات إنستا باي (instapay)</div>
             <div class="ledger-table-wrap">
               <table class="ledger-table">
-                <thead>
-                  <tr class="header-row">
-                    <th colspan="3">instapay</th>
-                  </tr>
-                  <tr>
-                    <th>ticket</th>
-                    <th>Count</th>
-                    <th>Amount (EGP)</th>
-                  </tr>
-                </thead>
-                <tbody id="instaTableBody"></tbody>
+                <thead><tr class="header-row"><th colspan="3">instapay</th></tr><tr><th>ticket</th><th>Count</th><th>Amount</th></tr></thead>
+                <tbody id="alexInstaTableBody"></tbody>
               </table>
             </div>
           </div>
         </div>
-
       </div>
     </div>
+
+    <!-- Tab 3: Cairo Branch Sales -->
+    <div id="cairoTab" class="tab-content">
+      <div class="branch-section">
+        <div class="branch-header">
+          <h2>🏛️ تقرير وسجل حسابات فروع القاهرة (Cairo)</h2>
+          <div class="date-selector">
+            <label style="font-weight:700;">التاريخ:</label>
+            <select id="cairoDateSelect" onchange="renderCairoSales()">
+              <option value="2026-08-07" selected>7 أغسطس 2026</option>
+              <option value="2026-08-04">4 أغسطس 2026</option>
+            </select>
+            <button class="btn-primary" onclick="openCairoModal()">+ تعديل/إضافة معاملات القاهرة</button>
+          </div>
+        </div>
+
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-info"><div class="title">تذاكر الأونلاين (Online)</div><div class="num" id="cairoOnlineTickets">0</div></div>
+            <div class="stat-icon total">🌐</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-info"><div class="title">تذاكر الأوفلاين (Offline)</div><div class="num" id="cairoOfflineTickets">0</div></div>
+            <div class="stat-icon warn">🎟️</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-info"><div class="title">إجمالي الكاش (Cash)</div><div class="num" id="cairoCashTotal" style="color:var(--good-green);">0 ج.م</div></div>
+            <div class="stat-icon good">💵</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-info"><div class="title">إجمالي إنستا باي (InstaPay)</div><div class="num" id="cairoInstaTotal" style="color:var(--brand-blue);">0 ج.م</div></div>
+            <div class="stat-icon total">📱</div>
+          </div>
+        </div>
+
+        <div class="table-title">🌐 مبيعات الأونلاين (online) - القاهرة</div>
+        <div class="ledger-table-wrap">
+          <table class="ledger-table">
+            <thead>
+              <tr class="header-row"><th colspan="6">online</th></tr>
+              <tr><th>ticket</th><th>Maadi</th><th>Nasr City</th><th>Tagamoa</th><th>Heliopolis</th><th>total</th></tr>
+            </thead>
+            <tbody id="cairoOnlineTableBody"></tbody>
+          </table>
+        </div>
+
+        <div class="table-title">🎟️ مبيعات الأوفلاين (offline) - القاهرة</div>
+        <div class="ledger-table-wrap">
+          <table class="ledger-table">
+            <thead>
+              <tr class="header-row"><th colspan="6">offline</th></tr>
+              <tr><th>ticket</th><th>Maadi</th><th>Nasr City</th><th>Tagamoa</th><th>Heliopolis</th><th>total</th></tr>
+            </thead>
+            <tbody id="cairoOfflineTableBody"></tbody>
+          </table>
+        </div>
+
+        <div class="breakdown-grid">
+          <div>
+            <div class="table-title">💵 تفاصيل الكاش (cash) - القاهرة</div>
+            <div class="ledger-table-wrap">
+              <table class="ledger-table">
+                <thead><tr class="header-row"><th colspan="3">cash</th></tr><tr><th>ticket</th><th>Count</th><th>Amount</th></tr></thead>
+                <tbody id="cairoCashTableBody"></tbody>
+              </table>
+            </div>
+          </div>
+          <div>
+            <div class="table-title">📱 تفاصيل إنستا باي (instapay) - القاهرة</div>
+            <div class="ledger-table-wrap">
+              <table class="ledger-table">
+                <thead><tr class="header-row"><th colspan="3">instapay</th></tr><tr><th>ticket</th><th>Count</th><th>Amount</th></tr></thead>
+                <tbody id="cairoInstaTableBody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
 
-  <!-- Branch Sales Entry Modal -->
-  <div class="overlay" id="branchModal">
-    <div class="modal" style="max-width:640px;">
-      <h3>إدخال/تعديل معاملات الفروع اليومية</h3>
+  <!-- Alexandria Modal (with Labeled Input Fields) -->
+  <div class="overlay" id="alexModal">
+    <div class="modal">
+      <h3>إدخال/تعديل معاملات الإسكندرية (Alexandria)</h3>
       <div class="field">
         <label>التاريخ</label>
-        <input type="date" id="modalBranchDate" value="2026-08-07">
+        <input type="date" id="alexModalDate" value="2026-08-07">
       </div>
 
       <h4 style="margin:14px 0 8px; color:var(--brand-blue);">1. مبيعات الأونلاين (Online Counts)</h4>
+      
       <div class="field">
-        <label>Premium Orbit (Rock Sea, Bero, Stadium, The Tunnel)</label>
-        <div style="display:flex; gap:6px;">
-          <input type="number" id="on_po_rock" placeholder="Rock Sea" value="0">
-          <input type="number" id="on_po_bero" placeholder="Bero" value="1">
-          <input type="number" id="on_po_stad" placeholder="Stadium" value="3">
-          <input type="number" id="on_po_tunn" placeholder="The Tunnel" value="0">
-        </div>
-      </div>
-      <div class="field">
-        <label>Fanpit (Rock Sea, Bero, Stadium, The Tunnel)</label>
-        <div style="display:flex; gap:6px;">
-          <input type="number" id="on_fp_rock" placeholder="Rock Sea" value="0">
-          <input type="number" id="on_fp_bero" placeholder="Bero" value="0">
-          <input type="number" id="on_fp_stad" placeholder="Stadium" value="2">
-          <input type="number" id="on_fp_tunn" placeholder="The Tunnel" value="0">
-        </div>
-      </div>
-      <div class="field">
-        <label>VIP (Rock Sea, Bero, Stadium, The Tunnel)</label>
-        <div style="display:flex; gap:6px;">
-          <input type="number" id="on_vip_rock" placeholder="Rock Sea" value="2">
-          <input type="number" id="on_vip_bero" placeholder="Bero" value="3">
-          <input type="number" id="on_vip_stad" placeholder="Stadium" value="0">
-          <input type="number" id="on_vip_tunn" placeholder="The Tunnel" value="0">
-        </div>
-      </div>
-      <div class="field">
-        <label>High Regular (Rock Sea, Bero, Stadium, The Tunnel)</label>
-        <div style="display:flex; gap:6px;">
-          <input type="number" id="on_hr_rock" placeholder="Rock Sea" value="1">
-          <input type="number" id="on_hr_bero" placeholder="Bero" value="0">
-          <input type="number" id="on_hr_stad" placeholder="Stadium" value="0">
-          <input type="number" id="on_hr_tunn" placeholder="The Tunnel" value="0">
-        </div>
-      </div>
-
-      <h4 style="margin:14px 0 8px; color:var(--good-green);">2. تحصيل الأوفلاين الكاش وإنستا باي (Cash & InstaPay)</h4>
-      <div class="field">
-        <label>إجمالي الكاش حسب الفرع (Cash EGP)</label>
-        <div style="display:flex; gap:6px;">
-          <input type="number" id="cash_rock" placeholder="Rock Sea" value="7800">
-          <input type="number" id="cash_bero" placeholder="Bero" value="0">
-          <input type="number" id="cash_stad" placeholder="Stadium" value="2000">
-          <input type="number" id="cash_tunn" placeholder="The Tunnel" value="0">
+        <label>Premium Orbit (Online):</label>
+        <div class="input-grid-4">
+          <div class="input-unit"><label>Rock Sea</label><input type="number" id="alx_on_po_rock" value="0"></div>
+          <div class="input-unit"><label>Bero</label><input type="number" id="alx_on_po_bero" value="1"></div>
+          <div class="input-unit"><label>stadium</label><input type="number" id="alx_on_po_stad" value="3"></div>
+          <div class="input-unit"><label>the tunnel</label><input type="number" id="alx_on_po_tunn" value="0"></div>
         </div>
       </div>
 
       <div class="field">
-        <label>إجمالي إنستا باي حسب الفرع (InstaPay EGP)</label>
-        <div style="display:flex; gap:6px;">
-          <input type="number" id="insta_rock" placeholder="Rock Sea" value="0">
-          <input type="number" id="insta_bero" placeholder="Bero" value="0">
-          <input type="number" id="insta_stad" placeholder="Stadium" value="3200">
-          <input type="number" id="insta_tunn" placeholder="The Tunnel" value="6000">
+        <label>Fanpit (Online):</label>
+        <div class="input-grid-4">
+          <div class="input-unit"><label>Rock Sea</label><input type="number" id="alx_on_fp_rock" value="0"></div>
+          <div class="input-unit"><label>Bero</label><input type="number" id="alx_on_fp_bero" value="0"></div>
+          <div class="input-unit"><label>stadium</label><input type="number" id="alx_on_fp_stad" value="2"></div>
+          <div class="input-unit"><label>the tunnel</label><input type="number" id="alx_on_fp_tunn" value="0"></div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>VIP (Online):</label>
+        <div class="input-grid-4">
+          <div class="input-unit"><label>Rock Sea</label><input type="number" id="alx_on_vip_rock" value="2"></div>
+          <div class="input-unit"><label>Bero</label><input type="number" id="alx_on_vip_bero" value="3"></div>
+          <div class="input-unit"><label>stadium</label><input type="number" id="alx_on_vip_stad" value="0"></div>
+          <div class="input-unit"><label>the tunnel</label><input type="number" id="alx_on_vip_tunn" value="0"></div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>High Regular (Online):</label>
+        <div class="input-grid-4">
+          <div class="input-unit"><label>Rock Sea</label><input type="number" id="alx_on_hr_rock" value="1"></div>
+          <div class="input-unit"><label>Bero</label><input type="number" id="alx_on_hr_bero" value="0"></div>
+          <div class="input-unit"><label>stadium</label><input type="number" id="alx_on_hr_stad" value="0"></div>
+          <div class="input-unit"><label>the tunnel</label><input type="number" id="alx_on_hr_tunn" value="0"></div>
+        </div>
+      </div>
+
+      <h4 style="margin:14px 0 8px; color:var(--good-green);">2. تحصيل الكاش وإنستا باي (Cash & InstaPay)</h4>
+      <div class="field">
+        <label>إجمالي الكاش حسب الفرع (Cash EGP):</label>
+        <div class="input-grid-4">
+          <div class="input-unit"><label>Rock Sea</label><input type="number" id="alx_cash_rock" value="7800"></div>
+          <div class="input-unit"><label>Bero</label><input type="number" id="alx_cash_bero" value="0"></div>
+          <div class="input-unit"><label>stadium</label><input type="number" id="alx_cash_stad" value="2000"></div>
+          <div class="input-unit"><label>the tunnel</label><input type="number" id="alx_cash_tunn" value="0"></div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>إجمالي إنستا باي حسب الفرع (InstaPay EGP):</label>
+        <div class="input-grid-4">
+          <div class="input-unit"><label>Rock Sea</label><input type="number" id="alx_insta_rock" value="0"></div>
+          <div class="input-unit"><label>Bero</label><input type="number" id="alx_insta_bero" value="0"></div>
+          <div class="input-unit"><label>stadium</label><input type="number" id="alx_insta_stad" value="3200"></div>
+          <div class="input-unit"><label>the tunnel</label><input type="number" id="alx_insta_tunn" value="6000"></div>
         </div>
       </div>
 
       <div class="modal-actions">
-        <button class="btn-secondary" onclick="closeBranchModal()">إغلاق</button>
-        <button class="btn-primary" onclick="saveBranchModalData()">حفظ المعاملات</button>
+        <button class="btn-secondary" onclick="closeAlexModal()">إغلاق</button>
+        <button class="btn-primary" onclick="saveAlexModalData()">حفظ المعاملات</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cairo Modal (with Labeled Input Fields) -->
+  <div class="overlay" id="cairoModal">
+    <div class="modal">
+      <h3>إدخال/تعديل معاملات القاهرة (Cairo)</h3>
+      <div class="field">
+        <label>التاريخ</label>
+        <input type="date" id="cairoModalDate" value="2026-08-07">
+      </div>
+
+      <h4 style="margin:14px 0 8px; color:var(--brand-blue);">1. مبيعات الأونلاين (Online Counts)</h4>
+      
+      <div class="field">
+        <label>Premium Orbit (Online):</label>
+        <div class="input-grid-4">
+          <div class="input-unit"><label>Maadi</label><input type="number" id="cai_on_po_maadi" value="0"></div>
+          <div class="input-unit"><label>Nasr City</label><input type="number" id="cai_on_po_nasr" value="0"></div>
+          <div class="input-unit"><label>Tagamoa</label><input type="number" id="cai_on_po_taga" value="0"></div>
+          <div class="input-unit"><label>Heliopolis</label><input type="number" id="cai_on_po_helio" value="0"></div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Fanpit (Online):</label>
+        <div class="input-grid-4">
+          <div class="input-unit"><label>Maadi</label><input type="number" id="cai_on_fp_maadi" value="0"></div>
+          <div class="input-unit"><label>Nasr City</label><input type="number" id="cai_on_fp_nasr" value="0"></div>
+          <div class="input-unit"><label>Tagamoa</label><input type="number" id="cai_on_fp_taga" value="0"></div>
+          <div class="input-unit"><label>Heliopolis</label><input type="number" id="cai_on_fp_helio" value="0"></div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>VIP (Online):</label>
+        <div class="input-grid-4">
+          <div class="input-unit"><label>Maadi</label><input type="number" id="cai_on_vip_maadi" value="0"></div>
+          <div class="input-unit"><label>Nasr City</label><input type="number" id="cai_on_vip_nasr" value="0"></div>
+          <div class="input-unit"><label>Tagamoa</label><input type="number" id="cai_on_vip_taga" value="0"></div>
+          <div class="input-unit"><label>Heliopolis</label><input type="number" id="cai_on_vip_helio" value="0"></div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>High Regular (Online):</label>
+        <div class="input-grid-4">
+          <div class="input-unit"><label>Maadi</label><input type="number" id="cai_on_hr_maadi" value="0"></div>
+          <div class="input-unit"><label>Nasr City</label><input type="number" id="cai_on_hr_nasr" value="0"></div>
+          <div class="input-unit"><label>Tagamoa</label><input type="number" id="cai_on_hr_taga" value="0"></div>
+          <div class="input-unit"><label>Heliopolis</label><input type="number" id="cai_on_hr_helio" value="0"></div>
+        </div>
+      </div>
+
+      <h4 style="margin:14px 0 8px; color:var(--good-green);">2. تحصيل الكاش وإنستا باي (Cash & InstaPay)</h4>
+      <div class="field">
+        <label>إجمالي الكاش حسب الفرع (Cash EGP):</label>
+        <div class="input-grid-4">
+          <div class="input-unit"><label>Maadi</label><input type="number" id="cai_cash_maadi" value="0"></div>
+          <div class="input-unit"><label>Nasr City</label><input type="number" id="cai_cash_nasr" value="0"></div>
+          <div class="input-unit"><label>Tagamoa</label><input type="number" id="cai_cash_taga" value="0"></div>
+          <div class="input-unit"><label>Heliopolis</label><input type="number" id="cai_cash_helio" value="0"></div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>إجمالي إنستا باي حسب الفرع (InstaPay EGP):</label>
+        <div class="input-grid-4">
+          <div class="input-unit"><label>Maadi</label><input type="number" id="cai_insta_maadi" value="0"></div>
+          <div class="input-unit"><label>Nasr City</label><input type="number" id="cai_insta_nasr" value="0"></div>
+          <div class="input-unit"><label>Tagamoa</label><input type="number" id="cai_insta_taga" value="0"></div>
+          <div class="input-unit"><label>Heliopolis</label><input type="number" id="cai_insta_helio" value="0"></div>
+        </div>
+      </div>
+
+      <div class="modal-actions">
+        <button class="btn-secondary" onclick="closeCairoModal()">إغلاق</button>
+        <button class="btn-primary" onclick="saveCairoModalData()">حفظ المعاملات</button>
       </div>
     </div>
   </div>
@@ -804,27 +935,17 @@
 
 <script>
 (function(){
-  const USERS = {
-    'user0': 'mosh',
-    'user1': 'mosh1'
-  };
-
-  function normalize(str) {
-    if(!str) return '';
-    return String(str).toLowerCase().trim().replace(/\s+/g, '');
-  }
+  const USERS = { 'user0': 'mosh', 'user1': 'mosh1' };
+  function normalize(str) { return str? String(str).toLowerCase().trim().replace(/\s+/g, '') : ''; }
 
   const DEFAULT_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzy_6glG3q4k73o06ZGYIt7NjMVM7Jd-EAFgUAzbFsF3P0GwmEqb34VJtpwH0DrtWJPlQ/exec';
-  
-  function getScriptUrl() {
-    return localStorage.getItem('alexandrie_script_url') || DEFAULT_SCRIPT_URL;
-  }
+  function getScriptUrl() { return localStorage.getItem('alexandrie_script_url') || DEFAULT_SCRIPT_URL; }
 
   const COLORS = ['#2563eb','#059669','#7c3aed','#d97706','#dc2626','#0891b2'];
   let data = { 
     categories: [], 
     tickets: {},
-    branchSales: {
+    branchSalesAlex: {
       "2026-08-07": {
         online: {
           "premium orbit": { rock: 0, bero: 1, stadium: 3, tunnel: 0 },
@@ -855,6 +976,38 @@
           { ticket: "high regular", count: 0, amount: 0 }
         ]
       }
+    },
+    branchSalesCairo: {
+      "2026-08-07": {
+        online: {
+          "premium orbit": { maadi: 0, nasr: 0, taga: 0, helio: 0 },
+          "fanpit": { maadi: 0, nasr: 0, taga: 0, helio: 0 },
+          "vip": { maadi: 0, nasr: 0, taga: 0, helio: 0 },
+          "high regular": { maadi: 0, nasr: 0, taga: 0, helio: 0 }
+        },
+        offline: {
+          "premium orbit": { maadi: 0, nasr: 0, taga: 0, helio: 0 },
+          "fanpit": { maadi: 0, nasr: 0, taga: 0, helio: 0 },
+          "vip": { maadi: 0, nasr: 0, taga: 0, helio: 0 },
+          "high regular": { maadi: 0, nasr: 0, taga: 0, helio: 0 }
+        },
+        payments: {
+          cash: { maadi: 0, nasr: 0, taga: 0, helio: 0 },
+          insta: { maadi: 0, nasr: 0, taga: 0, helio: 0 }
+        },
+        cashBreakdown: [
+          { ticket: "premium orbit", count: 0, amount: 0 },
+          { ticket: "fanpit", count: 0, amount: 0 },
+          { ticket: "vip", count: 0, amount: 0 },
+          { ticket: "high regular", count: 0, amount: 0 }
+        ],
+        instaBreakdown: [
+          { ticket: "premium orbit", count: 0, amount: 0 },
+          { ticket: "fanpit", count: 0, amount: 0 },
+          { ticket: "vip", count: 0, amount: 0 },
+          { ticket: "high regular", count: 0, amount: 0 }
+        ]
+      }
     }
   };
 
@@ -865,20 +1018,16 @@
 
   window.handleLogin = function(e){
     if(e && e.preventDefault) e.preventDefault();
-    const rawUser = document.getElementById('usernameInput').value;
-    const rawPass = document.getElementById('passwordInput').value;
-    const alertBox = document.getElementById('loginAlert');
-
-    const cleanUser = normalize(rawUser);
-    const cleanPass = normalize(rawPass);
+    const cleanUser = normalize(document.getElementById('usernameInput').value);
+    const cleanPass = normalize(document.getElementById('passwordInput').value);
 
     if(USERS[cleanUser] && USERS[cleanUser] === cleanPass){
       loggedUser = cleanUser;
       sessionStorage.setItem('alexandrie_logged_user', loggedUser);
-      alertBox.style.display = 'none';
+      document.getElementById('loginAlert').style.display = 'none';
       initAppView();
     } else {
-      alertBox.style.display = 'block';
+      document.getElementById('loginAlert').style.display = 'block';
     }
     return false;
   };
@@ -891,12 +1040,8 @@
   };
 
   function checkAuth(){
-    if(loggedUser && USERS[loggedUser]){
-      initAppView();
-    } else {
-      document.getElementById('loginView').classList.add('active');
-      document.getElementById('appView').classList.remove('active');
-    }
+    if(loggedUser && USERS[loggedUser]) initAppView();
+    else { document.getElementById('loginView').classList.add('active'); document.getElementById('appView').classList.remove('active'); }
   }
 
   function initAppView(){
@@ -913,235 +1058,218 @@
     if(tabId === 'ticketsTab'){
       document.getElementById('tabBtnTickets').classList.add('active');
       document.getElementById('ticketsTab').classList.add('active');
-    } else {
-      document.getElementById('tabBtnBranches').classList.add('active');
-      document.getElementById('branchesTab').classList.add('active');
-      renderBranchSales();
+    } else if(tabId === 'alexTab'){
+      document.getElementById('tabBtnAlex').classList.add('active');
+      document.getElementById('alexTab').classList.add('active');
+      renderAlexSales();
+    } else if(tabId === 'cairoTab'){
+      document.getElementById('tabBtnCairo').classList.add('active');
+      document.getElementById('cairoTab').classList.add('active');
+      renderCairoSales();
     }
   };
 
   async function loadData(){
-    loaded = false;
-    render();
+    loaded = false; render();
     try{
-      const currentUrl = getScriptUrl();
-      const res = await fetch(currentUrl);
+      const res = await fetch(getScriptUrl());
       const json = await res.json();
       if(json){
         if(json.categories) data.categories = json.categories;
         if(json.tickets) data.tickets = json.tickets;
-        if(json.branchSales) data.branchSales = json.branchSales;
+        if(json.branchSalesAlex) data.branchSalesAlex = json.branchSalesAlex;
+        else if(json.branchSales) data.branchSalesAlex = json.branchSales;
+        if(json.branchSalesCairo) data.branchSalesCairo = json.branchSalesCairo;
       }
     }catch(e){ console.error('Error loading data', e); }
-    loaded = true;
-    render();
+    loaded = true; render();
   }
 
   async function saveData(){
     try{
-      const currentUrl = getScriptUrl();
-      await fetch(currentUrl, {
-        method: 'POST',
-        mode: 'no-cors',
+      await fetch(getScriptUrl(), {
+        method: 'POST', mode: 'no-cors',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
       });
     }catch(e){ console.error('Save failed', e); }
   }
 
-  function renderBranchSales(){
-    const dateKey = document.getElementById('branchDateSelect').value || '2026-08-07';
-    const dayData = (data.branchSales && data.branchSales[dateKey]) ? data.branchSales[dateKey] : data.branchSales['2026-08-07'];
-
-    // Render Online Table
+  // Render Alexandria Branch Sales
+  function renderAlexSales(){
+    const dateKey = document.getElementById('alexDateSelect').value || '2026-08-07';
+    const dayData = (data.branchSalesAlex && data.branchSalesAlex[dateKey]) ? data.branchSalesAlex[dateKey] : (data.branchSalesAlex['2026-08-07'] || {});
     const onlineCats = ["premium orbit", "fanpit", "vip", "high regular"];
-    let onlineHtml = '';
-    let onlineGrandTotal = 0;
 
+    let onlineHtml = '', onlineGrandTotal = 0;
     onlineCats.forEach(cat => {
-      const c = dayData.online[cat] || { rock: 0, bero: 0, stadium: 0, tunnel: 0 };
+      const c = (dayData.online && dayData.online[cat]) || { rock:0, bero:0, stadium:0, tunnel:0 };
       const rowTotal = (c.rock||0) + (c.bero||0) + (c.stadium||0) + (c.tunnel||0);
       onlineGrandTotal += rowTotal;
-      onlineHtml += `<tr>
-        <td class="cat-cell">${cat}</td>
-        <td>${c.rock||0}</td>
-        <td>${c.bero||0}</td>
-        <td>${c.stadium||0}</td>
-        <td>${c.tunnel||0}</td>
-        <td><b>${rowTotal}</b></td>
-      </tr>`;
+      onlineHtml += `<tr><td class="cat-cell">${cat}</td><td>${c.rock||0}</td><td>${c.bero||0}</td><td>${c.stadium||0}</td><td>${c.tunnel||0}</td><td><b>${rowTotal}</b></td></tr>`;
     });
-    onlineHtml += `<tr class="total-row">
-      <td class="cat-cell">total</td>
-      <td colspan="4"></td>
-      <td><b>${onlineGrandTotal}</b></td>
-    </tr>`;
-    document.getElementById('onlineTableBody').innerHTML = onlineHtml;
-    document.getElementById('summaryOnlineTickets').textContent = onlineGrandTotal;
+    onlineHtml += `<tr class="total-row"><td class="cat-cell">total</td><td colspan="4"></td><td><b>${onlineGrandTotal}</b></td></tr>`;
+    document.getElementById('alexOnlineTableBody').innerHTML = onlineHtml;
+    document.getElementById('alexOnlineTickets').textContent = onlineGrandTotal;
 
-    // Render Offline Table
-    let offlineHtml = '';
-    let offlineGrandTotal = 0;
+    let offlineHtml = '', offlineGrandTotal = 0;
     onlineCats.forEach(cat => {
-      const c = dayData.offline[cat] || { rock: 0, bero: 0, stadium: 0, tunnel: 0 };
+      const c = (dayData.offline && dayData.offline[cat]) || { rock:0, bero:0, stadium:0, tunnel:0 };
       const rowTotal = (c.rock||0) + (c.bero||0) + (c.stadium||0) + (c.tunnel||0);
       offlineGrandTotal += rowTotal;
-      offlineHtml += `<tr>
-        <td class="cat-cell">${cat}</td>
-        <td>${c.rock ? c.rock : ''}</td>
-        <td>${c.bero ? c.bero : ''}</td>
-        <td>${c.stadium ? c.stadium : ''}</td>
-        <td>${c.tunnel ? c.tunnel : ''}</td>
-        <td><b>${rowTotal}</b></td>
-      </tr>`;
+      offlineHtml += `<tr><td class="cat-cell">${cat}</td><td>${c.rock?c.rock:''}</td><td>${c.bero?c.bero:''}</td><td>${c.stadium?c.stadium:''}</td><td>${c.tunnel?c.tunnel:''}</td><td><b>${rowTotal}</b></td></tr>`;
     });
 
-    const cashRow = dayData.payments.cash || { rock:0, bero:0, stadium:0, tunnel:0 };
+    const cashRow = (dayData.payments && dayData.payments.cash) || { rock:0, bero:0, stadium:0, tunnel:0 };
     const cashTotal = (cashRow.rock||0) + (cashRow.bero||0) + (cashRow.stadium||0) + (cashRow.tunnel||0);
 
-    const instaRow = dayData.payments.insta || { rock:0, bero:0, stadium:0, tunnel:0 };
+    const instaRow = (dayData.payments && dayData.payments.insta) || { rock:0, bero:0, stadium:0, tunnel:0 };
     const instaTotal = (instaRow.rock||0) + (instaRow.bero||0) + (instaRow.stadium||0) + (instaRow.tunnel||0);
 
-    offlineHtml += `<tr class="total-row">
-      <td class="cat-cell">total tickets</td>
-      <td colspan="4"></td>
-      <td><b>${offlineGrandTotal}</b></td>
-    </tr>
-    <tr>
-      <td class="cat-cell">cash</td>
-      <td>${cashRow.rock || 0}</td>
-      <td>${cashRow.bero || 0}</td>
-      <td>${cashRow.stadium || 0}</td>
-      <td>${cashRow.tunnel || 0}</td>
-      <td><b>${cashTotal} EGP</b></td>
-    </tr>
-    <tr>
-      <td class="cat-cell">insta</td>
-      <td>${instaRow.rock || 0}</td>
-      <td>${instaRow.bero || 0}</td>
-      <td>${instaRow.stadium || 0}</td>
-      <td>${instaRow.tunnel || 0}</td>
-      <td><b>${instaTotal} EGP</b></td>
-    </tr>`;
+    offlineHtml += `<tr class="total-row"><td class="cat-cell">total tickets</td><td colspan="4"></td><td><b>${offlineGrandTotal}</b></td></tr>
+    <tr><td class="cat-cell">cash</td><td>${cashRow.rock||0}</td><td>${cashRow.bero||0}</td><td>${cashRow.stadium||0}</td><td>${cashRow.tunnel||0}</td><td><b>${cashTotal} EGP</b></td></tr>
+    <tr><td class="cat-cell">insta</td><td>${instaRow.rock||0}</td><td>${instaRow.bero||0}</td><td>${instaRow.stadium||0}</td><td>${instaRow.tunnel||0}</td><td><b>${instaTotal} EGP</b></td></tr>`;
 
-    document.getElementById('offlineTableBody').innerHTML = offlineHtml;
-    document.getElementById('summaryOfflineTickets').textContent = offlineGrandTotal;
-    document.getElementById('summaryCashTotal').textContent = cashTotal.toLocaleString() + ' ج.م';
-    document.getElementById('summaryInstaTotal').textContent = instaTotal.toLocaleString() + ' ج.م';
+    document.getElementById('alexOfflineTableBody').innerHTML = offlineHtml;
+    document.getElementById('alexOfflineTickets').textContent = offlineGrandTotal;
+    document.getElementById('alexCashTotal').textContent = cashTotal.toLocaleString() + ' ج.م';
+    document.getElementById('alexInstaTotal').textContent = instaTotal.toLocaleString() + ' ج.م';
 
-    // Cash Breakdown Table
-    let cashBdHtml = '';
-    let cashBdTotal = 0;
-    (dayData.cashBreakdown || []).forEach(item => {
+    let cashBdHtml = '', cashBdTotal = 0;
+    ((dayData && dayData.cashBreakdown) || []).forEach(item => {
       cashBdTotal += item.amount;
-      cashBdHtml += `<tr>
-        <td class="cat-cell">${item.ticket}</td>
-        <td>${item.count}</td>
-        <td>${item.amount} EGP</td>
-      </tr>`;
+      cashBdHtml += `<tr><td class="cat-cell">${item.ticket}</td><td>${item.count}</td><td>${item.amount} EGP</td></tr>`;
     });
-    cashBdHtml += `<tr class="total-row">
-      <td class="cat-cell">total cash</td>
-      <td></td>
-      <td><b>${cashBdTotal} EGP</b></td>
-    </tr>`;
-    document.getElementById('cashTableBody').innerHTML = cashBdHtml;
+    cashBdHtml += `<tr class="total-row"><td class="cat-cell">total cash</td><td></td><td><b>${cashBdTotal} EGP</b></td></tr>`;
+    document.getElementById('alexCashTableBody').innerHTML = cashBdHtml;
 
-    // InstaPay Breakdown Table
-    let instaBdHtml = '';
-    let instaBdTotal = 0;
-    (dayData.instaBreakdown || []).forEach(item => {
+    let instaBdHtml = '', instaBdTotal = 0;
+    ((dayData && dayData.instaBreakdown) || []).forEach(item => {
       instaBdTotal += item.amount;
-      instaBdHtml += `<tr>
-        <td class="cat-cell">${item.ticket}</td>
-        <td>${item.count}</td>
-        <td>${item.amount} EGP</td>
-      </tr>`;
+      instaBdHtml += `<tr><td class="cat-cell">${item.ticket}</td><td>${item.count}</td><td>${item.amount} EGP</td></tr>`;
     });
-    instaBdHtml += `<tr class="total-row">
-      <td class="cat-cell">total insta</td>
-      <td></td>
-      <td><b>${instaBdTotal} EGP</b></td>
-    </tr>`;
-    document.getElementById('instaTableBody').innerHTML = instaBdHtml;
+    instaBdHtml += `<tr class="total-row"><td class="cat-cell">total insta</td><td></td><td><b>${instaBdTotal} EGP</b></td></tr>`;
+    document.getElementById('alexInstaTableBody').innerHTML = instaBdHtml;
   }
 
-  window.openBranchEditModal = function(){
-    document.getElementById('branchModal').classList.add('open');
-  };
+  // Render Cairo Branch Sales
+  function renderCairoSales(){
+    const dateKey = document.getElementById('cairoDateSelect').value || '2026-08-07';
+    const dayData = (data.branchSalesCairo && data.branchSalesCairo[dateKey]) ? data.branchSalesCairo[dateKey] : (data.branchSalesCairo['2026-08-07'] || {});
+    const onlineCats = ["premium orbit", "fanpit", "vip", "high regular"];
 
-  window.closeBranchModal = function(){
-    document.getElementById('branchModal').classList.remove('open');
-  };
+    let onlineHtml = '', onlineGrandTotal = 0;
+    onlineCats.forEach(cat => {
+      const c = (dayData.online && dayData.online[cat]) || { maadi:0, nasr:0, taga:0, helio:0 };
+      const rowTotal = (c.maadi||0) + (c.nasr||0) + (c.taga||0) + (c.helio||0);
+      onlineGrandTotal += rowTotal;
+      onlineHtml += `<tr><td class="cat-cell">${cat}</td><td>${c.maadi||0}</td><td>${c.nasr||0}</td><td>${c.taga||0}</td><td>${c.helio||0}</td><td><b>${rowTotal}</b></td></tr>`;
+    });
+    onlineHtml += `<tr class="total-row"><td class="cat-cell">total</td><td colspan="4"></td><td><b>${onlineGrandTotal}</b></td></tr>`;
+    document.getElementById('cairoOnlineTableBody').innerHTML = onlineHtml;
+    document.getElementById('cairoOnlineTickets').textContent = onlineGrandTotal;
 
-  window.saveBranchModalData = async function(){
-    const dateKey = document.getElementById('modalBranchDate').value || '2026-08-07';
-    if(!data.branchSales) data.branchSales = {};
+    let offlineHtml = '', offlineGrandTotal = 0;
+    onlineCats.forEach(cat => {
+      const c = (dayData.offline && dayData.offline[cat]) || { maadi:0, nasr:0, taga:0, helio:0 };
+      const rowTotal = (c.maadi||0) + (c.nasr||0) + (c.taga||0) + (c.helio||0);
+      offlineGrandTotal += rowTotal;
+      offlineHtml += `<tr><td class="cat-cell">${cat}</td><td>${c.maadi?c.maadi:''}</td><td>${c.nasr?c.nasr:''}</td><td>${c.taga?c.taga:''}</td><td>${c.helio?c.helio:''}</td><td><b>${rowTotal}</b></td></tr>`;
+    });
 
-    data.branchSales[dateKey] = {
+    const cashRow = (dayData.payments && dayData.payments.cash) || { maadi:0, nasr:0, taga:0, helio:0 };
+    const cashTotal = (cashRow.maadi||0) + (cashRow.nasr||0) + (cashRow.taga||0) + (cashRow.helio||0);
+
+    const instaRow = (dayData.payments && dayData.payments.insta) || { maadi:0, nasr:0, taga:0, helio:0 };
+    const instaTotal = (instaRow.maadi||0) + (instaRow.nasr||0) + (instaRow.taga||0) + (instaRow.helio||0);
+
+    offlineHtml += `<tr class="total-row"><td class="cat-cell">total tickets</td><td colspan="4"></td><td><b>${offlineGrandTotal}</b></td></tr>
+    <tr><td class="cat-cell">cash</td><td>${cashRow.maadi||0}</td><td>${cashRow.nasr||0}</td><td>${cashRow.taga||0}</td><td>${cashRow.helio||0}</td><td><b>${cashTotal} EGP</b></td></tr>
+    <tr><td class="cat-cell">insta</td><td>${cashRow.maadi||0}</td><td>${instaRow.nasr||0}</td><td>${instaRow.taga||0}</td><td>${instaRow.helio||0}</td><td><b>${instaTotal} EGP</b></td></tr>`;
+
+    document.getElementById('cairoOfflineTableBody').innerHTML = offlineHtml;
+    document.getElementById('cairoOfflineTickets').textContent = offlineGrandTotal;
+    document.getElementById('cairoCashTotal').textContent = cashTotal.toLocaleString() + ' ج.م';
+    document.getElementById('cairoInstaTotal').textContent = instaTotal.toLocaleString() + ' ج.م';
+
+    let cashBdHtml = '', cashBdTotal = 0;
+    ((dayData && dayData.cashBreakdown) || []).forEach(item => {
+      cashBdTotal += item.amount;
+      cashBdHtml += `<tr><td class="cat-cell">${item.ticket}</td><td>${item.count}</td><td>${item.amount} EGP</td></tr>`;
+    });
+    cashBdHtml += `<tr class="total-row"><td class="cat-cell">total cash</td><td></td><td><b>${cashBdTotal} EGP</b></td></tr>`;
+    document.getElementById('cairoCashTableBody').innerHTML = cashBdHtml;
+
+    let instaBdHtml = '', instaBdTotal = 0;
+    ((dayData && dayData.instaBreakdown) || []).forEach(item => {
+      instaBdTotal += item.amount;
+      instaBdHtml += `<tr><td class="cat-cell">${item.ticket}</td><td>${item.count}</td><td>${item.amount} EGP</td></tr>`;
+    });
+    instaBdHtml += `<tr class="total-row"><td class="cat-cell">total insta</td><td></td><td><b>${instaBdTotal} EGP</b></td></tr>`;
+    document.getElementById('cairoInstaTableBody').innerHTML = instaBdHtml;
+  }
+
+  // Modals Open/Close/Save
+  window.openAlexModal = function(){ document.getElementById('alexModal').classList.add('open'); };
+  window.closeAlexModal = function(){ document.getElementById('alexModal').classList.remove('open'); };
+
+  window.saveAlexModalData = async function(){
+    const dateKey = document.getElementById('alexModalDate').value || '2026-08-07';
+    if(!data.branchSalesAlex) data.branchSalesAlex = {};
+
+    data.branchSalesAlex[dateKey] = {
       online: {
-        "premium orbit": {
-          rock: parseInt(document.getElementById('on_po_rock').value, 10)||0,
-          bero: parseInt(document.getElementById('on_po_bero').value, 10)||0,
-          stadium: parseInt(document.getElementById('on_po_stad').value, 10)||0,
-          tunnel: parseInt(document.getElementById('on_po_tunn').value, 10)||0
-        },
-        "fanpit": {
-          rock: parseInt(document.getElementById('on_fp_rock').value, 10)||0,
-          bero: parseInt(document.getElementById('on_fp_bero').value, 10)||0,
-          stadium: parseInt(document.getElementById('on_fp_stad').value, 10)||0,
-          tunnel: parseInt(document.getElementById('on_fp_tunn').value, 10)||0
-        },
-        "vip": {
-          rock: parseInt(document.getElementById('on_vip_rock').value, 10)||0,
-          bero: parseInt(document.getElementById('on_vip_bero').value, 10)||0,
-          stadium: parseInt(document.getElementById('on_vip_stad').value, 10)||0,
-          tunnel: parseInt(document.getElementById('on_vip_tunn').value, 10)||0
-        },
-        "high regular": {
-          rock: parseInt(document.getElementById('on_hr_rock').value, 10)||0,
-          bero: parseInt(document.getElementById('on_hr_bero').value, 10)||0,
-          stadium: parseInt(document.getElementById('on_hr_stad').value, 10)||0,
-          tunnel: parseInt(document.getElementById('on_hr_tunn').value, 10)||0
-        }
+        "premium orbit": { rock: parseInt(document.getElementById('alx_on_po_rock').value, 10)||0, bero: parseInt(document.getElementById('alx_on_po_bero').value, 10)||0, stadium: parseInt(document.getElementById('alx_on_po_stad').value, 10)||0, tunnel: parseInt(document.getElementById('alx_on_po_tunn').value, 10)||0 },
+        "fanpit": { rock: parseInt(document.getElementById('alx_on_fp_rock').value, 10)||0, bero: parseInt(document.getElementById('alx_on_fp_bero').value, 10)||0, stadium: parseInt(document.getElementById('alx_on_fp_stad').value, 10)||0, tunnel: parseInt(document.getElementById('alx_on_fp_tunn').value, 10)||0 },
+        "vip": { rock: parseInt(document.getElementById('alx_on_vip_rock').value, 10)||0, bero: parseInt(document.getElementById('alx_on_vip_bero').value, 10)||0, stadium: parseInt(document.getElementById('alx_on_vip_stad').value, 10)||0, tunnel: parseInt(document.getElementById('alx_on_vip_tunn').value, 10)||0 },
+        "high regular": { rock: parseInt(document.getElementById('alx_on_hr_rock').value, 10)||0, bero: parseInt(document.getElementById('alx_on_hr_bero').value, 10)||0, stadium: parseInt(document.getElementById('alx_on_hr_stad').value, 10)||0, tunnel: parseInt(document.getElementById('alx_on_hr_tunn').value, 10)||0 }
       },
-      offline: data.branchSales["2026-08-07"].offline,
+      offline: (data.branchSalesAlex["2026-08-07"] && data.branchSalesAlex["2026-08-07"].offline) || {},
       payments: {
-        cash: {
-          rock: parseInt(document.getElementById('cash_rock').value, 10)||0,
-          bero: parseInt(document.getElementById('cash_bero').value, 10)||0,
-          stadium: parseInt(document.getElementById('cash_stad').value, 10)||0,
-          tunnel: parseInt(document.getElementById('cash_tunn').value, 10)||0
-        },
-        insta: {
-          rock: parseInt(document.getElementById('insta_rock').value, 10)||0,
-          bero: parseInt(document.getElementById('insta_bero').value, 10)||0,
-          stadium: parseInt(document.getElementById('insta_stad').value, 10)||0,
-          tunnel: parseInt(document.getElementById('insta_tunn').value, 10)||0
-        }
+        cash: { rock: parseInt(document.getElementById('alx_cash_rock').value, 10)||0, bero: parseInt(document.getElementById('alx_cash_bero').value, 10)||0, stadium: parseInt(document.getElementById('alx_cash_stad').value, 10)||0, tunnel: parseInt(document.getElementById('alx_cash_tunn').value, 10)||0 },
+        insta: { rock: parseInt(document.getElementById('alx_insta_rock').value, 10)||0, bero: parseInt(document.getElementById('alx_insta_bero').value, 10)||0, stadium: parseInt(document.getElementById('alx_insta_stad').value, 10)||0, tunnel: parseInt(document.getElementById('alx_insta_tunn').value, 10)||0 }
       },
-      cashBreakdown: data.branchSales["2026-08-07"].cashBreakdown,
-      instaBreakdown: data.branchSales["2026-08-07"].instaBreakdown
+      cashBreakdown: (data.branchSalesAlex["2026-08-07"] && data.branchSalesAlex["2026-08-07"].cashBreakdown) || [],
+      instaBreakdown: (data.branchSalesAlex["2026-08-07"] && data.branchSalesAlex["2026-08-07"].instaBreakdown) || []
     };
 
-    await saveData();
-    closeBranchModal();
-    renderBranchSales();
+    await saveData(); closeAlexModal(); renderAlexSales();
+  };
+
+  window.openCairoModal = function(){ document.getElementById('cairoModal').classList.add('open'); };
+  window.closeCairoModal = function(){ document.getElementById('cairoModal').classList.remove('open'); };
+
+  window.saveCairoModalData = async function(){
+    const dateKey = document.getElementById('cairoModalDate').value || '2026-08-07';
+    if(!data.branchSalesCairo) data.branchSalesCairo = {};
+
+    data.branchSalesCairo[dateKey] = {
+      online: {
+        "premium orbit": { maadi: parseInt(document.getElementById('cai_on_po_maadi').value, 10)||0, nasr: parseInt(document.getElementById('cai_on_po_nasr').value, 10)||0, taga: parseInt(document.getElementById('cai_on_po_taga').value, 10)||0, helio: parseInt(document.getElementById('cai_on_po_helio').value, 10)||0 },
+        "fanpit": { maadi: parseInt(document.getElementById('cai_on_fp_maadi').value, 10)||0, nasr: parseInt(document.getElementById('cai_on_fp_nasr').value, 10)||0, taga: parseInt(document.getElementById('cai_on_fp_taga').value, 10)||0, helio: parseInt(document.getElementById('cai_on_fp_helio').value, 10)||0 },
+        "vip": { maadi: parseInt(document.getElementById('cai_on_vip_maadi').value, 10)||0, nasr: parseInt(document.getElementById('cai_on_vip_nasr').value, 10)||0, taga: parseInt(document.getElementById('cai_on_vip_taga').value, 10)||0, helio: parseInt(document.getElementById('cai_on_vip_helio').value, 10)||0 },
+        "high regular": { maadi: parseInt(document.getElementById('cai_on_hr_maadi').value, 10)||0, nasr: parseInt(document.getElementById('cai_on_hr_nasr').value, 10)||0, taga: parseInt(document.getElementById('cai_on_hr_taga').value, 10)||0, helio: parseInt(document.getElementById('cai_on_hr_helio').value, 10)||0 }
+      },
+      offline: (data.branchSalesCairo["2026-08-07"] && data.branchSalesCairo["2026-08-07"].offline) || {},
+      payments: {
+        cash: { maadi: parseInt(document.getElementById('cai_cash_maadi').value, 10)||0, nasr: parseInt(document.getElementById('cai_cash_nasr').value, 10)||0, taga: parseInt(document.getElementById('cai_cash_taga').value, 10)||0, helio: parseInt(document.getElementById('cai_cash_helio').value, 10)||0 },
+        insta: { maadi: parseInt(document.getElementById('cai_insta_maadi').value, 10)||0, nasr: parseInt(document.getElementById('cai_insta_nasr').value, 10)||0, taga: parseInt(document.getElementById('cai_insta_taga').value, 10)||0, helio: parseInt(document.getElementById('cai_insta_helio').value, 10)||0 }
+      },
+      cashBreakdown: (data.branchSalesCairo["2026-08-07"] && data.branchSalesCairo["2026-08-07"].cashBreakdown) || [],
+      instaBreakdown: (data.branchSalesCairo["2026-08-07"] && data.branchSalesCairo["2026-08-07"].instaBreakdown) || []
+    };
+
+    await saveData(); closeCairoModal(); renderCairoSales();
   };
 
   function catStats(cat){
-    let total = cat.serials.length;
-    let dist = 0;
-    cat.serials.forEach(sn=>{
-      const t = data.tickets[cat.id+'-'+sn];
-      if(t && t.distributed) dist++;
-    });
+    let total = cat.serials.length, dist = 0;
+    cat.serials.forEach(sn=>{ const t = data.tickets[cat.id+'-'+sn]; if(t && t.distributed) dist++; });
     return {total, dist, remain: total-dist};
   }
 
   function findTicketBySerial(serial){
-    serial = String(serial).trim();
-    if(!serial) return null;
+    serial = String(serial).trim(); if(!serial) return null;
     for(const cat of data.categories){
       const match = cat.serials.find(sn => sn.toLowerCase() === serial.toLowerCase());
       if(match){
@@ -1159,9 +1287,7 @@
         const t = data.tickets[cat.id+'-'+sn];
         if(t && t.distributed){
           const key = (t.recipient || 'غير معروف') + '_' + (t.phone || '');
-          if(!map[key]){
-            map[key] = { name: t.recipient || 'غير معروف', phone: t.phone || '', tickets: [] };
-          }
+          if(!map[key]) map[key] = { name: t.recipient || 'غير معروف', phone: t.phone || '', tickets: [] };
           map[key].tickets.push({ catName: cat.name, color: cat.color, num: sn });
         }
       });
@@ -1172,46 +1298,25 @@
   function render(){
     let totalAll=0, distAll=0;
     data.categories.forEach(c=>{ const s=catStats(c); totalAll+=s.total; distAll+=s.dist; });
-
     document.getElementById('statTotal').textContent = totalAll;
     document.getElementById('statDist').textContent = distAll;
     document.getElementById('statRemain').textContent = totalAll - distAll;
 
     const catsContainer = document.getElementById('categoriesList');
-
-    if(!loaded){
-      catsContainer.innerHTML = '<div class="empty-box"><p>⏳ جاري تحميل البيانات...</p></div>';
-      return;
-    }
+    if(!loaded){ catsContainer.innerHTML = '<div class="empty-box"><p>⏳ جاري تحميل البيانات...</p></div>'; return; }
 
     if(data.categories.length === 0){
-      catsContainer.innerHTML = `<div class="empty-box">
-        <p>لم يتم إضافة أي فئة تذاكر حتى الآن.</p>
-        <button class="btn-primary" onclick="openSetup()">ابدأ بإضافة الفئات الآن</button>
-      </div>`;
+      catsContainer.innerHTML = `<div class="empty-box"><p>لم يتم إضافة أي فئة تذاكر حتى الآن.</p><button class="btn-primary" onclick="openSetup()">ابدأ بإضافة الفئات الآن</button></div>`;
     } else {
       let html = '';
       data.categories.forEach((cat)=>{
-        const s = catStats(cat);
-        const pct = s.total ? Math.round((s.dist/s.total)*100) : 0;
+        const s = catStats(cat); const pct = s.total ? Math.round((s.dist/s.total)*100) : 0;
         html += `<div class="cat-card">
           <div class="cat-head" data-cat="${cat.id}">
-            <div class="cat-name-group">
-              <span class="color-dot" style="background:${cat.color}"></span>
-              <span>${escapeHtml(cat.name)}</span>
-              <span class="cat-meta">(${cat.serials.length} تذكرة)</span>
-            </div>
-            <div class="cat-right-group">
-              <div class="cat-progress-track">
-                <div class="cat-progress-fill" style="width:${pct}%;background:${cat.color}"></div>
-              </div>
-              <div class="cat-nums">${s.dist} / ${s.total} موزّع</div>
-              <span style="font-size:12px;color:var(--ink-muted);">▼</span>
-            </div>
+            <div class="cat-name-group"><span class="color-dot" style="background:${cat.color}"></span><span>${escapeHtml(cat.name)}</span><span class="cat-meta">(${cat.serials.length} تذكرة)</span></div>
+            <div class="cat-right-group"><div class="cat-progress-track"><div class="cat-progress-fill" style="width:${pct}%;background:${cat.color}"></div></div><div class="cat-nums">${s.dist} / ${s.total} موزّع</div><span style="font-size:12px;color:var(--ink-muted);">▼</span></div>
           </div>
-          <div class="tickets-grid" id="grid-${cat.id}">
-            ${renderChips(cat)}
-          </div>
+          <div class="tickets-grid" id="grid-${cat.id}">${renderChips(cat)}</div>
         </div>`;
       });
       catsContainer.innerHTML = html;
@@ -1220,8 +1325,7 @@
     const custContainer = document.getElementById('customersContainer');
     const customers = getCustomersMap();
     if(customers.length > 0){
-      let custHtml = `<div class="customers-section">
-        <h2 style="font-size:18px;font-weight:800;margin-bottom:14px;">📋 سجل العملاء والتذاكر المسجلة (${customers.length})</h2>`;
+      let custHtml = `<div class="customers-section"><h2 style="font-size:18px;font-weight:800;margin-bottom:14px;">📋 سجل العملاء والتذاكر المسجلة (${customers.length})</h2>`;
       customers.forEach(cust => {
         custHtml += `<div class="customer-card">
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;flex-wrap:wrap;gap:8px;">
@@ -1233,14 +1337,10 @@
           </div>
         </div>`;
       });
-      custHtml += `</div>`;
-      custContainer.innerHTML = custHtml;
-    } else {
-      custContainer.innerHTML = '';
-    }
+      custHtml += `</div>`; custContainer.innerHTML = custHtml;
+    } else { custContainer.innerHTML = ''; }
 
-    attachEvents();
-    renderBranchSales();
+    attachEvents(); renderAlexSales(); renderCairoSales();
   }
 
   function renderChips(cat){
@@ -1254,23 +1354,16 @@
     return out;
   }
 
-  function escapeHtml(s){
-    if(!s) return '';
-    return String(s).replace(/[&<>"']/g, m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
-  }
+  function escapeHtml(s){ if(!s) return ''; return String(s).replace(/[&<>"']/g, m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
 
   function attachEvents(){
     const search = document.getElementById('searchInput');
     if(search){
       search.oninput = ()=>{
-        const box = document.getElementById('searchResultBox');
-        const val = search.value.trim();
+        const box = document.getElementById('searchResultBox'); const val = search.value.trim();
         if(!val){ box.innerHTML=''; return; }
         const r = findTicketBySerial(val);
-        if(!r || !r.cat){
-          box.innerHTML = `<div class="search-result" style="border-color:var(--ink-muted);">❌ لا توجد تذكرة بهذا الرقم.</div>`;
-          return;
-        }
+        if(!r || !r.cat){ box.innerHTML = `<div class="search-result" style="border-color:var(--ink-muted);">❌ لا توجد تذكرة بهذا الرقم.</div>`; return; }
         const isDist = r.t && r.t.distributed;
         box.innerHTML = `<div class="search-result">
           <div>
@@ -1287,8 +1380,7 @@
 
     document.querySelectorAll('.cat-head').forEach(el=>{
       el.onclick = ()=>{
-        const id = el.dataset.cat;
-        const grid = document.getElementById('grid-'+id);
+        const id = el.dataset.cat; const grid = document.getElementById('grid-'+id);
         const isOpen = grid.classList.contains('open');
         document.querySelectorAll('.tickets-grid').forEach(g=>g.classList.remove('open'));
         if(!isOpen) grid.classList.add('open');
@@ -1296,27 +1388,18 @@
     });
 
     document.querySelectorAll('.chip:not(.add-chip)').forEach(el=>{
-      el.onclick = (e)=>{
-        e.stopPropagation();
-        openTicketModal(el.dataset.cat, el.dataset.num);
-      };
+      el.onclick = (e)=>{ e.stopPropagation(); openTicketModal(el.dataset.cat, el.dataset.num); };
     });
 
     document.querySelectorAll('.add-chip').forEach(el=>{
-      el.onclick = (e)=>{
-        e.stopPropagation();
-        openQuickAddModal(el.dataset.addto);
-      };
+      el.onclick = (e)=>{ e.stopPropagation(); openQuickAddModal(el.dataset.addto); };
     });
 
-    const addBtn = document.getElementById('addCatsBtn');
-    const editBtn = document.getElementById('editCatsBtn');
+    const addBtn = document.getElementById('addCatsBtn'); const editBtn = document.getElementById('editCatsBtn');
     [addBtn, editBtn].forEach(b=> b && (b.onclick = openSetup));
 
     const cancelSetup = document.getElementById('cancelSetup');
-    if(cancelSetup) cancelSetup.onclick = ()=>{
-      document.getElementById('setupOverlay').classList.remove('open');
-    };
+    if(cancelSetup) cancelSetup.onclick = ()=>{ document.getElementById('setupOverlay').classList.remove('open'); };
   }
 
   let setupDraft = [];
@@ -1329,9 +1412,7 @@
 
   window.openSetup = function(){
     setupDraft = data.categories.map(c=>({...c, serials:[...c.serials], serialsText:c.serials.join('\n')}));
-    if(setupDraft.length===0){
-      setupDraft.push({id:uid(), name:'', serials:[], serialsText:'', color:COLORS[0]});
-    }
+    if(setupDraft.length===0){ setupDraft.push({id:uid(), name:'', serials:[], serialsText:'', color:COLORS[0]}); }
     renderSetupList();
     document.getElementById('setupOverlay').classList.add('open');
     
@@ -1342,16 +1423,9 @@
     };
 
     document.getElementById('saveSetup').onclick = async ()=>{
-      for(const c of setupDraft){
-        if(!c.name.trim()){ document.getElementById('setupMsg').textContent='يرجى كتابة اسم لكل فئة'; return; }
-      }
-      data.categories = setupDraft.map(c=>({
-        id:c.id, name:c.name.trim(), color:c.color,
-        serials: dedupeKeepOrder(parseSerialsText(c.serialsText))
-      }));
-      await saveData();
-      document.getElementById('setupOverlay').classList.remove('open');
-      render();
+      for(const c of setupDraft){ if(!c.name.trim()){ document.getElementById('setupMsg').textContent='يرجى كتابة اسم لكل فئة'; return; } }
+      data.categories = setupDraft.map(c=>({ id:c.id, name:c.name.trim(), color:c.color, serials: dedupeKeepOrder(parseSerialsText(c.serialsText)) }));
+      await saveData(); document.getElementById('setupOverlay').classList.remove('open'); render();
     };
   };
 
@@ -1359,85 +1433,46 @@
     const list = document.getElementById('catSetupList');
     list.innerHTML = setupDraft.map((c,i)=>`
       <div style="border:1px solid var(--border-color);background:#f8fafc;border-radius:12px;padding:14px;margin-bottom:12px;">
-        <div class="field">
-          <label>اسم الفئة</label>
-          <input type="text" value="${escapeHtml(c.name)}" data-i="${i}" data-f="name" placeholder="مثال: VIP / عادي">
-        </div>
-        <div class="field">
-          <label>الأرقام التسلسلية</label>
-          <textarea data-i="${i}" data-f="serialsText">${escapeHtml(c.serialsText)}</textarea>
-        </div>
+        <div class="field"><label>اسم الفئة</label><input type="text" value="${escapeHtml(c.name)}" data-i="${i}" data-f="name"></div>
+        <div class="field"><label>الأرقام التسلسلية</label><textarea data-i="${i}" data-f="serialsText">${escapeHtml(c.serialsText)}</textarea></div>
         <div style="display:flex;align-items:center;justify-content:space-between;">
-          <div class="field" style="margin-bottom:0;display:flex;align-items:center;gap:8px;">
-            <label style="margin-bottom:0;">اللون:</label>
-            <input type="color" value="${c.color}" data-i="${i}" data-f="color" style="height:36px;width:50px;">
-          </div>
+          <div class="field" style="margin-bottom:0;display:flex;align-items:center;gap:8px;"><label style="margin-bottom:0;">اللون:</label><input type="color" value="${c.color}" data-i="${i}" data-f="color" style="height:36px;width:50px;"></div>
           <button style="background:none;border:none;color:#ef4444;font-size:13px;font-weight:700;cursor:pointer;" data-remove="${i}">حذف الفئة 🗑️</button>
         </div>
       </div>`).join('');
 
-    list.querySelectorAll('input, textarea').forEach(inp=>{
-      inp.oninput = ()=>{ setupDraft[parseInt(inp.dataset.i,10)][inp.dataset.f] = inp.value; };
-    });
-
-    list.querySelectorAll('[data-remove]').forEach(btn=>{
-      btn.onclick = ()=>{ setupDraft.splice(parseInt(btn.dataset.remove,10),1); renderSetupList(); };
-    });
+    list.querySelectorAll('input, textarea').forEach(inp=>{ inp.oninput = ()=>{ setupDraft[parseInt(inp.dataset.i,10)][inp.dataset.f] = inp.value; }; });
+    list.querySelectorAll('[data-remove]').forEach(btn=>{ btn.onclick = ()=>{ setupDraft.splice(parseInt(btn.dataset.remove,10),1); renderSetupList(); }; });
   }
 
   function openQuickAddModal(catId){
     const cat = data.categories.find(c=>c.id===catId);
     const body = document.getElementById('ticketModalBody');
-    body.innerHTML = `
-      <h3>إضافة أرقام تذاكر لـ ${escapeHtml(cat.name)}</h3>
-      <div class="field">
-        <label>الأرقام التسلسلية</label>
-        <textarea id="quickAddText"></textarea>
-      </div>
-      <div class="status-msg" id="quickAddMsg"></div>
-      <div class="modal-actions">
-        <button class="btn-secondary" id="closeTicketModal">إغلاق</button>
-        <button class="btn-primary" id="saveQuickAdd">إضافة</button>
-      </div>`;
+    body.innerHTML = `<h3>إضافة أرقام تذاكر لـ ${escapeHtml(cat.name)}</h3><div class="field"><label>الأرقام التسلسلية</label><textarea id="quickAddText"></textarea></div><div class="status-msg" id="quickAddMsg"></div><div class="modal-actions"><button class="btn-secondary" id="closeTicketModal">إغلاق</button><button class="btn-primary" id="saveQuickAdd">إضافة</button></div>`;
     document.getElementById('ticketOverlay').classList.add('open');
     document.getElementById('closeTicketModal').onclick = ()=>{ document.getElementById('ticketOverlay').classList.remove('open'); };
 
     document.getElementById('saveQuickAdd').onclick = async ()=>{
-      const raw = document.getElementById('quickAddText').value;
-      const newOnes = dedupeKeepOrder(parseSerialsText(raw));
-      if(newOnes.length===0) return;
+      const raw = document.getElementById('quickAddText').value; const newOnes = dedupeKeepOrder(parseSerialsText(raw)); if(newOnes.length===0) return;
       const existingLower = new Set(cat.serials.map(s=>s.toLowerCase()));
       newOnes.forEach(sn=>{ if(!existingLower.has(sn.toLowerCase())){ cat.serials.push(sn); existingLower.add(sn.toLowerCase()); } });
-      await saveData();
-      document.getElementById('ticketOverlay').classList.remove('open');
-      render();
+      await saveData(); document.getElementById('ticketOverlay').classList.remove('open'); render();
     };
   }
 
   function openTicketModal(catId, num){
-    const cat = data.categories.find(c=>c.id===catId);
-    const key = catId+'-'+num;
+    const cat = data.categories.find(c=>c.id===catId); const key = catId+'-'+num;
     const t = data.tickets[key] || {distributed:false, recipient:'', phone:'', note:''};
     const body = document.getElementById('ticketModalBody');
-    
     body.innerHTML = `
       <h3>تذكرة رقم ${num} — ${escapeHtml(cat.name)}</h3>
-      <div class="field">
-        <label>حالة التوزيع</label>
-        <select id="distSelect">
-          <option value="0" ${!t.distributed?'selected':''}>⏳ متاحة ولم تُوزّع</option>
-          <option value="1" ${t.distributed?'selected':''}>✅ موزّعة للعميل</option>
-        </select>
-      </div>
+      <div class="field"><label>حالة التوزيع</label><select id="distSelect"><option value="0" ${!t.distributed?'selected':''}>⏳ متاحة ولم تُوزّع</option><option value="1" ${t.distributed?'selected':''}>✅ موزّعة للعميل</option></select></div>
       <div id="recipientWrap" style="display:${t.distributed?'block':'none'}">
         <div class="field"><label>اسم العميل / المستلم</label><input type="text" id="recipientInput" value="${escapeHtml(t.recipient||'')}"></div>
         <div class="field"><label>رقم الهاتف</label><input type="tel" id="phoneInput" value="${escapeHtml(t.phone||'')}"></div>
         <div class="field"><label>ملاحظة خاصة (اختياري)</label><input type="text" id="noteInput" value="${escapeHtml(t.note||'')}"></div>
       </div>
-      <div class="modal-actions">
-        <button class="btn-secondary" id="closeTicketModal">إغلاق</button>
-        <button class="btn-primary" id="saveTicketModal">حفظ التغييرات</button>
-      </div>`;
+      <div class="modal-actions"><button class="btn-secondary" id="closeTicketModal">إغلاق</button><button class="btn-primary" id="saveTicketModal">حفظ التغييرات</button></div>`;
 
     document.getElementById('ticketOverlay').classList.add('open');
     document.getElementById('distSelect').onchange = (e)=>{ document.getElementById('recipientWrap').style.display = e.target.value==='1'?'block':'none'; };
@@ -1450,9 +1485,7 @@
       const note = document.getElementById('noteInput')? document.getElementById('noteInput').value.trim():'';
       
       data.tickets[key] = { distributed:isDist, recipient, phone, note, time: new Date().toISOString(), updatedBy: loggedUser };
-      await saveData();
-      document.getElementById('ticketOverlay').classList.remove('open');
-      render();
+      await saveData(); document.getElementById('ticketOverlay').classList.remove('open'); render();
     };
   }
 
