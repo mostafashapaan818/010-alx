@@ -892,17 +892,74 @@
         </ol>
         
         <div class="code-block" id="appScriptCode">function doGet() {
-  var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var sheet = ss.getSheetByName("SystemData") || ss.getSheets()[0];
   var data = sheet.getRange("A1").getValue();
   return ContentService.createTextOutput(data || '{"categories":[],"tickets":{}}')
     .setMimeType(ContentService.MimeType.JSON);
 }
 
 function doPost(e) {
-  var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
-  sheet.getRange("A1").setValue(e.postData.contents);
-  return ContentService.createTextOutput(JSON.stringify({status: "success"}))
-    .setMimeType(ContentService.MimeType.JSON);
+  try {
+    var raw = e.postData.contents;
+    var data = JSON.parse(raw);
+    var ss = SpreadsheetApp.getActiveSpreadsheet();
+    
+    // 1. حفظ النص البرمجي في شيت SystemData
+    var dataSheet = ss.getSheetByName("SystemData");
+    if (!dataSheet) {
+      dataSheet = ss.getSheets()[0];
+      dataSheet.setName("SystemData");
+    }
+    dataSheet.getRange("A1").setValue(raw);
+
+    // 2. إنشاء وإنشاء جدول منظم ونظيف في شيت "جدول التذاكر والعملاء"
+    var tableSheet = ss.getSheetByName("جدول التذاكر والعملاء");
+    if (!tableSheet) {
+      tableSheet = ss.insertSheet("جدول التذاكر والعملاء");
+    }
+    tableSheet.clear();
+
+    // ترويسة عناوين الأعمدة
+    var headers = [["الرقم التسلسلي", "اسم الفئة", "حالة التوزيع", "اسم العميل", "رقم الهاتف", "ملاحظات", "سُجلت بواسطة", "تاريخ التحديث"]];
+    var headerRange = tableSheet.getRange(1, 1, 1, 8);
+    headerRange.setValues(headers);
+    headerRange.setBackground("#0f172a").setFontColor("#ffffff").setFontWeight("bold").setHorizontalAlignment("center");
+
+    var rows = [];
+    if (data.categories && Array.isArray(data.categories)) {
+      data.categories.forEach(function(cat) {
+        if (cat.serials && Array.isArray(cat.serials)) {
+          cat.serials.forEach(function(sn) {
+            var key = cat.id + '-' + sn;
+            var t = (data.tickets && data.tickets[key]) ? data.tickets[key] : {};
+            
+            var isDist = t.distributed ? "✅ موزّعة" : "⏳ متاحة";
+            var recipient = t.recipient || "—";
+            var phone = t.phone || "—";
+            var note = t.note || "—";
+            var updatedBy = t.updatedBy || "—";
+            var dateStr = t.time ? new Date(t.time).toLocaleString("ar-EG") : "—";
+
+            rows.push([sn, cat.name, isDist, recipient, phone, note, updatedBy, dateStr]);
+          });
+        }
+      });
+    }
+
+    if (rows.length > 0) {
+      var bodyRange = tableSheet.getRange(2, 1, rows.length, 8);
+      bodyRange.setValues(rows);
+      bodyRange.setHorizontalAlignment("center");
+      tableSheet.setFrozenRows(1);
+    }
+
+    return ContentService.createTextOutput(JSON.stringify({status: "success"}))
+      .setMimeType(ContentService.MimeType.JSON);
+  } catch(err) {
+    return ContentService.createTextOutput(JSON.stringify({status: "error", message: err.toString()}))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
 }</div>
         <button class="copy-btn" onclick="copyScriptCode()">نسخ كود Google Script 📋</button>
         
