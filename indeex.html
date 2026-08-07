@@ -917,8 +917,7 @@
             <select id="dailySearchPayment" style="width:100%; padding:10px; border:1px solid var(--border-color); border-radius:var(--radius-sm); font-size:14px; font-weight:700;" onchange="renderDailySearchTable()">
               <option value="all">جميع طرق الدفع</option>
               <option value="online">🌐 أونلاين (Online)</option>
-              <option value="cash">💵 كاش (Cash)</option>
-              <option value="insta">📱 إنستا باي (InstaPay)</option>
+              <option value="offline">🎟️ أوفلاين (Offline)</option>
             </select>
           </div>
 
@@ -953,7 +952,7 @@
         </div>
         <div class="stat-card">
           <div class="stat-info">
-            <div class="title">مبيعات الأونلاين</div>
+            <div class="title">مبيعات الأونلاين (Online)</div>
             <div class="num" id="dailySearchOnlineRev" style="font-size:18px; color:#2563eb;">0 ج.م</div>
             <div style="font-size:12px; color:var(--ink-secondary);" id="dailySearchOnlineCount">0 تذكرة</div>
           </div>
@@ -961,19 +960,11 @@
         </div>
         <div class="stat-card">
           <div class="stat-info">
-            <div class="title">مبيعات الكاش</div>
-            <div class="num" id="dailySearchCashRev" style="font-size:18px; color:var(--good-green);">0 ج.م</div>
-            <div style="font-size:12px; color:var(--ink-secondary);" id="dailySearchCashCount">0 تذكرة</div>
+            <div class="title">مبيعات الأوفلاين (Offline)</div>
+            <div class="num" id="dailySearchOfflineRev" style="font-size:18px; color:var(--good-green);">0 ج.م</div>
+            <div style="font-size:12px; color:var(--ink-secondary);" id="dailySearchOfflineCount">0 تذكرة</div>
           </div>
-          <div class="stat-icon">💵</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-info">
-            <div class="title">مبيعات إنستا باي</div>
-            <div class="num" id="dailySearchInstaRev" style="font-size:18px; color:#8b5cf6;">0 ج.م</div>
-            <div style="font-size:12px; color:var(--ink-secondary);" id="dailySearchInstaCount">0 تذكرة</div>
-          </div>
-          <div class="stat-icon">📱</div>
+          <div class="stat-icon">🎟️</div>
         </div>
       </div>
 
@@ -2057,15 +2048,17 @@
     };
 
     const branchDisplayNames = {
-      zayed: 'Zayed', zamalek: 'Zamalek', cfc: 'CFC', helio: 'Heliopolis',
+      zayed: 'Zayed', maadi: 'Zayed',
+      zamalek: 'Zamalek', nasr: 'Zamalek',
+      cfc: 'CFC', taga: 'CFC',
+      helio: 'Heliopolis',
       rock: 'Rock', bero: 'Bero', stadium: 'Stadium', tunnel: 'Tunnel'
     };
 
     let rows = [];
     let totalTickets = 0, totalRev = 0;
     let onlineTickets = 0, onlineRev = 0;
-    let cashTickets = 0, cashRev = 0;
-    let instaTickets = 0, instaRev = 0;
+    let offlineTickets = 0, offlineRev = 0;
 
     const processCityData = (salesData, cityKey, cityName) => {
       if(!salesData) return;
@@ -2102,92 +2095,28 @@
           });
         }
 
-        // 2. Process Cash Sales
-        if(searchPayment === 'all' || searchPayment === 'cash'){
-          if(day.cashByBranch){
-            const cData = day.cashByBranch;
-            cats.forEach(cat => {
-              if(searchCategory !== 'all' && cat !== searchCategory) return;
-              const price = prices[cat] || 0;
-              const keyMap = { "premium orbit": "cashPO", "fanpit": "cashFP", "vip": "cashVIP", "high regular": "cashHR" };
-              const catObj = cData[keyMap[cat]] || {};
-              Object.keys(catObj).forEach(bKey => {
-                const qty = parseInt(catObj[bKey], 10) || 0;
-                if(qty > 0){
-                  const bName = branchDisplayNames[bKey] || bKey;
-                  const rev = qty * price;
-                  rows.push({
-                    date: dateKey, city: cityName, cityKey: cityKey, branch: bName,
-                    category: cat, cost: price, payment: 'cash', paymentLabel: '💵 كاش',
-                    qty: qty, revenue: rev
-                  });
-                  cashTickets += qty; cashRev += rev;
-                  totalTickets += qty; totalRev += rev;
-                }
-              });
-            });
-          } else if(day.cashBreakdown && Array.isArray(day.cashBreakdown)){
-            day.cashBreakdown.forEach(item => {
-              const cat = item.ticket;
-              if(searchCategory !== 'all' && cat !== searchCategory) return;
-              const price = prices[cat] || 0;
-              const qty = parseInt(item.count, 10) || 0;
-              const rev = parseInt(item.amount, 10) || (qty * price);
-              if(qty > 0 || rev > 0){
-                rows.push({
-                  date: dateKey, city: cityName, cityKey: cityKey, branch: 'كافة الفروع',
-                  category: cat, cost: price, payment: 'cash', paymentLabel: '💵 كاش',
-                  qty: qty, revenue: rev
-                });
-                cashTickets += qty; cashRev += rev;
-                totalTickets += qty; totalRev += rev;
-              }
-            });
-          }
-        }
+        // 2. Process Offline Sales
+        if(searchPayment === 'all' || searchPayment === 'offline'){
+          cats.forEach(cat => {
+            if(searchCategory !== 'all' && cat !== searchCategory) return;
+            const price = prices[cat] || 0;
+            const offData = day.offline ? (day.offline[cat] || {}) : {};
 
-        // 3. Process InstaPay Sales
-        if(searchPayment === 'all' || searchPayment === 'insta'){
-          if(day.instaByBranch){
-            const iData = day.instaByBranch;
-            cats.forEach(cat => {
-              if(searchCategory !== 'all' && cat !== searchCategory) return;
-              const price = prices[cat] || 0;
-              const keyMap = { "premium orbit": "instaPO", "fanpit": "instaFP", "vip": "instaVIP", "high regular": "instaHR" };
-              const catObj = iData[keyMap[cat]] || {};
-              Object.keys(catObj).forEach(bKey => {
-                const qty = parseInt(catObj[bKey], 10) || 0;
-                if(qty > 0){
-                  const bName = branchDisplayNames[bKey] || bKey;
-                  const rev = qty * price;
-                  rows.push({
-                    date: dateKey, city: cityName, cityKey: cityKey, branch: bName,
-                    category: cat, cost: price, payment: 'insta', paymentLabel: '📱 إنستا باي',
-                    qty: qty, revenue: rev
-                  });
-                  instaTickets += qty; instaRev += rev;
-                  totalTickets += qty; totalRev += rev;
-                }
-              });
-            });
-          } else if(day.instaBreakdown && Array.isArray(day.instaBreakdown)){
-            day.instaBreakdown.forEach(item => {
-              const cat = item.ticket;
-              if(searchCategory !== 'all' && cat !== searchCategory) return;
-              const price = prices[cat] || 0;
-              const qty = parseInt(item.count, 10) || 0;
-              const rev = parseInt(item.amount, 10) || (qty * price);
-              if(qty > 0 || rev > 0){
+            Object.keys(offData).forEach(bKey => {
+              const qty = parseInt(offData[bKey], 10) || 0;
+              if(qty > 0){
+                const bName = branchDisplayNames[bKey] || bKey;
+                const rev = qty * price;
                 rows.push({
-                  date: dateKey, city: cityName, cityKey: cityKey, branch: 'كافة الفروع',
-                  category: cat, cost: price, payment: 'insta', paymentLabel: '📱 إنستا باي',
+                  date: dateKey, city: cityName, cityKey: cityKey, branch: bName,
+                  category: cat, cost: price, payment: 'offline', paymentLabel: '🎟️ أوفلاين',
                   qty: qty, revenue: rev
                 });
-                instaTickets += qty; instaRev += rev;
+                offlineTickets += qty; offlineRev += rev;
                 totalTickets += qty; totalRev += rev;
               }
             });
-          }
+          });
         }
       });
     };
@@ -2206,11 +2135,11 @@
       tbodyHtml = `<tr><td colspan="8" style="text-align:center; padding:24px; color:var(--ink-secondary); font-weight:700;">لا توجد معاملات مسجلة تطابق محددات البحث المختارة.</td></tr>`;
     } else {
       rows.forEach(r => {
-        let payBadgeStyle = r.payment === 'online' ? 'background:#dbeafe;color:#1e40af;' : r.payment === 'cash' ? 'background:#dcfce7;color:#166534;' : 'background:#f3e8ff;color:#6b21a8;';
+        let payBadgeStyle = r.payment === 'online' ? 'background:#dbeafe;color:#1e40af;' : 'background:#dcfce7;color:#166534;';
         tbodyHtml += `<tr>
           <td><b>${r.date}</b></td>
           <td>${r.city}</td>
-          <td><b>${r.branch}</b></td>
+          <td><b style="color:var(--brand-blue);">${r.branch}</b></td>
           <td class="cat-cell">${r.category}</td>
           <td><b>${r.cost.toLocaleString()} EGP</b></td>
           <td><span style="padding:4px 10px; border-radius:12px; font-weight:800; font-size:12px; ${payBadgeStyle}">${r.paymentLabel}</span></td>
@@ -2229,11 +2158,8 @@
     if(document.getElementById('dailySearchOnlineRev')) document.getElementById('dailySearchOnlineRev').textContent = onlineRev.toLocaleString() + ' ج.م';
     if(document.getElementById('dailySearchOnlineCount')) document.getElementById('dailySearchOnlineCount').textContent = onlineTickets + ' تذكرة';
 
-    if(document.getElementById('dailySearchCashRev')) document.getElementById('dailySearchCashRev').textContent = cashRev.toLocaleString() + ' ج.م';
-    if(document.getElementById('dailySearchCashCount')) document.getElementById('dailySearchCashCount').textContent = cashTickets + ' تذكرة';
-
-    if(document.getElementById('dailySearchInstaRev')) document.getElementById('dailySearchInstaRev').textContent = instaRev.toLocaleString() + ' ج.م';
-    if(document.getElementById('dailySearchInstaCount')) document.getElementById('dailySearchInstaCount').textContent = instaTickets + ' تذكرة';
+    if(document.getElementById('dailySearchOfflineRev')) document.getElementById('dailySearchOfflineRev').textContent = offlineRev.toLocaleString() + ' ج.م';
+    if(document.getElementById('dailySearchOfflineCount')) document.getElementById('dailySearchOfflineCount').textContent = offlineTickets + ' تذكرة';
 
     if(document.getElementById('dailySearchFooterQty')) document.getElementById('dailySearchFooterQty').textContent = totalTickets;
     if(document.getElementById('dailySearchFooterAmount')) document.getElementById('dailySearchFooterAmount').textContent = totalRev.toLocaleString() + ' ج.م';
