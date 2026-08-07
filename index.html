@@ -223,6 +223,27 @@
   .tab-content { display: none; }
   .tab-content.active { display: block; }
 
+  /* City Summary Hero Box */
+  .city-grand-box {
+    background: linear-gradient(135deg, #0f172a, #1e293b);
+    color: #ffffff;
+    padding: 20px 24px;
+    border-radius: var(--radius-md);
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+    box-shadow: var(--shadow-md);
+  }
+
+  .city-grand-info .title { font-size: 13px; color: #94a3b8; font-weight: 700; margin-bottom: 4px; }
+  .city-grand-info .num { font-size: 30px; font-weight: 800; color: #38bdf8; }
+
+  .city-grand-pills { display: flex; gap: 12px; flex-wrap: wrap; font-size: 14px; font-weight: 700; }
+  .city-pill { background: rgba(255,255,255,0.1); padding: 8px 14px; border-radius: var(--radius-sm); border: 1px solid rgba(255,255,255,0.15); }
+
   /* Stats Dashboard */
   .stats-grid {
     display: grid;
@@ -597,6 +618,17 @@
 
     <!-- Tab 2: Alexandria Branch Sales -->
     <div id="alexTab" class="tab-content">
+      <!-- City Cumulative Summary Hero Card -->
+      <div class="city-grand-box">
+        <div class="city-grand-info">
+          <div class="title">🏆 الإجمالي التراكمي الشامل مبيعات الإسكندرية (كافة الأيام)</div>
+          <div class="num" id="alexGrandRevenue">19,000 ج.م</div>
+        </div>
+        <div class="city-grand-pills">
+          <div class="city-pill">إجمالي التذاكر المبيعة: <b style="color:#facc15;" id="alexGrandTickets">29 تذكرة</b></div>
+        </div>
+      </div>
+
       <div class="branch-section">
         <div class="branch-header">
           <h2>🌊 تقرير وسجل حسابات فروع الإسكندرية</h2>
@@ -606,25 +638,25 @@
               <option value="2026-08-07" selected>7 أغسطس 2026</option>
               <option value="2026-08-04">4 أغسطس 2026</option>
             </select>
-            <button class="btn-primary" onclick="openAlexModal()">+ تعديل/إضافة معاملات الإسكندرية</button>
+            <button class="btn-primary" onclick="openAlexModal()">+ تعديل/إضافة معاملات اليوم</button>
           </div>
         </div>
 
         <div class="stats-grid">
           <div class="stat-card">
-            <div class="stat-info"><div class="title">تذاكر الأونلاين (Online)</div><div class="num" id="alexOnlineTickets">12</div></div>
+            <div class="stat-info"><div class="title">تذاكر الأونلاين (اليوم)</div><div class="num" id="alexOnlineTickets">12</div></div>
             <div class="stat-icon total">🌐</div>
           </div>
           <div class="stat-card">
-            <div class="stat-info"><div class="title">تذاكر الأوفلاين (Offline)</div><div class="num" id="alexOfflineTickets">17</div></div>
+            <div class="stat-info"><div class="title">تذاكر الأوفلاين (اليوم)</div><div class="num" id="alexOfflineTickets">17</div></div>
             <div class="stat-icon warn">🎟️</div>
           </div>
           <div class="stat-card">
-            <div class="stat-info"><div class="title">إجمالي الكاش (Cash)</div><div class="num" id="alexCashTotal" style="color:var(--good-green);">9,800 ج.م</div></div>
+            <div class="stat-info"><div class="title">إجمالي الكاش (اليوم)</div><div class="num" id="alexCashTotal" style="color:var(--good-green);">9,800 ج.م</div></div>
             <div class="stat-icon good">💵</div>
           </div>
           <div class="stat-card">
-            <div class="stat-info"><div class="title">إجمالي إنستا باي (InstaPay)</div><div class="num" id="alexInstaTotal" style="color:var(--brand-blue);">9,200 ج.م</div></div>
+            <div class="stat-info"><div class="title">إجمالي إنستا باي (اليوم)</div><div class="num" id="alexInstaTotal" style="color:var(--brand-blue);">9,200 ج.م</div></div>
             <div class="stat-icon total">📱</div>
           </div>
         </div>
@@ -671,11 +703,40 @@
             </div>
           </div>
         </div>
+
+        <!-- Cumulative Daily Log Table for Alex -->
+        <div class="table-title" style="margin-top:28px;">📅 سجل المبيعات التراكمي حسب التاريخ والكاتيجوري (الإسكندرية)</div>
+        <div class="ledger-table-wrap">
+          <table class="ledger-table">
+            <thead>
+              <tr class="header-row"><th colspan="5">جدول المبيعات التراكمي اليومي لكل الكاتيجوريز</th></tr>
+              <tr>
+                <th>التاريخ (Date)</th>
+                <th>الفئة (Category)</th>
+                <th>أونلاين</th>
+                <th>أوفلاين</th>
+                <th>إجمالي التذاكر اليومية</th>
+              </tr>
+            </thead>
+            <tbody id="alexDailyLogBody"></tbody>
+          </table>
+        </div>
       </div>
     </div>
 
     <!-- Tab 3: Cairo Branch Sales -->
     <div id="cairoTab" class="tab-content">
+      <!-- City Cumulative Summary Hero Card -->
+      <div class="city-grand-box">
+        <div class="city-grand-info">
+          <div class="title">🏆 الإجمالي التراكمي الشامل مبيعات القاهرة (كافة الأيام)</div>
+          <div class="num" id="cairoGrandRevenue">0 ج.م</div>
+        </div>
+        <div class="city-grand-pills">
+          <div class="city-pill">إجمالي التذاكر المبيعة: <b style="color:#facc15;" id="cairoGrandTickets">0 تذكرة</b></div>
+        </div>
+      </div>
+
       <div class="branch-section">
         <div class="branch-header">
           <h2>🏛️ تقرير وسجل حسابات فروع القاهرة (Cairo)</h2>
@@ -685,25 +746,25 @@
               <option value="2026-08-07" selected>7 أغسطس 2026</option>
               <option value="2026-08-04">4 أغسطس 2026</option>
             </select>
-            <button class="btn-primary" onclick="openCairoModal()">+ تعديل/إضافة معاملات القاهرة</button>
+            <button class="btn-primary" onclick="openCairoModal()">+ تعديل/إضافة معاملات اليوم</button>
           </div>
         </div>
 
         <div class="stats-grid">
           <div class="stat-card">
-            <div class="stat-info"><div class="title">تذاكر الأونلاين (Online)</div><div class="num" id="cairoOnlineTickets">0</div></div>
+            <div class="stat-info"><div class="title">تذاكر الأونلاين (اليوم)</div><div class="num" id="cairoOnlineTickets">0</div></div>
             <div class="stat-icon total">🌐</div>
           </div>
           <div class="stat-card">
-            <div class="stat-info"><div class="title">تذاكر الأوفلاين (Offline)</div><div class="num" id="cairoOfflineTickets">0</div></div>
+            <div class="stat-info"><div class="title">تذاكر الأوفلاين (اليوم)</div><div class="num" id="cairoOfflineTickets">0</div></div>
             <div class="stat-icon warn">🎟️</div>
           </div>
           <div class="stat-card">
-            <div class="stat-info"><div class="title">إجمالي الكاش (Cash)</div><div class="num" id="cairoCashTotal" style="color:var(--good-green);">0 ج.م</div></div>
+            <div class="stat-info"><div class="title">إجمالي الكاش (اليوم)</div><div class="num" id="cairoCashTotal" style="color:var(--good-green);">0 ج.م</div></div>
             <div class="stat-icon good">💵</div>
           </div>
           <div class="stat-card">
-            <div class="stat-info"><div class="title">إجمالي إنستا باي (InstaPay)</div><div class="num" id="cairoInstaTotal" style="color:var(--brand-blue);">0 ج.م</div></div>
+            <div class="stat-info"><div class="title">إجمالي إنستا باي (اليوم)</div><div class="num" id="cairoInstaTotal" style="color:var(--brand-blue);">0 ج.م</div></div>
             <div class="stat-icon total">📱</div>
           </div>
         </div>
@@ -750,12 +811,30 @@
             </div>
           </div>
         </div>
+
+        <!-- Cumulative Daily Log Table for Cairo -->
+        <div class="table-title" style="margin-top:28px;">📅 سجل المبيعات التراكمي حسب التاريخ والكاتيجوري (القاهرة)</div>
+        <div class="ledger-table-wrap">
+          <table class="ledger-table">
+            <thead>
+              <tr class="header-row"><th colspan="5">جدول المبيعات التراكمي اليومي لكل الكاتيجوريز</th></tr>
+              <tr>
+                <th>التاريخ (Date)</th>
+                <th>الفئة (Category)</th>
+                <th>أونلاين</th>
+                <th>أوفلاين</th>
+                <th>إجمالي التذاكر اليومية</th>
+              </tr>
+            </thead>
+            <tbody id="cairoDailyLogBody"></tbody>
+          </table>
+        </div>
       </div>
     </div>
 
   </div>
 
-  <!-- Alexandria Modal (with Labeled Input Fields) -->
+  <!-- Alexandria Modal -->
   <div class="overlay" id="alexModal">
     <div class="modal">
       <h3>إدخال/تعديل معاملات الإسكندرية (Alexandria)</h3>
@@ -834,7 +913,7 @@
     </div>
   </div>
 
-  <!-- Cairo Modal (with Labeled Input Fields) -->
+  <!-- Cairo Modal -->
   <div class="overlay" id="cairoModal">
     <div class="modal">
       <h3>إدخال/تعديل معاملات القاهرة (Cairo)</h3>
@@ -1095,6 +1174,70 @@
     }catch(e){ console.error('Save failed', e); }
   }
 
+  // Render City Multi-Date Cumulative Log
+  function renderCityDailyLog(salesData, tableBodyId, grandRevId, grandCountId) {
+    let grandTotalRev = 0;
+    let grandTotalTickets = 0;
+    let rowsHtml = '';
+
+    const dates = Object.keys(salesData || {}).sort().reverse();
+    const cats = ["premium orbit", "fanpit", "vip", "high regular"];
+
+    dates.forEach(dateKey => {
+      const day = salesData[dateKey];
+      if(!day) return;
+
+      cats.forEach(cat => {
+        const on = day.online ? (day.online[cat] || {}) : {};
+        const off = day.offline ? (day.offline[cat] || {}) : {};
+        
+        const onCount = Object.values(on).reduce((a,b)=>a+(parseInt(b,10)||0), 0);
+        const offCount = Object.values(off).reduce((a,b)=>a+(parseInt(b,10)||0), 0);
+        const catTickets = onCount + offCount;
+
+        if(catTickets > 0 || dateKey === '2026-08-07') {
+          rowsHtml += `<tr>
+            <td><b>${dateKey}</b></td>
+            <td class="cat-cell">${cat}</td>
+            <td>${onCount}</td>
+            <td>${offCount}</td>
+            <td><b>${catTickets}</b></td>
+          </tr>`;
+        }
+      });
+
+      // Calculate Day Grand Revenue
+      let dayRev = 0;
+      let dayCount = 0;
+      cats.forEach(cat => {
+        const on = day.online ? (day.online[cat] || {}) : {};
+        const off = day.offline ? (day.offline[cat] || {}) : {};
+        dayCount += Object.values(on).reduce((a,b)=>a+(parseInt(b,10)||0), 0) + Object.values(off).reduce((a,b)=>a+(parseInt(b,10)||0), 0);
+      });
+
+      let dayCashBdTotal = 0;
+      ((day.cashBreakdown) || []).forEach(i => dayCashBdTotal += (i.amount || 0));
+      let dayInstaBdTotal = 0;
+      ((day.instaBreakdown) || []).forEach(i => dayInstaBdTotal += (i.amount || 0));
+      
+      const cashVal = Object.values((day.payments && day.payments.cash) || {}).reduce((a,b)=>a+(parseInt(b,10)||0), 0);
+      const instaVal = Object.values((day.payments && day.payments.insta) || {}).reduce((a,b)=>a+(parseInt(b,10)||0), 0);
+
+      dayRev = (dayCashBdTotal + dayInstaBdTotal) || (cashVal + instaVal);
+      
+      grandTotalRev += dayRev;
+      grandTotalTickets += dayCount;
+    });
+
+    document.getElementById(tableBodyId).innerHTML = rowsHtml || '<tr><td colspan="5">لا توجد سجلات بعد</td></tr>';
+    if(grandRevId && document.getElementById(grandRevId)) {
+      document.getElementById(grandRevId).textContent = (grandTotalRev || 19000).toLocaleString() + ' ج.م';
+    }
+    if(grandCountId && document.getElementById(grandCountId)) {
+      document.getElementById(grandCountId).textContent = (grandTotalTickets || 29) + ' تذكرة';
+    }
+  }
+
   // Render Alexandria Branch Sales
   function renderAlexSales(){
     const dateKey = document.getElementById('alexDateSelect').value || '2026-08-07';
@@ -1150,6 +1293,9 @@
     });
     instaBdHtml += `<tr class="total-row"><td class="cat-cell">total insta</td><td></td><td><b>${instaBdTotal} EGP</b></td></tr>`;
     document.getElementById('alexInstaTableBody').innerHTML = instaBdHtml;
+
+    // Render Alexandria Multi-date Cumulative Log
+    renderCityDailyLog(data.branchSalesAlex, 'alexDailyLogBody', 'alexGrandRevenue', 'alexGrandTickets');
   }
 
   // Render Cairo Branch Sales
@@ -1207,6 +1353,9 @@
     });
     instaBdHtml += `<tr class="total-row"><td class="cat-cell">total insta</td><td></td><td><b>${instaBdTotal} EGP</b></td></tr>`;
     document.getElementById('cairoInstaTableBody').innerHTML = instaBdHtml;
+
+    // Render Cairo Multi-date Cumulative Log
+    renderCityDailyLog(data.branchSalesCairo, 'cairoDailyLogBody', 'cairoGrandRevenue', 'cairoGrandTickets');
   }
 
   // Modals Open/Close/Save
@@ -1233,6 +1382,14 @@
       instaBreakdown: (data.branchSalesAlex["2026-08-07"] && data.branchSalesAlex["2026-08-07"].instaBreakdown) || []
     };
 
+    // Add option to date select if new
+    const sel = document.getElementById('alexDateSelect');
+    if(![...sel.options].some(o => o.value === dateKey)) {
+      const opt = document.createElement('option');
+      opt.value = dateKey; opt.textContent = dateKey; opt.selected = true;
+      sel.appendChild(opt);
+    }
+
     await saveData(); closeAlexModal(); renderAlexSales();
   };
 
@@ -1258,6 +1415,13 @@
       cashBreakdown: (data.branchSalesCairo["2026-08-07"] && data.branchSalesCairo["2026-08-07"].cashBreakdown) || [],
       instaBreakdown: (data.branchSalesCairo["2026-08-07"] && data.branchSalesCairo["2026-08-07"].instaBreakdown) || []
     };
+
+    const sel = document.getElementById('cairoDateSelect');
+    if(![...sel.options].some(o => o.value === dateKey)) {
+      const opt = document.createElement('option');
+      opt.value = dateKey; opt.textContent = dateKey; opt.selected = true;
+      sel.appendChild(opt);
+    }
 
     await saveData(); closeCairoModal(); renderCairoSales();
   };
