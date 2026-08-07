@@ -780,7 +780,7 @@
 
     <div id="loginAlert" class="alert-danger">اسم المستخدم أو كلمة المرور غير صحيحة</div>
 
-    <form id="loginForm" onsubmit="handleLogin(event)">
+    <form id="loginForm" onsubmit="return handleLogin(event)">
       <div class="form-group">
         <label for="usernameInput">اسم المستخدم (Username)</label>
         <input type="text" id="usernameInput" class="form-control" placeholder="user0 أو user1" required autocomplete="username">
@@ -791,7 +791,7 @@
         <input type="password" id="passwordInput" class="form-control" placeholder="••••••••" required autocomplete="current-password">
       </div>
 
-      <button type="submit" class="btn-login">دخول النظام 🚀</button>
+      <button type="button" id="submitLoginBtn" onclick="handleLogin(event)" class="btn-login">دخول النظام 🚀</button>
     </form>
 
     <div class="creds-hint">
@@ -947,9 +947,9 @@ function doPost(e) {
     'user1': 'mosh1'
   };
 
-  function normalizeUser(str) {
+  function normalize(str) {
     if(!str) return '';
-    return str.toLowerCase().replace(/\s+/g, '');
+    return String(str).toLowerCase().trim().replace(/\s+/g, '');
   }
 
   // Google Sheet Script Endpoint URL
@@ -968,14 +968,15 @@ function doPost(e) {
 
   // Authentication Logic
   window.handleLogin = function(e){
-    e.preventDefault();
-    const rawUser = document.getElementById('usernameInput').value.trim();
-    const passInp = document.getElementById('passwordInput').value.trim();
+    if(e && e.preventDefault) e.preventDefault();
+    const rawUser = document.getElementById('usernameInput').value;
+    const rawPass = document.getElementById('passwordInput').value;
     const alertBox = document.getElementById('loginAlert');
 
-    const cleanUser = normalizeUser(rawUser);
+    const cleanUser = normalize(rawUser);
+    const cleanPass = normalize(rawPass);
 
-    if(USERS[cleanUser] && USERS[cleanUser] === passInp){
+    if(USERS[cleanUser] && USERS[cleanUser] === cleanPass){
       loggedUser = cleanUser;
       sessionStorage.setItem('alexandrie_logged_user', loggedUser);
       alertBox.style.display = 'none';
@@ -983,6 +984,7 @@ function doPost(e) {
     } else {
       alertBox.style.display = 'block';
     }
+    return false;
   };
 
   window.handleLogout = function(){
