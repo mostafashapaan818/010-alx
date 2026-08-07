@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>نظام تذاكر الحفلة - Alexandrie Team</title>
+<title>نظام تذاكر الحفلة وحسابات الفروع - Alexandrie Team</title>
 <!-- Google Fonts: Tajawal -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,7 +16,7 @@
     --ink-primary: #0f172a;
     --ink-secondary: #475569;
     --ink-muted: #94a3b8;
-    --border-color: #e2e8f0;
+    --border-color: #cbd5e1;
     
     --brand-blue: #2563eb;
     --brand-blue-hover: #1d4ed8;
@@ -28,18 +28,14 @@
     
     --warn-amber: #d97706;
     --warn-amber-bg: #fffbeb;
-    --warn-amber-border: #fde68a;
 
-    --alex-badge: #1e1b4b;
-    --alex-accent: #6366f1;
-    
     --radius-sm: 8px;
     --radius-md: 12px;
     --radius-lg: 16px;
     
     --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
-    --shadow-lg: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
   }
 
   * { box-sizing: border-box; font-family: 'Tajawal', sans-serif; margin: 0; padding: 0; }
@@ -53,12 +49,8 @@
   }
 
   /* Screen Views */
-  .view-container {
-    display: none;
-  }
-  .view-container.active {
-    display: block;
-  }
+  .view-container { display: none; }
+  .view-container.active { display: block; }
 
   /* Login Screen */
   .login-wrapper {
@@ -90,10 +82,7 @@
     background: linear-gradient(90deg, #3b82f6, #6366f1, #8b5cf6);
   }
 
-  .login-header {
-    text-align: center;
-    margin-bottom: 28px;
-  }
+  .login-header { text-align: center; margin-bottom: 28px; }
 
   .team-badge {
     display: inline-flex;
@@ -109,29 +98,11 @@
     border: 1px solid #bfdbfe;
   }
 
-  .login-header h2 {
-    font-size: 24px;
-    font-weight: 800;
-    color: var(--ink-primary);
-    margin-bottom: 6px;
-  }
+  .login-header h2 { font-size: 24px; font-weight: 800; color: var(--ink-primary); margin-bottom: 6px; }
+  .login-header p { font-size: 14px; color: var(--ink-secondary); }
 
-  .login-header p {
-    font-size: 14px;
-    color: var(--ink-secondary);
-  }
-
-  .form-group {
-    margin-bottom: 18px;
-  }
-
-  .form-group label {
-    display: block;
-    font-size: 14px;
-    font-weight: 700;
-    color: var(--ink-primary);
-    margin-bottom: 6px;
-  }
+  .form-group { margin-bottom: 18px; }
+  .form-group label { display: block; font-size: 14px; font-weight: 700; color: var(--ink-primary); margin-bottom: 6px; }
 
   .form-control {
     width: 100%;
@@ -140,7 +111,6 @@
     border-radius: var(--radius-sm);
     font-size: 15px;
     background-color: #fafafa;
-    transition: all 0.2s ease;
   }
 
   .form-control:focus {
@@ -160,13 +130,8 @@
     font-size: 16px;
     font-weight: 700;
     cursor: pointer;
-    transition: background 0.2s;
     margin-top: 10px;
     box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
-  }
-
-  .btn-login:hover {
-    background: var(--brand-blue-hover);
   }
 
   .alert-danger {
@@ -182,32 +147,15 @@
     font-weight: 600;
   }
 
-  .creds-hint {
-    margin-top: 22px;
-    padding-top: 16px;
-    border-top: 1px solid var(--border-color);
-    background: #f8fafc;
-    border-radius: var(--radius-sm);
-    padding: 12px;
-    font-size: 12px;
-    color: var(--ink-secondary);
-    line-height: 1.6;
-  }
-
   /* App Layout */
-  .app-wrap {
-    max-width: 1020px;
-    margin: 0 auto;
-    padding: 20px 16px;
-  }
+  .app-wrap { max-width: 1080px; margin: 0 auto; padding: 20px 16px; }
 
-  /* Top Navbar */
   .navbar {
     background: var(--card-bg);
     border: 1px solid var(--border-color);
     border-radius: var(--radius-md);
     padding: 14px 20px;
-    margin-bottom: 20px;
+    margin-bottom: 16px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -216,94 +164,64 @@
     box-shadow: var(--shadow-sm);
   }
 
-  .nav-brand {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-
+  .nav-brand { display: flex; align-items: center; gap: 12px; }
   .brand-logo {
-    width: 42px;
-    height: 42px;
+    width: 42px; height: 42px;
     background: linear-gradient(135deg, var(--brand-blue), #6366f1);
-    color: white;
-    border-radius: var(--radius-sm);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 800;
-    font-size: 20px;
-    box-shadow: 0 4px 10px rgba(37, 99, 235, 0.3);
+    color: white; border-radius: var(--radius-sm);
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800; font-size: 20px;
   }
+  .brand-text h1 { font-size: 20px; font-weight: 800; color: var(--ink-primary); line-height: 1.2; }
+  .brand-text .sub { font-size: 12px; color: var(--ink-secondary); font-weight: 600; }
 
-  .brand-text h1 {
-    font-size: 20px;
-    font-weight: 800;
-    color: var(--ink-primary);
-    line-height: 1.2;
-  }
-
-  .brand-text .sub {
-    font-size: 12px;
-    color: var(--ink-secondary);
-    font-weight: 600;
-  }
-
-  .user-bar {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    flex-wrap: wrap;
-  }
-
+  .user-bar { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
   .user-badge {
-    background: #f1f5f9;
-    padding: 8px 14px;
-    border-radius: 999px;
-    font-size: 13px;
-    font-weight: 700;
-    color: var(--ink-primary);
-    border: 1px solid var(--border-color);
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
-
-  .btn-action-ghost {
-    background: transparent;
-    border: 1.5px solid var(--border-color);
-    color: var(--ink-secondary);
-    padding: 8px 14px;
-    border-radius: var(--radius-sm);
-    font-size: 13px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: all 0.2s;
-  }
-
-  .btn-action-ghost:hover {
-    background: #f1f5f9;
-    color: var(--ink-primary);
-    border-color: #cbd5e1;
+    background: #f1f5f9; padding: 8px 14px;
+    border-radius: 999px; font-size: 13px; font-weight: 700;
+    color: var(--ink-primary); border: 1px solid var(--border-color);
   }
 
   .btn-logout {
-    background: #fff1f2;
-    border: 1px solid #fecdd3;
-    color: #e11d48;
-    padding: 8px 14px;
+    background: #fff1f2; border: 1px solid #fecdd3;
+    color: #e11d48; padding: 8px 14px;
+    border-radius: var(--radius-sm); font-size: 13px; font-weight: 700; cursor: pointer;
+  }
+
+  /* Navigation Tabs */
+  .app-tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    background: #e2e8f0;
+    padding: 6px;
+    border-radius: var(--radius-md);
+  }
+
+  .tab-btn {
+    flex: 1;
+    padding: 12px 16px;
+    border: none;
     border-radius: var(--radius-sm);
-    font-size: 13px;
+    font-size: 15px;
     font-weight: 700;
+    color: var(--ink-secondary);
+    background: transparent;
     cursor: pointer;
     transition: all 0.2s;
+    text-align: center;
   }
 
-  .btn-logout:hover {
-    background: #ffe4e6;
+  .tab-btn.active {
+    background: #ffffff;
+    color: var(--brand-blue);
+    box-shadow: var(--shadow-sm);
   }
 
-  /* Stat Cards */
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+
+  /* Stats Dashboard */
   .stats-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -320,36 +238,17 @@
     align-items: center;
     justify-content: space-between;
     box-shadow: var(--shadow-sm);
-    transition: transform 0.15s;
-  }
-  
-  .stat-card:hover {
-    transform: translateY(-2px);
   }
 
-  .stat-info .title {
-    font-size: 13px;
-    color: var(--ink-secondary);
-    font-weight: 700;
-    margin-bottom: 4px;
-  }
-
-  .stat-info .num {
-    font-size: 26px;
-    font-weight: 800;
-    color: var(--ink-primary);
-  }
+  .stat-info .title { font-size: 13px; color: var(--ink-secondary); font-weight: 700; margin-bottom: 4px; }
+  .stat-info .num { font-size: 26px; font-weight: 800; color: var(--ink-primary); }
 
   .stat-icon {
-    width: 48px;
-    height: 48px;
+    width: 48px; height: 48px;
     border-radius: var(--radius-sm);
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display: flex; align-items: center; justify-content: center;
     font-size: 22px;
   }
-
   .stat-icon.total { background: #eff6ff; color: #2563eb; }
   .stat-icon.good { background: var(--good-green-bg); color: var(--good-green); }
   .stat-icon.warn { background: var(--warn-amber-bg); color: var(--warn-amber); }
@@ -364,32 +263,16 @@
     box-shadow: var(--shadow-sm);
   }
 
-  .search-input-wrap {
-    position: relative;
-  }
-
   .search-input-wrap input {
     width: 100%;
     padding: 14px 16px;
-    padding-left: 45px;
     border: 2px solid var(--border-color);
     border-radius: var(--radius-sm);
     font-size: 15px;
     background: #fafafa;
-    transition: all 0.2s;
   }
 
-  .search-input-wrap input:focus {
-    outline: none;
-    border-color: var(--brand-blue);
-    background: #ffffff;
-    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
-  }
-
-  .search-result-box {
-    margin-top: 12px;
-  }
-
+  .search-result-box { margin-top: 12px; }
   .search-result {
     background: #f8fafc;
     border: 2px dashed var(--brand-blue);
@@ -402,46 +285,18 @@
     gap: 12px;
   }
 
-  .search-result.notfound {
-    border-color: var(--ink-muted);
-    color: var(--ink-secondary);
-    font-weight: 600;
-  }
-
-  /* Action Toolbar */
-  .top-actions {
-    display: flex;
-    justify-content: flex-end;
-    margin-bottom: 16px;
-    gap: 10px;
-  }
+  .top-actions { display: flex; justify-content: flex-end; margin-bottom: 16px; gap: 10px; }
 
   .btn-primary {
-    background: var(--brand-blue);
-    color: #ffffff;
-    border: none;
-    padding: 10px 18px;
-    border-radius: var(--radius-sm);
-    font-size: 14px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: background 0.2s;
+    background: var(--brand-blue); color: #ffffff; border: none;
+    padding: 10px 18px; border-radius: var(--radius-sm);
+    font-size: 14px; font-weight: 700; cursor: pointer;
   }
-
-  .btn-primary:hover { background: var(--brand-blue-hover); }
-
   .btn-secondary {
-    background: transparent;
-    border: 1.5px solid var(--border-color);
-    color: var(--ink-primary);
-    padding: 10px 18px;
-    border-radius: var(--radius-sm);
-    font-size: 14px;
-    font-weight: 700;
-    cursor: pointer;
+    background: transparent; border: 1.5px solid var(--border-color);
+    color: var(--ink-primary); padding: 10px 18px;
+    border-radius: var(--radius-sm); font-size: 14px; font-weight: 700; cursor: pointer;
   }
-
-  .btn-secondary:hover { background: #f1f5f9; }
 
   /* Category Cards */
   .cat-card {
@@ -454,317 +309,160 @@
   }
 
   .cat-head {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 16px 20px;
-    cursor: pointer;
-    flex-wrap: wrap;
-    gap: 12px;
-    background: #ffffff;
-    user-select: none;
-    transition: background 0.15s;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 16px 20px; cursor: pointer; flex-wrap: wrap; gap: 12px;
+    background: #ffffff; user-select: none;
   }
+  .cat-name-group { display: flex; align-items: center; gap: 12px; font-size: 17px; font-weight: 800; }
+  .color-dot { width: 14px; height: 14px; border-radius: 50%; flex-shrink: 0; }
+  .cat-meta { font-size: 13px; color: var(--ink-secondary); font-weight: 500; }
+  .cat-right-group { display: flex; align-items: center; gap: 14px; }
+  .cat-progress-track { height: 10px; background: #e2e8f0; border-radius: 999px; overflow: hidden; width: 160px; }
+  .cat-progress-fill { height: 100%; border-radius: 999px; }
 
-  .cat-head:hover {
-    background: #f8fafc;
-  }
-
-  .cat-name-group {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    font-size: 17px;
-    font-weight: 800;
-  }
-
-  .color-dot {
-    width: 14px;
-    height: 14px;
-    border-radius: 50%;
-    flex-shrink: 0;
-  }
-
-  .cat-meta {
-    font-size: 13px;
-    color: var(--ink-secondary);
-    font-weight: 500;
-  }
-
-  .cat-right-group {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-  }
-
-  .cat-progress-track {
-    height: 10px;
-    background: #e2e8f0;
-    border-radius: 999px;
-    overflow: hidden;
-    width: 160px;
-    flex-shrink: 0;
-  }
-
-  .cat-progress-fill {
-    height: 100%;
-    border-radius: 999px;
-    transition: width 0.3s ease;
-  }
-
-  .cat-nums {
-    font-size: 13px;
-    font-weight: 700;
-    color: var(--ink-secondary);
-    white-space: nowrap;
-  }
-
-  .cat-toggle-icon {
-    font-size: 14px;
-    color: var(--ink-muted);
-    transition: transform 0.2s;
-  }
-
-  .cat-head.open .cat-toggle-icon {
-    transform: rotate(180deg);
-  }
-
-  /* Tickets Grid */
   .tickets-grid {
-    display: none;
-    padding: 16px 20px;
+    display: none; padding: 16px 20px;
     grid-template-columns: repeat(auto-fill, minmax(75px, 1fr));
-    gap: 10px;
-    border-top: 1px solid var(--border-color);
-    background: #fafafa;
+    gap: 10px; border-top: 1px solid var(--border-color); background: #fafafa;
   }
-
   .tickets-grid.open { display: grid; }
 
   .chip {
-    border: 1.5px solid var(--border-color);
-    border-radius: var(--radius-sm);
-    padding: 9px 4px;
-    text-align: center;
-    font-size: 13px;
-    font-weight: 700;
-    cursor: pointer;
-    background: #ffffff;
-    transition: all 0.15s ease;
+    border: 1.5px solid var(--border-color); border-radius: var(--radius-sm);
+    padding: 9px 4px; text-align: center; font-size: 13px; font-weight: 700;
+    cursor: pointer; background: #ffffff;
   }
-
-  .chip:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0,0,0,0.06);
-  }
-
-  .chip.dist {
-    background: var(--good-green-bg);
-    border-color: var(--good-green-border);
-    color: var(--good-green);
-  }
-
-  .chip.add-chip {
-    border-style: dashed;
-    color: var(--ink-secondary);
-    background: transparent;
-  }
-
-  .chip.add-chip:hover {
-    color: var(--brand-blue);
-    border-color: var(--brand-blue);
-    background: var(--brand-blue-light);
-  }
+  .chip.dist { background: var(--good-green-bg); border-color: var(--good-green-border); color: var(--good-green); }
+  .chip.add-chip { border-style: dashed; color: var(--ink-secondary); background: transparent; }
 
   /* Customers Section */
   .customers-section {
+    background: var(--card-bg); border: 1px solid var(--border-color);
+    border-radius: var(--radius-md); padding: 20px; margin-top: 24px;
+  }
+  .customer-card {
+    background: #f8fafc; border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm); padding: 14px 16px; margin-bottom: 12px;
+  }
+
+  /* Branch Accounting & Tables Section */
+  .branch-section {
     background: var(--card-bg);
     border: 1px solid var(--border-color);
     border-radius: var(--radius-md);
-    padding: 20px;
-    margin-top: 24px;
+    padding: 24px;
+    margin-bottom: 24px;
     box-shadow: var(--shadow-sm);
   }
 
-  .customers-section h2 {
-    font-size: 18px;
-    font-weight: 800;
-    margin-bottom: 16px;
-    color: var(--ink-primary);
-  }
-
-  .customer-card {
-    background: #f8fafc;
-    border: 1px solid var(--border-color);
-    border-radius: var(--radius-sm);
-    padding: 14px 16px;
-    margin-bottom: 12px;
-  }
-
-  .customer-info {
+  .branch-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
     flex-wrap: wrap;
-    gap: 8px;
+    gap: 12px;
+    padding-bottom: 14px;
+    border-bottom: 2px solid #e2e8f0;
   }
 
-  .customer-name { font-weight: 800; font-size: 15px; color: var(--ink-primary); }
-  .customer-phone { color: var(--ink-secondary); font-size: 13px; direction: ltr; font-weight: 600; }
-  
-  .customer-tickets { display: flex; gap: 8px; flex-wrap: wrap; }
-  .tag-ticket {
-    background: #ffffff;
-    border: 1px solid var(--border-color);
-    padding: 4px 10px;
-    border-radius: 6px;
-    font-size: 12px;
-    font-weight: 600;
-  }
+  .branch-header h2 { font-size: 20px; font-weight: 800; color: var(--ink-primary); }
 
-  /* Empty State */
-  .empty-box {
-    text-align: center;
-    padding: 50px 20px;
-    background: var(--card-bg);
-    border: 2px dashed var(--border-color);
-    border-radius: var(--radius-md);
-    color: var(--ink-secondary);
-    margin-top: 16px;
-  }
-
-  .empty-box p {
-    font-size: 16px;
-    font-weight: 600;
-    margin-bottom: 14px;
-  }
-
-  /* Modals & Overlays */
-  .overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(15, 23, 42, 0.6);
-    backdrop-filter: blur(4px);
-    display: none;
+  .date-selector {
+    display: flex;
     align-items: center;
-    justify-content: center;
-    z-index: 100;
-    padding: 16px;
+    gap: 10px;
   }
-
-  .overlay.open { display: flex; }
-
-  .modal {
-    background: var(--card-bg);
-    border-radius: var(--radius-lg);
-    padding: 26px;
-    width: 100%;
-    max-width: 520px;
-    max-height: 90vh;
-    overflow-y: auto;
-    box-shadow: var(--shadow-lg);
-    border: 1px solid var(--border-color);
-  }
-
-  .modal h3 {
-    font-size: 20px;
-    font-weight: 800;
-    margin-bottom: 16px;
-    color: var(--ink-primary);
-    padding-bottom: 10px;
-    border-bottom: 1px solid var(--border-color);
-  }
-
-  .field { margin-bottom: 14px; }
-  .field label {
-    display: block;
-    font-size: 13px;
-    font-weight: 700;
-    color: var(--ink-secondary);
-    margin-bottom: 6px;
-  }
-
-  .field input, .field select, .modal textarea {
-    width: 100%;
-    padding: 10px 12px;
+  .date-selector select {
+    padding: 8px 12px;
     border: 1.5px solid var(--border-color);
     border-radius: var(--radius-sm);
     font-size: 14px;
-    background: #fafafa;
-  }
-
-  .field input:focus, .field select:focus, .modal textarea:focus {
-    outline: none;
-    border-color: var(--brand-blue);
-    background: #ffffff;
-  }
-
-  .modal textarea { min-height: 90px; resize: vertical; }
-
-  .modal-actions {
-    display: flex;
-    gap: 10px;
-    margin-top: 20px;
-    justify-content: flex-end;
-  }
-
-  .cat-setup-item {
-    border: 1px solid var(--border-color);
+    font-weight: 700;
     background: #f8fafc;
-    border-radius: var(--radius-md);
-    padding: 14px;
-    margin-bottom: 12px;
   }
 
-  .remove-cat {
-    background: none;
-    border: none;
-    color: #ef4444;
-    font-size: 13px;
-    font-weight: 700;
-    cursor: pointer;
-    padding: 4px;
-  }
-  
-  .remove-cat:hover { text-decoration: underline; }
-
-  .status-msg {
-    font-size: 13px;
-    color: var(--ink-secondary);
-    margin-top: 12px;
-    text-align: center;
-    min-height: 18px;
-    font-weight: 700;
+  .table-title {
+    font-size: 16px;
+    font-weight: 800;
+    color: var(--ink-primary);
+    margin: 20px 0 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
   }
 
-  .code-block {
-    direction: ltr;
-    text-align: left;
-    background: #0f172a;
-    color: #38bdf8;
-    padding: 12px;
+  .ledger-table-wrap {
+    overflow-x: auto;
+    margin-bottom: 20px;
     border-radius: var(--radius-sm);
-    font-family: monospace;
-    font-size: 12px;
-    white-space: pre-wrap;
-    max-height: 180px;
-    overflow-y: auto;
-    margin-top: 8px;
+    border: 1.5px solid #0f172a;
   }
 
-  .copy-btn {
-    background: #1e293b;
-    color: #ffffff;
-    border: none;
-    padding: 6px 12px;
-    border-radius: 4px;
-    font-size: 12px;
-    cursor: pointer;
-    margin-top: 6px;
-    font-weight: 600;
+  table.ledger-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: center;
+    background: #ffffff;
+    font-size: 14px;
   }
-  .copy-btn:hover { background: #334155; }
+
+  table.ledger-table th, table.ledger-table td {
+    border: 1px solid #0f172a;
+    padding: 10px 12px;
+  }
+
+  table.ledger-table th {
+    background: #f1f5f9;
+    font-weight: 800;
+    color: #0f172a;
+  }
+
+  table.ledger-table tr.header-row th {
+    background: #0f172a;
+    color: #ffffff;
+    font-size: 16px;
+    text-transform: lowercase;
+  }
+
+  table.ledger-table td.cat-cell {
+    font-weight: 700;
+    text-align: right;
+    background: #f8fafc;
+  }
+
+  table.ledger-table tr.total-row td {
+    font-weight: 800;
+    background: #f1f5f9;
+  }
+
+  .breakdown-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+  }
+
+  /* Modals */
+  .overlay {
+    position: fixed; inset: 0; background: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(4px); display: none; align-items: center;
+    justify-content: center; z-index: 100; padding: 16px;
+  }
+  .overlay.open { display: flex; }
+  .modal {
+    background: var(--card-bg); border-radius: var(--radius-lg);
+    padding: 26px; width: 100%; max-width: 540px; max-height: 90vh;
+    overflow-y: auto; box-shadow: var(--shadow-lg); border: 1px solid var(--border-color);
+  }
+  .modal h3 { font-size: 20px; font-weight: 800; margin-bottom: 16px; padding-bottom: 10px; border-bottom: 1px solid var(--border-color); }
+  .field { margin-bottom: 14px; }
+  .field label { display: block; font-size: 13px; font-weight: 700; color: var(--ink-secondary); margin-bottom: 6px; }
+  .field input, .field select, .modal textarea {
+    width: 100%; padding: 10px 12px; border: 1.5px solid var(--border-color);
+    border-radius: var(--radius-sm); font-size: 14px; background: #fafafa;
+  }
+  .modal-actions { display: flex; gap: 10px; margin-top: 20px; justify-content: flex-end; }
 </style>
 </head>
 <body>
@@ -805,7 +503,7 @@
       <div class="nav-brand">
         <div class="brand-logo">A</div>
         <div class="brand-text">
-          <h1>إدارة تذاكر الحفلة</h1>
+          <h1>إدارة تذاكر الحفلة ومبيعات الفروع</h1>
           <div class="sub">خاص بـ Alexandrie Team 🛡️</div>
         </div>
       </div>
@@ -816,165 +514,270 @@
       </div>
     </div>
 
-    <!-- Stats Dashboard -->
-    <div class="stats-grid">
-      <div class="stat-card">
-        <div class="stat-info">
-          <div class="title">إجمالي التذاكر</div>
-          <div class="num" id="statTotal">0</div>
-        </div>
-        <div class="stat-icon total">🎫</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-info">
-          <div class="title">الموزّع للعملاء</div>
-          <div class="num" id="statDist" style="color:var(--good-green);">0</div>
-        </div>
-        <div class="stat-icon good">✅</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-info">
-          <div class="title">المتبقي المتاح</div>
-          <div class="num" id="statRemain" style="color:var(--warn-amber);">0</div>
-        </div>
-        <div class="stat-icon warn">⏳</div>
-      </div>
+    <!-- Navigation Tabs -->
+    <div class="app-tabs">
+      <button class="tab-btn active" id="tabBtnTickets" onclick="switchTab('ticketsTab')">🎫 إدارة التذاكر الموزعة</button>
+      <button class="tab-btn" id="tabBtnBranches" onclick="switchTab('branchesTab')">📊 حسابات ومبيعات الفروع (Alexandria)</button>
     </div>
 
-    <!-- Search Section -->
-    <div class="search-card">
-      <div class="search-input-wrap">
-        <input id="searchInput" type="text" placeholder="🔍 اكتب الرقم التسلسلي للبحث عن حالة التذكرة فوراً...">
+    <!-- Tab 1: Ticket Management -->
+    <div id="ticketsTab" class="tab-content active">
+      <!-- Stats Dashboard -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-info">
+            <div class="title">إجمالي التذاكر</div>
+            <div class="num" id="statTotal">0</div>
+          </div>
+          <div class="stat-icon total">🎫</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-info">
+            <div class="title">الموزّع للعملاء</div>
+            <div class="num" id="statDist" style="color:var(--good-green);">0</div>
+          </div>
+          <div class="stat-icon good">✅</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-info">
+            <div class="title">المتبقي المتاح</div>
+            <div class="num" id="statRemain" style="color:var(--warn-amber);">0</div>
+          </div>
+          <div class="stat-icon warn">⏳</div>
+        </div>
       </div>
-      <div id="searchResultBox" class="search-result-box"></div>
+
+      <!-- Search Section -->
+      <div class="search-card">
+        <div class="search-input-wrap">
+          <input id="searchInput" type="text" placeholder="🔍 اكتب الرقم التسلسلي للبحث عن حالة التذكرة فوراً...">
+        </div>
+        <div id="searchResultBox" class="search-result-box"></div>
+      </div>
+
+      <!-- Actions Bar -->
+      <div class="top-actions">
+        <button class="btn-secondary" id="editCatsBtn">تعديل الفئات</button>
+        <button class="btn-primary" id="addCatsBtn">إضافة / تعديل الفئات</button>
+      </div>
+
+      <!-- Categories Container -->
+      <div id="categoriesList"></div>
+
+      <!-- Customers Summary -->
+      <div id="customersContainer"></div>
     </div>
 
-    <!-- Actions Bar -->
-    <div class="top-actions">
-      <button class="btn-secondary" id="editCatsBtn">تعديل الفئات</button>
-      <button class="btn-primary" id="addCatsBtn">إضافة / تعديل الفئات</button>
+    <!-- Tab 2: Branch Sales & Financial Accounting -->
+    <div id="branchesTab" class="tab-content">
+      <div class="branch-section">
+        <div class="branch-header">
+          <h2>📊 تقرير وسجل حسابات الفروع في الإسكندرية</h2>
+          <div class="date-selector">
+            <label style="font-weight:700;">تاريخ التقرير:</label>
+            <select id="branchDateSelect" onchange="renderBranchSales()">
+              <option value="2026-08-07" selected>7 أغسطس 2026 (تطابق الجدول)</option>
+              <option value="2026-08-04">4 أغسطس 2026</option>
+            </select>
+            <button class="btn-primary" onclick="openBranchEditModal()">+ إضافة/تعديل معاملات اليوم</button>
+          </div>
+        </div>
+
+        <!-- Financial Summary Cards -->
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-info">
+              <div class="title">تذاكر الأونلاين (Online)</div>
+              <div class="num" id="summaryOnlineTickets">12</div>
+            </div>
+            <div class="stat-icon total">🌐</div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-info">
+              <div class="title">تذاكر الأوفلاين (Offline)</div>
+              <div class="num" id="summaryOfflineTickets">17</div>
+            </div>
+            <div class="stat-icon warn">🎟️</div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-info">
+              <div class="title">إجمالي الكاش (Cash)</div>
+              <div class="num" id="summaryCashTotal" style="color:var(--good-green);">9,800 ج.م</div>
+            </div>
+            <div class="stat-icon good">💵</div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-info">
+              <div class="title">إجمالي إنستا باي (InstaPay)</div>
+              <div class="num" id="summaryInstaTotal" style="color:var(--brand-blue);">9,200 ج.م</div>
+            </div>
+            <div class="stat-icon total">📱</div>
+          </div>
+        </div>
+
+        <!-- Table 1: Online -->
+        <div class="table-title">🌐 مبيعات الأونلاين (online)</div>
+        <div class="ledger-table-wrap">
+          <table class="ledger-table">
+            <thead>
+              <tr class="header-row">
+                <th colspan="6">online</th>
+              </tr>
+              <tr>
+                <th>ticket</th>
+                <th>Rock Sea</th>
+                <th>Bero</th>
+                <th>stadium</th>
+                <th>the tunnel</th>
+                <th>total</th>
+              </tr>
+            </thead>
+            <tbody id="onlineTableBody"></tbody>
+          </table>
+        </div>
+
+        <!-- Table 2: Offline -->
+        <div class="table-title">🎟️ مبيعات الأوفلاين (offline) وطرق التحصيل</div>
+        <div class="ledger-table-wrap">
+          <table class="ledger-table">
+            <thead>
+              <tr class="header-row">
+                <th colspan="6">offline</th>
+              </tr>
+              <tr>
+                <th>ticket</th>
+                <th>Rock Sea</th>
+                <th>Bero</th>
+                <th>stadium</th>
+                <th>the tunnel</th>
+                <th>total</th>
+              </tr>
+            </thead>
+            <tbody id="offlineTableBody"></tbody>
+          </table>
+        </div>
+
+        <!-- Breakdown Grid (Cash & InstaPay) -->
+        <div class="breakdown-grid">
+          <!-- Cash Table -->
+          <div>
+            <div class="table-title">💵 تفاصيل مبيعات الكاش (cash)</div>
+            <div class="ledger-table-wrap">
+              <table class="ledger-table">
+                <thead>
+                  <tr class="header-row">
+                    <th colspan="3">cash</th>
+                  </tr>
+                  <tr>
+                    <th>ticket</th>
+                    <th>Count</th>
+                    <th>Amount (EGP)</th>
+                  </tr>
+                </thead>
+                <tbody id="cashTableBody"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- InstaPay Table -->
+          <div>
+            <div class="table-title">📱 تفاصيل مبيعات إنستا باي (instapay)</div>
+            <div class="ledger-table-wrap">
+              <table class="ledger-table">
+                <thead>
+                  <tr class="header-row">
+                    <th colspan="3">instapay</th>
+                  </tr>
+                  <tr>
+                    <th>ticket</th>
+                    <th>Count</th>
+                    <th>Amount (EGP)</th>
+                  </tr>
+                </thead>
+                <tbody id="instaTableBody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+      </div>
     </div>
-
-    <!-- Main Content Container -->
-    <div id="categoriesList"></div>
-
-    <!-- Customers Summary -->
-    <div id="customersContainer"></div>
   </div>
 
-  <!-- Settings Modal (Google Sheet Endpoint) -->
-  <div class="overlay" id="settingsOverlay">
-    <div class="modal">
-      <h3>إعدادات الربط بـ Google Sheet جديد 📊</h3>
-      
+  <!-- Branch Sales Entry Modal -->
+  <div class="overlay" id="branchModal">
+    <div class="modal" style="max-width:640px;">
+      <h3>إدخال/تعديل معاملات الفروع اليومية</h3>
       <div class="field">
-        <label>رابط Google Apps Script Web App (URL)</label>
-        <input type="text" id="scriptUrlInput" placeholder="https://script.google.com/macros/s/.../exec">
+        <label>التاريخ</label>
+        <input type="date" id="modalBranchDate" value="2026-08-07">
       </div>
-      <button class="btn-primary" id="saveScriptUrlBtn" style="width:100%;">حفظ الرابط الجديد</button>
-      <div class="status-msg" id="settingsMsg"></div>
 
-      <hr style="margin:20px 0; border:none; border-top:1px solid var(--border-color);">
+      <h4 style="margin:14px 0 8px; color:var(--brand-blue);">1. مبيعات الأونلاين (Online Counts)</h4>
+      <div class="field">
+        <label>Premium Orbit (Rock Sea, Bero, Stadium, The Tunnel)</label>
+        <div style="display:flex; gap:6px;">
+          <input type="number" id="on_po_rock" placeholder="Rock Sea" value="0">
+          <input type="number" id="on_po_bero" placeholder="Bero" value="1">
+          <input type="number" id="on_po_stad" placeholder="Stadium" value="3">
+          <input type="number" id="on_po_tunn" placeholder="The Tunnel" value="0">
+        </div>
+      </div>
+      <div class="field">
+        <label>Fanpit (Rock Sea, Bero, Stadium, The Tunnel)</label>
+        <div style="display:flex; gap:6px;">
+          <input type="number" id="on_fp_rock" placeholder="Rock Sea" value="0">
+          <input type="number" id="on_fp_bero" placeholder="Bero" value="0">
+          <input type="number" id="on_fp_stad" placeholder="Stadium" value="2">
+          <input type="number" id="on_fp_tunn" placeholder="The Tunnel" value="0">
+        </div>
+      </div>
+      <div class="field">
+        <label>VIP (Rock Sea, Bero, Stadium, The Tunnel)</label>
+        <div style="display:flex; gap:6px;">
+          <input type="number" id="on_vip_rock" placeholder="Rock Sea" value="2">
+          <input type="number" id="on_vip_bero" placeholder="Bero" value="3">
+          <input type="number" id="on_vip_stad" placeholder="Stadium" value="0">
+          <input type="number" id="on_vip_tunn" placeholder="The Tunnel" value="0">
+        </div>
+      </div>
+      <div class="field">
+        <label>High Regular (Rock Sea, Bero, Stadium, The Tunnel)</label>
+        <div style="display:flex; gap:6px;">
+          <input type="number" id="on_hr_rock" placeholder="Rock Sea" value="1">
+          <input type="number" id="on_hr_bero" placeholder="Bero" value="0">
+          <input type="number" id="on_hr_stad" placeholder="Stadium" value="0">
+          <input type="number" id="on_hr_tunn" placeholder="The Tunnel" value="0">
+        </div>
+      </div>
 
-      <div style="font-size:13px; color:var(--ink-secondary); line-height:1.6;">
-        <b>💡 طريقة ربط Google Sheet جديد الخاص بـ Alexandrie Team:</b>
-        <ol style="margin-right:20px; margin-top:6px;">
-          <li>افتح Google Sheet جديد.</li>
-          <li>من القائمة اختر <b>Extensions</b> ⬅️ <b>Apps Script</b>.</li>
-          <li>انسخ الكود أدناه واستبدله بالكود الموجود في Script:</li>
-        </ol>
-        
-        <div class="code-block" id="appScriptCode">function doGet() {
-  var ss = SpreadsheetApp.getActiveSpreadsheet();
-  var sheet = ss.getSheetByName("SystemData") || ss.getSheets()[0];
-  var data = sheet.getRange("A1").getValue();
-  return ContentService.createTextOutput(data || '{"categories":[],"tickets":{}}')
-    .setMimeType(ContentService.MimeType.JSON);
-}
+      <h4 style="margin:14px 0 8px; color:var(--good-green);">2. تحصيل الأوفلاين الكاش وإنستا باي (Cash & InstaPay)</h4>
+      <div class="field">
+        <label>إجمالي الكاش حسب الفرع (Cash EGP)</label>
+        <div style="display:flex; gap:6px;">
+          <input type="number" id="cash_rock" placeholder="Rock Sea" value="7800">
+          <input type="number" id="cash_bero" placeholder="Bero" value="0">
+          <input type="number" id="cash_stad" placeholder="Stadium" value="2000">
+          <input type="number" id="cash_tunn" placeholder="The Tunnel" value="0">
+        </div>
+      </div>
 
-function doPost(e) {
-  try {
-    var raw = e.postData.contents;
-    var data = JSON.parse(raw);
-    var ss = SpreadsheetApp.getActiveSpreadsheet();
-    
-    // 1. حفظ النص البرمجي في شيت SystemData
-    var dataSheet = ss.getSheetByName("SystemData");
-    if (!dataSheet) {
-      dataSheet = ss.getSheets()[0];
-      dataSheet.setName("SystemData");
-    }
-    dataSheet.getRange("A1").setValue(raw);
-
-    // 2. إنشاء وإنشاء جدول منظم ونظيف في شيت "جدول التذاكر والعملاء"
-    var tableSheet = ss.getSheetByName("جدول التذاكر والعملاء");
-    if (!tableSheet) {
-      tableSheet = ss.insertSheet("جدول التذاكر والعملاء");
-    }
-    tableSheet.clear();
-
-    // ترويسة عناوين الأعمدة
-    var headers = [["الرقم التسلسلي", "اسم الفئة", "حالة التوزيع", "اسم العميل", "رقم الهاتف", "ملاحظات", "سُجلت بواسطة", "تاريخ التحديث"]];
-    var headerRange = tableSheet.getRange(1, 1, 1, 8);
-    headerRange.setValues(headers);
-    headerRange.setBackground("#0f172a").setFontColor("#ffffff").setFontWeight("bold").setHorizontalAlignment("center");
-
-    var rows = [];
-    if (data.categories && Array.isArray(data.categories)) {
-      data.categories.forEach(function(cat) {
-        if (cat.serials && Array.isArray(cat.serials)) {
-          cat.serials.forEach(function(sn) {
-            var key = cat.id + '-' + sn;
-            var t = (data.tickets && data.tickets[key]) ? data.tickets[key] : {};
-            
-            var isDist = t.distributed ? "✅ موزّعة" : "⏳ متاحة";
-            var recipient = t.recipient || "—";
-            var phone = t.phone || "—";
-            var note = t.note || "—";
-            var updatedBy = t.updatedBy || "—";
-            var dateStr = t.time ? new Date(t.time).toLocaleString("ar-EG") : "—";
-
-            rows.push([sn, cat.name, isDist, recipient, phone, note, updatedBy, dateStr]);
-          });
-        }
-      });
-    }
-
-    if (rows.length > 0) {
-      var bodyRange = tableSheet.getRange(2, 1, rows.length, 8);
-      bodyRange.setValues(rows);
-      bodyRange.setHorizontalAlignment("center");
-      tableSheet.setFrozenRows(1);
-    }
-
-    return ContentService.createTextOutput(JSON.stringify({status: "success"}))
-      .setMimeType(ContentService.MimeType.JSON);
-  } catch(err) {
-    return ContentService.createTextOutput(JSON.stringify({status: "error", message: err.toString()}))
-      .setMimeType(ContentService.MimeType.JSON);
-  }
-}
-
-// دالة التشغيل اليدوي المباشر لتنسيق الشيت فوراً من داخل Apps Script:
-function setupSheets() {
-  var ss = SpreadsheetApp.getActiveSpreadsheet();
-  var sheet = ss.getSheets()[0];
-  var raw = sheet.getRange("A1").getValue();
-  if (raw) {
-    doPost({ postData: { contents: String(raw) } });
-  }
-}</div>
-        <button class="copy-btn" onclick="copyScriptCode()">نسخ كود Google Script 📋</button>
-        
-        <ol start="4" style="margin-right:20px; margin-top:8px;">
-          <li>اضغط <b>Deploy</b> ⬅️ <b>New deployment</b>.</li>
-          <li>اختر <b>Web app</b> وخلّي <b>Who has access</b> = <code>Anyone</code>.</li>
-          <li>انسخ الرابط الذي يظهر وضعه في الخانة بالأعلى ثم اضغط حفظ!</li>
-        </ol>
+      <div class="field">
+        <label>إجمالي إنستا باي حسب الفرع (InstaPay EGP)</label>
+        <div style="display:flex; gap:6px;">
+          <input type="number" id="insta_rock" placeholder="Rock Sea" value="0">
+          <input type="number" id="insta_bero" placeholder="Bero" value="0">
+          <input type="number" id="insta_stad" placeholder="Stadium" value="3200">
+          <input type="number" id="insta_tunn" placeholder="The Tunnel" value="6000">
+        </div>
       </div>
 
       <div class="modal-actions">
-        <button class="btn-secondary" onclick="closeSettingsModal()">إغلاق</button>
+        <button class="btn-secondary" onclick="closeBranchModal()">إغلاق</button>
+        <button class="btn-primary" onclick="saveBranchModalData()">حفظ المعاملات</button>
       </div>
     </div>
   </div>
@@ -1001,7 +804,6 @@ function setupSheets() {
 
 <script>
 (function(){
-  // Valid Preset Credentials for Alexandrie Team
   const USERS = {
     'user0': 'mosh',
     'user1': 'mosh1'
@@ -1012,7 +814,6 @@ function setupSheets() {
     return String(str).toLowerCase().trim().replace(/\s+/g, '');
   }
 
-  // Google Sheet Script Endpoint URL
   const DEFAULT_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzy_6glG3q4k73o06ZGYIt7NjMVM7Jd-EAFgUAzbFsF3P0GwmEqb34VJtpwH0DrtWJPlQ/exec';
   
   function getScriptUrl() {
@@ -1020,13 +821,48 @@ function setupSheets() {
   }
 
   const COLORS = ['#2563eb','#059669','#7c3aed','#d97706','#dc2626','#0891b2'];
-  let data = { categories: [], tickets: {} };
+  let data = { 
+    categories: [], 
+    tickets: {},
+    branchSales: {
+      "2026-08-07": {
+        online: {
+          "premium orbit": { rock: 0, bero: 1, stadium: 3, tunnel: 0 },
+          "fanpit": { rock: 0, bero: 0, stadium: 2, tunnel: 0 },
+          "vip": { rock: 2, bero: 3, stadium: 0, tunnel: 0 },
+          "high regular": { rock: 1, bero: 0, stadium: 0, tunnel: 0 }
+        },
+        offline: {
+          "premium orbit": { rock: 2, bero: 0, stadium: 0, tunnel: 0 },
+          "fanpit": { rock: 4, bero: 0, stadium: 1, tunnel: 5 },
+          "vip": { rock: 0, bero: 0, stadium: 5, tunnel: 0 },
+          "high regular": { rock: 0, bero: 0, stadium: 0, tunnel: 0 }
+        },
+        payments: {
+          cash: { rock: 7800, bero: 0, stadium: 2000, tunnel: 0 },
+          insta: { rock: 0, bero: 0, stadium: 3200, tunnel: 6000 }
+        },
+        cashBreakdown: [
+          { ticket: "premium orbit", count: 2, amount: 3000 },
+          { ticket: "fanpit", count: 5, amount: 6000 },
+          { ticket: "vip", count: 1, amount: 800 },
+          { ticket: "high regular", count: 0, amount: 0 }
+        ],
+        instaBreakdown: [
+          { ticket: "premium orbit", count: 0, amount: 0 },
+          { ticket: "fanpit", count: 5, amount: 6000 },
+          { ticket: "vip", count: 4, amount: 3200 },
+          { ticket: "high regular", count: 0, amount: 0 }
+        ]
+      }
+    }
+  };
+
   let loaded = false;
   let loggedUser = sessionStorage.getItem('alexandrie_logged_user');
 
   function uid(){ return Math.random().toString(36).slice(2,9); }
 
-  // Authentication Logic
   window.handleLogin = function(e){
     if(e && e.preventDefault) e.preventDefault();
     const rawUser = document.getElementById('usernameInput').value;
@@ -1070,6 +906,20 @@ function setupSheets() {
     loadData();
   }
 
+  window.switchTab = function(tabId){
+    document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+    
+    if(tabId === 'ticketsTab'){
+      document.getElementById('tabBtnTickets').classList.add('active');
+      document.getElementById('ticketsTab').classList.add('active');
+    } else {
+      document.getElementById('tabBtnBranches').classList.add('active');
+      document.getElementById('branchesTab').classList.add('active');
+      renderBranchSales();
+    }
+  };
+
   async function loadData(){
     loaded = false;
     render();
@@ -1077,10 +927,12 @@ function setupSheets() {
       const currentUrl = getScriptUrl();
       const res = await fetch(currentUrl);
       const json = await res.json();
-      if(json && json.categories){ data = json; }
-    }catch(e){ 
-      console.error('Error loading data', e);
-    }
+      if(json){
+        if(json.categories) data.categories = json.categories;
+        if(json.tickets) data.tickets = json.tickets;
+        if(json.branchSales) data.branchSales = json.branchSales;
+      }
+    }catch(e){ console.error('Error loading data', e); }
     loaded = true;
     render();
   }
@@ -1094,10 +946,188 @@ function setupSheets() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
       });
-    }catch(e){ 
-      console.error('Save failed', e);
-    }
+    }catch(e){ console.error('Save failed', e); }
   }
+
+  function renderBranchSales(){
+    const dateKey = document.getElementById('branchDateSelect').value || '2026-08-07';
+    const dayData = (data.branchSales && data.branchSales[dateKey]) ? data.branchSales[dateKey] : data.branchSales['2026-08-07'];
+
+    // Render Online Table
+    const onlineCats = ["premium orbit", "fanpit", "vip", "high regular"];
+    let onlineHtml = '';
+    let onlineGrandTotal = 0;
+
+    onlineCats.forEach(cat => {
+      const c = dayData.online[cat] || { rock: 0, bero: 0, stadium: 0, tunnel: 0 };
+      const rowTotal = (c.rock||0) + (c.bero||0) + (c.stadium||0) + (c.tunnel||0);
+      onlineGrandTotal += rowTotal;
+      onlineHtml += `<tr>
+        <td class="cat-cell">${cat}</td>
+        <td>${c.rock||0}</td>
+        <td>${c.bero||0}</td>
+        <td>${c.stadium||0}</td>
+        <td>${c.tunnel||0}</td>
+        <td><b>${rowTotal}</b></td>
+      </tr>`;
+    });
+    onlineHtml += `<tr class="total-row">
+      <td class="cat-cell">total</td>
+      <td colspan="4"></td>
+      <td><b>${onlineGrandTotal}</b></td>
+    </tr>`;
+    document.getElementById('onlineTableBody').innerHTML = onlineHtml;
+    document.getElementById('summaryOnlineTickets').textContent = onlineGrandTotal;
+
+    // Render Offline Table
+    let offlineHtml = '';
+    let offlineGrandTotal = 0;
+    onlineCats.forEach(cat => {
+      const c = dayData.offline[cat] || { rock: 0, bero: 0, stadium: 0, tunnel: 0 };
+      const rowTotal = (c.rock||0) + (c.bero||0) + (c.stadium||0) + (c.tunnel||0);
+      offlineGrandTotal += rowTotal;
+      offlineHtml += `<tr>
+        <td class="cat-cell">${cat}</td>
+        <td>${c.rock ? c.rock : ''}</td>
+        <td>${c.bero ? c.bero : ''}</td>
+        <td>${c.stadium ? c.stadium : ''}</td>
+        <td>${c.tunnel ? c.tunnel : ''}</td>
+        <td><b>${rowTotal}</b></td>
+      </tr>`;
+    });
+
+    const cashRow = dayData.payments.cash || { rock:0, bero:0, stadium:0, tunnel:0 };
+    const cashTotal = (cashRow.rock||0) + (cashRow.bero||0) + (cashRow.stadium||0) + (cashRow.tunnel||0);
+
+    const instaRow = dayData.payments.insta || { rock:0, bero:0, stadium:0, tunnel:0 };
+    const instaTotal = (instaRow.rock||0) + (instaRow.bero||0) + (instaRow.stadium||0) + (instaRow.tunnel||0);
+
+    offlineHtml += `<tr class="total-row">
+      <td class="cat-cell">total tickets</td>
+      <td colspan="4"></td>
+      <td><b>${offlineGrandTotal}</b></td>
+    </tr>
+    <tr>
+      <td class="cat-cell">cash</td>
+      <td>${cashRow.rock || 0}</td>
+      <td>${cashRow.bero || 0}</td>
+      <td>${cashRow.stadium || 0}</td>
+      <td>${cashRow.tunnel || 0}</td>
+      <td><b>${cashTotal} EGP</b></td>
+    </tr>
+    <tr>
+      <td class="cat-cell">insta</td>
+      <td>${instaRow.rock || 0}</td>
+      <td>${instaRow.bero || 0}</td>
+      <td>${instaRow.stadium || 0}</td>
+      <td>${instaRow.tunnel || 0}</td>
+      <td><b>${instaTotal} EGP</b></td>
+    </tr>`;
+
+    document.getElementById('offlineTableBody').innerHTML = offlineHtml;
+    document.getElementById('summaryOfflineTickets').textContent = offlineGrandTotal;
+    document.getElementById('summaryCashTotal').textContent = cashTotal.toLocaleString() + ' ج.م';
+    document.getElementById('summaryInstaTotal').textContent = instaTotal.toLocaleString() + ' ج.م';
+
+    // Cash Breakdown Table
+    let cashBdHtml = '';
+    let cashBdTotal = 0;
+    (dayData.cashBreakdown || []).forEach(item => {
+      cashBdTotal += item.amount;
+      cashBdHtml += `<tr>
+        <td class="cat-cell">${item.ticket}</td>
+        <td>${item.count}</td>
+        <td>${item.amount} EGP</td>
+      </tr>`;
+    });
+    cashBdHtml += `<tr class="total-row">
+      <td class="cat-cell">total cash</td>
+      <td></td>
+      <td><b>${cashBdTotal} EGP</b></td>
+    </tr>`;
+    document.getElementById('cashTableBody').innerHTML = cashBdHtml;
+
+    // InstaPay Breakdown Table
+    let instaBdHtml = '';
+    let instaBdTotal = 0;
+    (dayData.instaBreakdown || []).forEach(item => {
+      instaBdTotal += item.amount;
+      instaBdHtml += `<tr>
+        <td class="cat-cell">${item.ticket}</td>
+        <td>${item.count}</td>
+        <td>${item.amount} EGP</td>
+      </tr>`;
+    });
+    instaBdHtml += `<tr class="total-row">
+      <td class="cat-cell">total insta</td>
+      <td></td>
+      <td><b>${instaBdTotal} EGP</b></td>
+    </tr>`;
+    document.getElementById('instaTableBody').innerHTML = instaBdHtml;
+  }
+
+  window.openBranchEditModal = function(){
+    document.getElementById('branchModal').classList.add('open');
+  };
+
+  window.closeBranchModal = function(){
+    document.getElementById('branchModal').classList.remove('open');
+  };
+
+  window.saveBranchModalData = async function(){
+    const dateKey = document.getElementById('modalBranchDate').value || '2026-08-07';
+    if(!data.branchSales) data.branchSales = {};
+
+    data.branchSales[dateKey] = {
+      online: {
+        "premium orbit": {
+          rock: parseInt(document.getElementById('on_po_rock').value, 10)||0,
+          bero: parseInt(document.getElementById('on_po_bero').value, 10)||0,
+          stadium: parseInt(document.getElementById('on_po_stad').value, 10)||0,
+          tunnel: parseInt(document.getElementById('on_po_tunn').value, 10)||0
+        },
+        "fanpit": {
+          rock: parseInt(document.getElementById('on_fp_rock').value, 10)||0,
+          bero: parseInt(document.getElementById('on_fp_bero').value, 10)||0,
+          stadium: parseInt(document.getElementById('on_fp_stad').value, 10)||0,
+          tunnel: parseInt(document.getElementById('on_fp_tunn').value, 10)||0
+        },
+        "vip": {
+          rock: parseInt(document.getElementById('on_vip_rock').value, 10)||0,
+          bero: parseInt(document.getElementById('on_vip_bero').value, 10)||0,
+          stadium: parseInt(document.getElementById('on_vip_stad').value, 10)||0,
+          tunnel: parseInt(document.getElementById('on_vip_tunn').value, 10)||0
+        },
+        "high regular": {
+          rock: parseInt(document.getElementById('on_hr_rock').value, 10)||0,
+          bero: parseInt(document.getElementById('on_hr_bero').value, 10)||0,
+          stadium: parseInt(document.getElementById('on_hr_stad').value, 10)||0,
+          tunnel: parseInt(document.getElementById('on_hr_tunn').value, 10)||0
+        }
+      },
+      offline: data.branchSales["2026-08-07"].offline,
+      payments: {
+        cash: {
+          rock: parseInt(document.getElementById('cash_rock').value, 10)||0,
+          bero: parseInt(document.getElementById('cash_bero').value, 10)||0,
+          stadium: parseInt(document.getElementById('cash_stad').value, 10)||0,
+          tunnel: parseInt(document.getElementById('cash_tunn').value, 10)||0
+        },
+        insta: {
+          rock: parseInt(document.getElementById('insta_rock').value, 10)||0,
+          bero: parseInt(document.getElementById('insta_bero').value, 10)||0,
+          stadium: parseInt(document.getElementById('insta_stad').value, 10)||0,
+          tunnel: parseInt(document.getElementById('insta_tunn').value, 10)||0
+        }
+      },
+      cashBreakdown: data.branchSales["2026-08-07"].cashBreakdown,
+      instaBreakdown: data.branchSales["2026-08-07"].instaBreakdown
+    };
+
+    await saveData();
+    closeBranchModal();
+    renderBranchSales();
+  };
 
   function catStats(cat){
     let total = cat.serials.length;
@@ -1140,7 +1170,6 @@ function setupSheets() {
   }
 
   function render(){
-    // Update Stats Overview
     let totalAll=0, distAll=0;
     data.categories.forEach(c=>{ const s=catStats(c); totalAll+=s.total; distAll+=s.dist; });
 
@@ -1151,7 +1180,7 @@ function setupSheets() {
     const catsContainer = document.getElementById('categoriesList');
 
     if(!loaded){
-      catsContainer.innerHTML = '<div class="empty-box"><p>⏳ جاري تحميل البيانات من Google Sheet...</p></div>';
+      catsContainer.innerHTML = '<div class="empty-box"><p>⏳ جاري تحميل البيانات...</p></div>';
       return;
     }
 
@@ -1177,7 +1206,7 @@ function setupSheets() {
                 <div class="cat-progress-fill" style="width:${pct}%;background:${cat.color}"></div>
               </div>
               <div class="cat-nums">${s.dist} / ${s.total} موزّع</div>
-              <span class="cat-toggle-icon">▼</span>
+              <span style="font-size:12px;color:var(--ink-muted);">▼</span>
             </div>
           </div>
           <div class="tickets-grid" id="grid-${cat.id}">
@@ -1188,20 +1217,19 @@ function setupSheets() {
       catsContainer.innerHTML = html;
     }
 
-    // Render Customers Summary
     const custContainer = document.getElementById('customersContainer');
     const customers = getCustomersMap();
     if(customers.length > 0){
       let custHtml = `<div class="customers-section">
-        <h2>📋 سجل العملاء والتذاكر المسجلة (${customers.length})</h2>`;
+        <h2 style="font-size:18px;font-weight:800;margin-bottom:14px;">📋 سجل العملاء والتذاكر المسجلة (${customers.length})</h2>`;
       customers.forEach(cust => {
         custHtml += `<div class="customer-card">
-          <div class="customer-info">
-            <span class="customer-name">👤 ${escapeHtml(cust.name)}</span>
-            <span class="customer-phone">📞 ${escapeHtml(cust.phone || 'بدون رقم')}</span>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;flex-wrap:wrap;gap:8px;">
+            <span style="font-weight:800;font-size:15px;">👤 ${escapeHtml(cust.name)}</span>
+            <span style="color:var(--ink-secondary);font-size:13px;direction:ltr;font-weight:600;">📞 ${escapeHtml(cust.phone || 'بدون رقم')}</span>
           </div>
-          <div class="customer-tickets">
-            ${cust.tickets.map(t => `<span class="tag-ticket"><span class="color-dot" style="display:inline-block;background:${t.color};width:8px;height:8px;margin-left:4px;"></span><b>${escapeHtml(t.catName)}</b>: ${escapeHtml(t.num)}</span>`).join('')}
+          <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            ${cust.tickets.map(t => `<span style="background:#fff;border:1px solid var(--border-color);padding:4px 10px;border-radius:6px;font-size:12px;font-weight:600;"><span class="color-dot" style="display:inline-block;background:${t.color};width:8px;height:8px;margin-left:4px;"></span><b>${escapeHtml(t.catName)}</b>: ${escapeHtml(t.num)}</span>`).join('')}
           </div>
         </div>`;
       });
@@ -1212,6 +1240,7 @@ function setupSheets() {
     }
 
     attachEvents();
+    renderBranchSales();
   }
 
   function renderChips(cat){
@@ -1219,9 +1248,9 @@ function setupSheets() {
     cat.serials.forEach(sn=>{
       const t = data.tickets[cat.id+'-'+sn];
       const isDist = t && t.distributed;
-      out += `<div class="chip ${isDist?'dist':''}" data-cat="${cat.id}" data-num="${escapeHtml(sn)}" title="${isDist? 'موزّعة لـ '+escapeHtml(t.recipient||'—'):'متاحة'}">${escapeHtml(sn)}</div>`;
+      out += `<div class="chip ${isDist?'dist':''}" data-cat="${cat.id}" data-num="${escapeHtml(sn)}">${escapeHtml(sn)}</div>`;
     });
-    out += `<div class="chip add-chip" data-addto="${cat.id}" title="إضافة رقم تسلسلي جديد">+ إضافة</div>`;
+    out += `<div class="chip add-chip" data-addto="${cat.id}">+ إضافة</div>`;
     return out;
   }
 
@@ -1239,7 +1268,7 @@ function setupSheets() {
         if(!val){ box.innerHTML=''; return; }
         const r = findTicketBySerial(val);
         if(!r || !r.cat){
-          box.innerHTML = `<div class="search-result notfound">❌ لا توجد تذكرة بهذا الرقم التسلسلي ضمن الفئات المسجلة.</div>`;
+          box.innerHTML = `<div class="search-result" style="border-color:var(--ink-muted);">❌ لا توجد تذكرة بهذا الرقم.</div>`;
           return;
         }
         const isDist = r.t && r.t.distributed;
@@ -1247,10 +1276,10 @@ function setupSheets() {
           <div>
             <b>🎫 تذكرة رقم ${r.num}</b> — <span class="color-dot" style="display:inline-block;background:${r.cat.color};width:10px;height:10px;"></span> ${escapeHtml(r.cat.name)}
             <div style="font-size:13px;color:${isDist?'var(--good-green)':'var(--warn-amber)'};margin-top:4px;font-weight:700;">
-              ${isDist? '✅ موزّعة إلى: '+escapeHtml(r.t.recipient||'—') + (r.t.phone? ' ('+escapeHtml(r.t.phone)+')': '') : '⏳ متاحة لم تُوزّع بعد'}
+              ${isDist? '✅ موزّعة إلى: '+escapeHtml(r.t.recipient||'—') + (r.t.phone? ' ('+escapeHtml(r.t.phone)+')': '') : '⏳ متاحةلم تُوزّع بعد'}
             </div>
           </div>
-          <button class="btn-primary" id="openFromSearch">${isDist? 'تعديل البيانات':'تسجيل كـ موزّعة'}</button>
+          <button class="btn-primary" id="openFromSearch">${isDist? 'تعديل':'تسجيل توزيع'}</button>
         </div>`;
         document.getElementById('openFromSearch').onclick = ()=> openTicketModal(r.cat.id, r.num);
       };
@@ -1262,11 +1291,7 @@ function setupSheets() {
         const grid = document.getElementById('grid-'+id);
         const isOpen = grid.classList.contains('open');
         document.querySelectorAll('.tickets-grid').forEach(g=>g.classList.remove('open'));
-        document.querySelectorAll('.cat-head').forEach(h=>h.classList.remove('open'));
-        if(!isOpen) {
-          grid.classList.add('open');
-          el.classList.add('open');
-        }
+        if(!isOpen) grid.classList.add('open');
       };
     });
 
@@ -1292,46 +1317,10 @@ function setupSheets() {
     if(cancelSetup) cancelSetup.onclick = ()=>{
       document.getElementById('setupOverlay').classList.remove('open');
     };
-
-    // Google Sheets settings modal
-    const openSettingsBtn = document.getElementById('openSettingsBtn');
-    if(openSettingsBtn) openSettingsBtn.onclick = openSettingsModal;
-
-    const saveScriptUrlBtn = document.getElementById('saveScriptUrlBtn');
-    if(saveScriptUrlBtn) saveScriptUrlBtn.onclick = ()=>{
-      const urlInp = document.getElementById('scriptUrlInput').value.trim();
-      if(urlInp){
-        localStorage.setItem('alexandrie_script_url', urlInp);
-        document.getElementById('settingsMsg').textContent = '✅ تم حفظ رابط Google Sheet جديد بنجاح! جاري التحديث...';
-        setTimeout(()=>{
-          closeSettingsModal();
-          loadData();
-        }, 1000);
-      }
-    };
   }
-
-  function openSettingsModal(){
-    document.getElementById('scriptUrlInput').value = getScriptUrl();
-    document.getElementById('settingsMsg').textContent = '';
-    document.getElementById('settingsOverlay').classList.add('open');
-  }
-
-  window.closeSettingsModal = function(){
-    document.getElementById('settingsOverlay').classList.remove('open');
-  };
-
-  window.copyScriptCode = function(){
-    const codeText = document.getElementById('appScriptCode').textContent;
-    navigator.clipboard.writeText(codeText).then(()=>{
-      alert('تم نسخ كود Apps Script بنجاح! 📋');
-    });
-  };
 
   let setupDraft = [];
-  function parseSerialsText(text){
-    return text.split(/[\n,،\t]+/).map(s=>s.trim()).filter(Boolean);
-  }
+  function parseSerialsText(text){ return text.split(/[\n,،\t]+/).map(s=>s.trim()).filter(Boolean); }
   function dedupeKeepOrder(arr){
     const seen = new Set(); const out=[];
     arr.forEach(s=>{ if(!seen.has(s.toLowerCase())){ seen.add(s.toLowerCase()); out.push(s); } });
@@ -1360,7 +1349,6 @@ function setupSheets() {
         id:c.id, name:c.name.trim(), color:c.color,
         serials: dedupeKeepOrder(parseSerialsText(c.serialsText))
       }));
-      document.getElementById('setupMsg').textContent='جاري حفظ الفئات وإرسالها لـ Google Sheet...';
       await saveData();
       document.getElementById('setupOverlay').classList.remove('open');
       render();
@@ -1370,36 +1358,30 @@ function setupSheets() {
   function renderSetupList(){
     const list = document.getElementById('catSetupList');
     list.innerHTML = setupDraft.map((c,i)=>`
-      <div class="cat-setup-item">
+      <div style="border:1px solid var(--border-color);background:#f8fafc;border-radius:12px;padding:14px;margin-bottom:12px;">
         <div class="field">
           <label>اسم الفئة</label>
-          <input type="text" value="${escapeHtml(c.name)}" data-i="${i}" data-f="name" placeholder="مثال: VIP / عادي / مميز">
+          <input type="text" value="${escapeHtml(c.name)}" data-i="${i}" data-f="name" placeholder="مثال: VIP / عادي">
         </div>
         <div class="field">
-          <label>الأرقام التسلسلية (رقم في كل سطر)</label>
-          <textarea data-i="${i}" data-f="serialsText" placeholder="مثال:&#10;A-101&#10;A-102&#10;A-103">${escapeHtml(c.serialsText)}</textarea>
+          <label>الأرقام التسلسلية</label>
+          <textarea data-i="${i}" data-f="serialsText">${escapeHtml(c.serialsText)}</textarea>
         </div>
         <div style="display:flex;align-items:center;justify-content:space-between;">
           <div class="field" style="margin-bottom:0;display:flex;align-items:center;gap:8px;">
             <label style="margin-bottom:0;">اللون:</label>
-            <input type="color" value="${c.color}" data-i="${i}" data-f="color" style="height:36px;width:50px;padding:2px;cursor:pointer;">
+            <input type="color" value="${c.color}" data-i="${i}" data-f="color" style="height:36px;width:50px;">
           </div>
-          <button class="remove-cat" data-remove="${i}">حذف الفئة 🗑️</button>
+          <button style="background:none;border:none;color:#ef4444;font-size:13px;font-weight:700;cursor:pointer;" data-remove="${i}">حذف الفئة 🗑️</button>
         </div>
       </div>`).join('');
 
     list.querySelectorAll('input, textarea').forEach(inp=>{
-      inp.oninput = ()=>{
-        const i = parseInt(inp.dataset.i,10), f = inp.dataset.f;
-        setupDraft[i][f] = inp.value;
-      };
+      inp.oninput = ()=>{ setupDraft[parseInt(inp.dataset.i,10)][inp.dataset.f] = inp.value; };
     });
 
     list.querySelectorAll('[data-remove]').forEach(btn=>{
-      btn.onclick = ()=>{
-        setupDraft.splice(parseInt(btn.dataset.remove,10),1);
-        renderSetupList();
-      };
+      btn.onclick = ()=>{ setupDraft.splice(parseInt(btn.dataset.remove,10),1); renderSetupList(); };
     });
   }
 
@@ -1409,38 +1391,26 @@ function setupSheets() {
     body.innerHTML = `
       <h3>إضافة أرقام تذاكر لـ ${escapeHtml(cat.name)}</h3>
       <div class="field">
-        <label>الأرقام التسلسلية (رقم في كل سطر)</label>
-        <textarea id="quickAddText" placeholder="مثال:&#10;A-105&#10;A-106"></textarea>
+        <label>الأرقام التسلسلية</label>
+        <textarea id="quickAddText"></textarea>
       </div>
       <div class="status-msg" id="quickAddMsg"></div>
       <div class="modal-actions">
         <button class="btn-secondary" id="closeTicketModal">إغلاق</button>
-        <button class="btn-primary" id="saveQuickAdd">إضافة التذاكر</button>
+        <button class="btn-primary" id="saveQuickAdd">إضافة</button>
       </div>`;
     document.getElementById('ticketOverlay').classList.add('open');
-    
-    document.getElementById('closeTicketModal').onclick = ()=>{
-      document.getElementById('ticketOverlay').classList.remove('open');
-    };
+    document.getElementById('closeTicketModal').onclick = ()=>{ document.getElementById('ticketOverlay').classList.remove('open'); };
 
     document.getElementById('saveQuickAdd').onclick = async ()=>{
       const raw = document.getElementById('quickAddText').value;
       const newOnes = dedupeKeepOrder(parseSerialsText(raw));
-      if(newOnes.length===0){ document.getElementById('quickAddMsg').textContent='يرجى كتابة رقم تسلسلي واحد على الأقل'; return; }
-      
+      if(newOnes.length===0) return;
       const existingLower = new Set(cat.serials.map(s=>s.toLowerCase()));
-      newOnes.forEach(sn=>{
-        if(!existingLower.has(sn.toLowerCase())){ cat.serials.push(sn); existingLower.add(sn.toLowerCase()); }
-      });
-
-      document.getElementById('quickAddMsg').textContent = 'جاري الحفظ...';
+      newOnes.forEach(sn=>{ if(!existingLower.has(sn.toLowerCase())){ cat.serials.push(sn); existingLower.add(sn.toLowerCase()); } });
       await saveData();
       document.getElementById('ticketOverlay').classList.remove('open');
       render();
-      setTimeout(()=>{
-        const grid = document.getElementById('grid-'+catId);
-        if(grid) grid.classList.add('open');
-      },0);
     };
   }
 
@@ -1460,18 +1430,9 @@ function setupSheets() {
         </select>
       </div>
       <div id="recipientWrap" style="display:${t.distributed?'block':'none'}">
-        <div class="field">
-          <label>اسم العميل / المستلم</label>
-          <input type="text" id="recipientInput" value="${escapeHtml(t.recipient||'')}" placeholder="أدخل اسم العميل ثلاثي">
-        </div>
-        <div class="field">
-          <label>رقم الهاتف</label>
-          <input type="tel" id="phoneInput" value="${escapeHtml(t.phone||'')}" placeholder="01xxxxxxxxx">
-        </div>
-        <div class="field">
-          <label>ملاحظة خاصة (اختياري)</label>
-          <input type="text" id="noteInput" value="${escapeHtml(t.note||'')}" placeholder="مثال: تم الدفع فودافون كاش">
-        </div>
+        <div class="field"><label>اسم العميل / المستلم</label><input type="text" id="recipientInput" value="${escapeHtml(t.recipient||'')}"></div>
+        <div class="field"><label>رقم الهاتف</label><input type="tel" id="phoneInput" value="${escapeHtml(t.phone||'')}"></div>
+        <div class="field"><label>ملاحظة خاصة (اختياري)</label><input type="text" id="noteInput" value="${escapeHtml(t.note||'')}"></div>
       </div>
       <div class="modal-actions">
         <button class="btn-secondary" id="closeTicketModal">إغلاق</button>
@@ -1479,14 +1440,8 @@ function setupSheets() {
       </div>`;
 
     document.getElementById('ticketOverlay').classList.add('open');
-    
-    document.getElementById('distSelect').onchange = (e)=>{
-      document.getElementById('recipientWrap').style.display = e.target.value==='1'?'block':'none';
-    };
-
-    document.getElementById('closeTicketModal').onclick = ()=>{
-      document.getElementById('ticketOverlay').classList.remove('open');
-    };
+    document.getElementById('distSelect').onchange = (e)=>{ document.getElementById('recipientWrap').style.display = e.target.value==='1'?'block':'none'; };
+    document.getElementById('closeTicketModal').onclick = ()=>{ document.getElementById('ticketOverlay').classList.remove('open'); };
 
     document.getElementById('saveTicketModal').onclick = async ()=>{
       const isDist = document.getElementById('distSelect').value==='1';
@@ -1498,14 +1453,9 @@ function setupSheets() {
       await saveData();
       document.getElementById('ticketOverlay').classList.remove('open');
       render();
-      setTimeout(()=>{
-        const grid = document.getElementById('grid-'+catId);
-        if(grid) grid.classList.add('open');
-      },0);
     };
   }
 
-  // Initialize Auth Check
   checkAuth();
 })();
 </script>
