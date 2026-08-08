@@ -2044,9 +2044,18 @@
       let html = '';
       data.categories.forEach((cat)=>{
         const s = catStats(cat); const pct = s.total ? Math.round((s.dist/s.total)*100) : 0;
+        const govLabel = cat.gov === 'alex' ? '🌊 الإسكندرية' : '🏛️ القاهرة';
+        const branchMap = GOV_BRANCH_MAP[cat.gov || 'cairo'] ? GOV_BRANCH_MAP[cat.gov || 'cairo'].branches : {};
+        const branchLabel = branchMap[cat.branch] || cat.branch || '';
+
         html += `<div class="cat-card">
           <div class="cat-head" data-cat="${cat.id}">
-            <div class="cat-name-group"><span class="color-dot" style="background:${cat.color}"></span><span>${escapeHtml(cat.name)}</span><span class="cat-meta">(${cat.serials.length} تذكرة)</span></div>
+            <div class="cat-name-group">
+              <span class="color-dot" style="background:${cat.color}"></span>
+              <span style="background:#e2e8f0; border:1px solid var(--border-color); font-size:11px; padding:2px 8px; border-radius:12px; font-weight:800; color:var(--ink-primary); margin-left:6px;">${govLabel} - ${branchLabel}</span>
+              <b style="font-size:15px;">${escapeHtml(cat.name)}</b>
+              <span class="cat-meta">(${cat.serials.length} تذكرة)</span>
+            </div>
             <div class="cat-right-group"><div class="cat-progress-track"><div class="cat-progress-fill" style="width:${pct}%;background:${cat.color}"></div></div><div class="cat-nums">${s.dist} / ${s.total} موزّع</div><span style="font-size:12px;color:var(--ink-muted);">▼</span></div>
           </div>
           <div class="tickets-grid" id="grid-${cat.id}">${renderChips(cat)}</div>
@@ -2342,6 +2351,27 @@
     if(cancelSetup) cancelSetup.onclick = ()=>{ document.getElementById('setupOverlay').classList.remove('open'); };
   }
 
+  const GOV_BRANCH_MAP = {
+    cairo: {
+      name: '🏛️ القاهرة',
+      branches: {
+        zayed: '📍 زايد (Zayed)',
+        zamalek: '📍 الزمالك (Zamalek)',
+        cfc: '📍 كايرو فستيفال (CFC)',
+        helio: '📍 مصر الجديدة (Heliopolis)'
+      }
+    },
+    alex: {
+      name: '🌊 الإسكندرية',
+      branches: {
+        rock: '📍 روك سى (Rock Sea)',
+        bero: '📍 بيرو (Bero)',
+        stadium: '📍 الاستاد (Stadium)',
+        tunnel: '📍 النفق (The Tunnel)'
+      }
+    }
+  };
+
   let setupDraft = [];
   function parseSerialsText(text){ return text.split(/[\n,،\t]+/).map(s=>s.trim()).filter(Boolean); }
   function dedupeKeepOrder(arr){
@@ -2351,38 +2381,160 @@
   }
 
   window.openSetup = function(){
-    setupDraft = data.categories.map(c=>({...c, serials:[...c.serials], serialsText:c.serials.join('\n')}));
-    if(setupDraft.length===0){ setupDraft.push({id:uid(), name:'', serials:[], serialsText:'', color:COLORS[0]}); }
+    setupDraft = data.categories.map(c=>({
+      ...c,
+      gov: c.gov || 'cairo',
+      branch: c.branch || (c.gov==='alex'?'rock':'zayed'),
+      serials: [...c.serials],
+      serialsText: c.serials.join('\n')
+    }));
+
+    if(setupDraft.length === 0){
+      setupDraft.push({
+        id: uid(),
+        name: '',
+        gov: 'cairo',
+        branch: 'zayed',
+        serials: [],
+        serialsText: '',
+        color: COLORS[0]
+      });
+    }
+
     renderSetupList();
     document.getElementById('setupOverlay').classList.add('open');
     
     document.getElementById('addCatRowBtn').onclick = ()=>{
-      if(setupDraft.length>=6){ document.getElementById('setupMsg').textContent='أقصى عدد للفئات هو 6'; return; }
-      setupDraft.push({id:uid(), name:'', serials:[], serialsText:'', color:COLORS[setupDraft.length%COLORS.length]});
+      setupDraft.push({
+        id: uid(),
+        name: '',
+        gov: 'cairo',
+        branch: 'zayed',
+        serials: [],
+        serialsText: '',
+        color: COLORS[setupDraft.length % COLORS.length]
+      });
       renderSetupList();
     };
 
     document.getElementById('saveSetup').onclick = async ()=>{
-      for(const c of setupDraft){ if(!c.name.trim()){ document.getElementById('setupMsg').textContent='يرجى كتابة اسم لكل فئة'; return; } }
-      data.categories = setupDraft.map(c=>({ id:c.id, name:c.name.trim(), color:c.color, serials: dedupeKeepOrder(parseSerialsText(c.serialsText)) }));
-      await saveData(); document.getElementById('setupOverlay').classList.remove('open'); render();
+      for(const c of setupDraft){
+        if(!c.name.trim()){
+          document.getElementById('setupMsg').textContent = 'يرجى كتابة اسم لكل فئة';
+          return;
+        }
+      }
+      data.categories = setupDraft.map(c => ({
+        id: c.id,
+        name: c.name.trim(),
+        gov: c.gov || 'cairo',
+        branch: c.branch || (c.gov==='alex'?'rock':'zayed'),
+        color: c.color,
+        serials: dedupeKeepOrder(parseSerialsText(c.serialsText))
+      }));
+      await saveData();
+      document.getElementById('setupOverlay').classList.remove('open');
+      render();
     };
   };
 
   function renderSetupList(){
     const list = document.getElementById('catSetupList');
-    list.innerHTML = setupDraft.map((c,i)=>`
-      <div style="border:1px solid var(--border-color);background:#f8fafc;border-radius:12px;padding:14px;margin-bottom:12px;">
-        <div class="field"><label>اسم الفئة</label><input type="text" value="${escapeHtml(c.name)}" data-i="${i}" data-f="name"></div>
-        <div class="field"><label>الأرقام التسلسلية</label><textarea data-i="${i}" data-f="serialsText">${escapeHtml(c.serialsText)}</textarea></div>
-        <div style="display:flex;align-items:center;justify-content:space-between;">
-          <div class="field" style="margin-bottom:0;display:flex;align-items:center;gap:8px;"><label style="margin-bottom:0;">اللون:</label><input type="color" value="${c.color}" data-i="${i}" data-f="color" style="height:36px;width:50px;"></div>
-          <button style="background:none;border:none;color:#ef4444;font-size:13px;font-weight:700;cursor:pointer;" data-remove="${i}">حذف الفئة 🗑️</button>
-        </div>
-      </div>`).join('');
+    if(!list) return;
 
-    list.querySelectorAll('input, textarea').forEach(inp=>{ inp.oninput = ()=>{ setupDraft[parseInt(inp.dataset.i,10)][inp.dataset.f] = inp.value; }; });
-    list.querySelectorAll('[data-remove]').forEach(btn=>{ btn.onclick = ()=>{ setupDraft.splice(parseInt(btn.dataset.remove,10),1); renderSetupList(); }; });
+    list.innerHTML = setupDraft.map((c, i) => {
+      const currentGov = c.gov || 'cairo';
+      const availableBranches = GOV_BRANCH_MAP[currentGov] ? GOV_BRANCH_MAP[currentGov].branches : {};
+      const currentBranch = c.branch && availableBranches[c.branch] ? c.branch : Object.keys(availableBranches)[0];
+      c.gov = currentGov;
+      c.branch = currentBranch;
+
+      const govOptions = `
+        <option value="cairo" ${currentGov === 'cairo' ? 'selected' : ''}>🏛️ القاهرة (Cairo)</option>
+        <option value="alex" ${currentGov === 'alex' ? 'selected' : ''}>🌊 الإسكندرية (Alexandria)</option>
+      `;
+
+      const branchOptions = Object.keys(availableBranches).map(bKey => `
+        <option value="${bKey}" ${currentBranch === bKey ? 'selected' : ''}>${availableBranches[bKey]}</option>
+      `).join('');
+
+      return `
+      <div style="border:1px solid var(--border-color); background:#ffffff; border-radius:12px; padding:16px; margin-bottom:14px; box-shadow:0 2px 8px rgba(0,0,0,0.04);">
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:12px;">
+          <div>
+            <label style="font-size:12px; font-weight:800; color:var(--ink-secondary); display:block; margin-bottom:4px;">المحافظة / المدينة:</label>
+            <select data-i="${i}" data-f="gov" class="setup-gov-select" style="width:100%; padding:8px 10px; border:1px solid var(--border-color); border-radius:6px; font-size:13px; font-weight:700;">
+              ${govOptions}
+            </select>
+          </div>
+          <div>
+            <label style="font-size:12px; font-weight:800; color:var(--ink-secondary); display:block; margin-bottom:4px;">الفرع التابع له:</label>
+            <select data-i="${i}" data-f="branch" class="setup-branch-select" style="width:100%; padding:8px 10px; border:1px solid var(--border-color); border-radius:6px; font-size:13px; font-weight:700;">
+              ${branchOptions}
+            </select>
+          </div>
+        </div>
+
+        <div class="field" style="margin-bottom:12px;">
+          <label style="font-size:12px; font-weight:800;">اسم الفئة (Category Name)</label>
+          <input type="text" value="${escapeHtml(c.name)}" data-i="${i}" data-f="name" placeholder="مثال: Premium Orbit / Fanpit / VIP / High Regular" style="font-weight:700;">
+        </div>
+
+        <div class="field" style="margin-bottom:12px;">
+          <label style="font-size:12px; font-weight:800;">الأرقام التسلسلية (كل سيريال في سطر)</label>
+          <textarea data-i="${i}" data-f="serialsText" placeholder="أدخل الأرقام التسلسلية هنا..." style="height:70px; font-family:monospace;">${escapeHtml(c.serialsText)}</textarea>
+        </div>
+
+        <div style="display:flex; align-items:center; justify-content:space-between; margin-top:8px;">
+          <div class="field" style="margin-bottom:0; display:flex; align-items:center; gap:8px;">
+            <label style="margin-bottom:0; font-size:12px; font-weight:800;">لون الفئة:</label>
+            <input type="color" value="${c.color}" data-i="${i}" data-f="color" style="height:34px; width:46px; border:none; cursor:pointer;">
+          </div>
+          <button style="background:#fef2f2; border:1px solid #fee2e2; color:#dc2626; padding:6px 12px; border-radius:6px; font-size:12px; font-weight:700; cursor:pointer;" data-remove="${i}">حذف الفئة 🗑️</button>
+        </div>
+      </div>`;
+    }).join('');
+
+    list.querySelectorAll('.setup-gov-select').forEach(sel => {
+      sel.onchange = () => {
+        const idx = parseInt(sel.dataset.i, 10);
+        const newGov = sel.value;
+        setupDraft[idx].gov = newGov;
+        setupDraft[idx].branch = newGov === 'alex' ? 'rock' : 'zayed';
+        renderSetupList();
+      };
+    });
+
+    list.querySelectorAll('.setup-branch-select').forEach(sel => {
+      sel.onchange = () => {
+        const idx = parseInt(sel.dataset.i, 10);
+        const newBranch = sel.value;
+        const currentGov = setupDraft[idx].gov || 'cairo';
+
+        const branchCount = setupDraft.filter((item, k) => k !== idx && item.gov === currentGov && item.branch === newBranch).length;
+        if(branchCount >= 6){
+          alert(`⚠️ لا يمكن تخصيص أكثر من 6 فئات لفرع واحد.`);
+          sel.value = setupDraft[idx].branch;
+          return;
+        }
+        setupDraft[idx].branch = newBranch;
+      };
+    });
+
+    list.querySelectorAll('input[data-f="name"], input[data-f="color"], textarea[data-f="serialsText"]').forEach(inp => {
+      inp.oninput = () => {
+        const idx = parseInt(inp.dataset.i, 10);
+        setupDraft[idx][inp.dataset.f] = inp.value;
+      };
+    });
+
+    list.querySelectorAll('[data-remove]').forEach(btn => {
+      btn.onclick = () => {
+        const idx = parseInt(btn.dataset.remove, 10);
+        setupDraft.splice(idx, 1);
+        renderSetupList();
+      };
+    });
   }
 
   function openQuickAddModal(catId){
